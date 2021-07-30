@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace MovieAPI
 {
+    /// <summary>
+    /// Static Utility Classes. Useful functionality that could be needed in multiple places
+    /// </summary>
     public static class Utilities
     {
         /// <summary>

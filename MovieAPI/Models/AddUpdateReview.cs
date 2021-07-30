@@ -2,12 +2,26 @@
 
 namespace MovieAPI.Models
 {
+    /// <summary>
+    /// Used to add or update movie reviews. 
+    /// 
+    /// Contains reviewer ids, movie id and a score
+    /// </summary>
     public class AddUpdateReview
     {
+        /// <summary>
+        /// The primary key of the Reviewer
+        /// </summary>
         public int ReviewerId { get; set; }
+        /// <summary>
+        /// The primary key of the movie
+        /// </summary>
         public int MovieId { get; set; }
 
         private int score;
+        /// <summary>
+        /// An intger score with a minimum value of 1 and a maximum value of 5
+        /// </summary>
         public int Score
         {
             get { return score; }
@@ -19,16 +33,24 @@ namespace MovieAPI.Models
                     score = value;
             }
         }
-
+        
+        /// <summary>
+        /// A method to check that the objct hasvalid data
+        /// </summary>
+        /// <returns></returns>
         public bool IsValidForSubmission()
         {
             return ReviewerId != 0 & MovieId != 0 & Score != 0;
         }
 
+
+        /// <summary>
+        /// overriden versions that outputs the movie Id, reviewer id and the score
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return $"ReviewerId was {ReviewerId}, MovieId was {MovieId}, Score was {Score}";
-
         }
     }
 }

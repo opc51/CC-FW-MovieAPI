@@ -74,7 +74,7 @@ namespace MovieTests
             Assert.Equal(7, searchResult.Count);
             foreach (var item in searchResult)
             {
-                Assert.True(item.Title.Contains("Super"));
+                Assert.Contains("Super", item.Title);
             }
         }
 
@@ -85,7 +85,7 @@ namespace MovieTests
             Assert.Equal(3, searchResult.Count);
             foreach (var item in searchResult)
             {
-                Assert.Equal(item.YearOfRelease, 2004);
+                Assert.Equal(2004, item.YearOfRelease);
             }
         }
 
@@ -96,7 +96,7 @@ namespace MovieTests
             Assert.Equal(5, searchResult.Count);
             foreach (var item in searchResult)
             {
-                Assert.True(string.Equals(item.Genre, "Comedy"));
+                Assert.Equal("Comedy",item.Genre);
             }
         }
 
@@ -110,7 +110,7 @@ namespace MovieTests
                                                                     Title = "Super",
                                                                     Year = 2004
                                                                  });
-            Assert.Equal(1, searchResult.Count);
+            Assert.Single(searchResult);
         }
 
 

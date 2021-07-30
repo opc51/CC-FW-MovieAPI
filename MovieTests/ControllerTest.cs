@@ -81,7 +81,7 @@ namespace MovieTests
         [Fact]
         public void TopFiveByAllRatingsShould_Return404WhenNoDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopFiveMovies()).Returns(new List<ResultList>());
+            _movieMOQ.Setup(x => x.GetTopFiveMovies()).Returns(new List<MovieResultsList>());
 
             var result = (ObjectResult)_controller.TopFiveByAllRatings();
 
@@ -92,9 +92,9 @@ namespace MovieTests
         [Fact]
         public void TopFiveByAllRatingsShould_Return200WhenDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopFiveMovies()).Returns(new List<ResultList>()
+            _movieMOQ.Setup(x => x.GetTopFiveMovies()).Returns(new List<MovieResultsList>()
                                                     {
-                                                        new ResultList()
+                                                        new MovieResultsList()
                                                         {
                                                          MovieTitle = "Super funny Movie"
                                                          , RunningTime = 180
@@ -131,7 +131,7 @@ namespace MovieTests
         public void TopFiveMoviesByReviewerShould_Return404WhenNoDataFound()
         {
  
-            _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Returns(new List<ResultList>());
+            _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Returns(new List<MovieResultsList>());
 
             var result = (ObjectResult)_controller.TopFiveMoviesByReviewer(1);
 
@@ -142,9 +142,9 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return200WhenDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Returns(new List<ResultList>()
+            _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Returns(new List<MovieResultsList>()
                                                     {
-                                                        new ResultList()
+                                                        new MovieResultsList()
                                                         {
                                                              MovieTitle= "supermovie",
                                                              YearOfRelease =  2012,

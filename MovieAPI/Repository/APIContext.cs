@@ -3,14 +3,34 @@ using MovieAPI.Models;
 
 namespace MovieAPI.Repository
 {
+    /// <summary>
+    /// The API database context
+    /// </summary>
     public class APIContext : DbContext
     {
+        /// <summary>
+        /// A Database set of Movie details
+        /// </summary>
         public DbSet<Movie> Movies { get; set; }
 
+
+        /// <summary>
+        /// A A database set of movie reviews
+        /// </summary>
         public DbSet<Review> Reviews { get; set; }
 
+        /// <summary>
+        /// A database set of movies reviewers
+        /// </summary>
         public DbSet<Reviewer> Reviewers { get; set; }
 
+
+        /// <summary>
+        /// A constructor for the API Datbase Context. 
+        /// 
+        /// Used to load movies, reviews and reviewers as well as set options in the base constructor
+        /// </summary>
+        /// <param name="options"></param>
         public APIContext(DbContextOptions options) : base(options)
         {
             LoadMovies();
@@ -18,6 +38,9 @@ namespace MovieAPI.Repository
             LoadReviews();
         }
 
+        /// <summary>
+        /// Pre populates a number of movies into the API Database context
+        /// </summary>
         public void LoadMovies()
         {
             if (!Movies.AnyAsync().Result)
@@ -34,9 +57,12 @@ namespace MovieAPI.Repository
                 );
                 SaveChanges();
             }
-
         }
 
+
+        /// <summary>
+        /// /// Pre populates a number of reviewers into the API Database context
+        /// </summary>
         public void LoadReviewers()
         {
             if (!Reviewers.AnyAsync().Result)
@@ -50,6 +76,10 @@ namespace MovieAPI.Repository
             }
         }
 
+
+        /// <summary>
+        /// Pre populates a number of movies into the API Database context
+        /// </summary>
         public void LoadReviews()
         {
             if (!Reviews.AnyAsync().Result)
