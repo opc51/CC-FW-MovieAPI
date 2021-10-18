@@ -1,4 +1,6 @@
-﻿namespace MovieAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MovieAPI.Models
 {
     /// <summary>
     /// A reviwer that contains an id and a name
@@ -15,7 +17,7 @@
         /// <summary>
         /// Constructor with name only
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">The name of the reviewer</param>
         public Reviewer(string name)
         {
             Name = name;
@@ -24,12 +26,14 @@
         /// <summary>
         /// The primary key of the Id
         /// </summary>
+        [Required]
         public int Id { get; set; }
 
 
         /// <summary>
         /// The name of the reviewer
         /// </summary>
+        [Required]
         public string Name { get; set; }
     }
 }

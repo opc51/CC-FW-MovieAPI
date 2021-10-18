@@ -1,4 +1,6 @@
-﻿namespace MovieAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MovieAPI.Models
 {
     /// <summary>
     /// A movie containing Id, Title, year of release and Genre
@@ -35,18 +37,31 @@
         /// The primary key of the Movie
         /// </summary>
         public int Id { get; set; }
+
+
         /// <summary>
         /// The name of the movie
         /// </summary>
+        [Required]
         public string Title { get; set; }
+
+
+
         /// <summary>
         /// The year the movie was release in the USA
         /// </summary>
+        [Required]
         public int YearOfRelease { get; set; }
+
+
         /// <summary>
         /// The numbr of minutes that th emovie was running for
         /// </summary>
+        [Required]
         public int RunningTime { get; set; }
+
+
+
         /// <summary>
         /// The "type" of moviefor example "Horror", "Superhero", etc 
         /// </summary>

@@ -4,7 +4,9 @@ using Microsoft.Extensions.Logging;
 using MovieAPI.Interfaces;
 using MovieAPI.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieAPI.Controllers
 {
@@ -33,9 +35,30 @@ namespace MovieAPI.Controllers
         /// Finds a movie based upon specific search criteria
         /// </summary>
         /// <param name="sc">Can search based upon Title, Year and Genre</param>
-        /// <returns></returns>
+        /// <returns>Http request</returns>
+        /// <remarks>
+        /// This search is an "and" search. If "Title" and "Year" are provided. It will narrow the selction to those that fulfill both critera. \
+        /// For Instance, this search: \
+        /// { \
+        ///     Title: "super" \
+        /// } \ 
+        /// \
+        /// \
+        /// Will return 7 movies in the test data, whereas \
+        /// \
+        /// { \
+        ///     Title: "super", \
+        ///     Genre = "Romance", \
+        ///     Year = 2004 \
+        /// } \
+        /// Will return 1 movie in the test data
+        /// </remarks>
         [HttpGet]
-        public IActionResult Get([FromQuery] MovieSearchCriteria sc)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<MovieResultsList>> Get([FromQuery] MovieSearchCriteria sc)
         {
             if (!sc.IsValid())
                 return BadRequest($"Data provided  was : {sc}");
@@ -44,13 +67,16 @@ namespace MovieAPI.Controllers
                 var results = _movieService.GetMatchingMovies(sc);
 
                 if (!results.Any())
-                    return NotFound($"No data found for search criteria {sc}");
+                    return NotFound( new ProblemDetails() { Detail = "No data found for search criteria {sc}" });
 
                 return Ok(results);
             }
             catch (Exception ex)
             {
-                return ExceptionHandlingCode(ex);
+                //return Problem()
+                    
+                    //ProblemDetails() { Status = 500, Detail = ex.Message };
+                return ExceptionHandlingCode<MovieResultsList>(ex);
             }
         }
 
@@ -73,7 +99,7 @@ namespace MovieAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ExceptionHandlingCode(ex);
+                return ExceptionHandlingCode<MovieResultsList>(ex);
             }
         }
 
@@ -101,7 +127,7 @@ namespace MovieAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ExceptionHandlingCode(ex);
+                return ExceptionHandlingCode<MovieResultsList>(ex);
             }
         }
 
@@ -149,12 +175,13 @@ namespace MovieAPI.Controllers
         /// </summary>
         /// <param name="ex">The base exception thrown</param>
         /// <returns>Returns an HTTP 500 server exception error</returns>
-        private IActionResult ExceptionHandlingCode(Exception ex)
+        private ActionResult ExceptionHandlingCode<T>(Exception ex) where T : class
         {
             Guid incidentNumber = Guid.NewGuid();
 
             _logger.LogError(incidentNumber.ToString() + ' ' + ex.Message);
 
+            //return Problem($"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
             return StatusCode(StatusCodes.Status500InternalServerError,
                             $"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
         }
