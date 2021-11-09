@@ -44,7 +44,18 @@ namespace MovieAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("FreeWheelMovies", new OpenApiInfo { Title = "MoviesAPI", Version = "v1" });
+                c.SwaggerDoc("FreeWheelMovies", new OpenApiInfo 
+                                                { 
+                                                    Title = "MoviesAPI", 
+                                                    //Version = "v1" 
+                                                    Description = "Proof of concept API used to demostrate a variety of API skills and techniques",
+                                                    Contact = new OpenApiContact() 
+                                                                                { 
+                                                                                     Email = "opc51@protonmail.com",
+                                                                                     Name = "David Mackie"
+                                                                                 },
+                                                     License = new OpenApiLicense() {  Name = "Free for any purpose" }
+                                                });
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(xmlCommentsFile);
             });

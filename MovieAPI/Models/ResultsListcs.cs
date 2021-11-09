@@ -11,7 +11,7 @@
         public int MovieId { get; set; }
         
         /// <summary>
-        /// Th rating given for that movie
+        /// The rating given for that movie
         /// </summary>
         public double Rating { get; set; }
 

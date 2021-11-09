@@ -36,7 +36,7 @@ namespace MovieTests
         public void GetShould_Return400WithInvalidSearchCriteria()
         {
             
-            var result = (ObjectResult)_controller.Get(new MovieSearchCriteria() { });
+            var result = (ObjectResult) _controller.Get(new MovieSearchCriteria() { });
             Assert.Equal(400, result.StatusCode);
         }
 
@@ -44,7 +44,6 @@ namespace MovieTests
         [Fact]
         public void GetShould_LogErrorMessageWithInvalidSearchCriteria()
         {
-
             _controller.Get(new MovieSearchCriteria() { });
 
             _loggerMOQ.Verify(logger => logger.Log(
@@ -57,15 +56,13 @@ namespace MovieTests
         }
 
 
-
-
         [Fact]
         public void GetShould_Return404WhenNoDataFound()
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
             _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Returns(new List<Movie>());
 
-            var result = (ObjectResult)_controller.Get(sc);
+            var result = (ObjectResult) _controller.Get(sc);
 
             Assert.Equal(404, result.StatusCode);
         }
@@ -92,7 +89,7 @@ namespace MovieTests
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
             _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Throws(new Exception("Serious Error Encountered"));
-            var result = (ObjectResult)_controller.Get(sc);
+            var result = (ObjectResult) _controller.Get(sc);
             Assert.Equal(500, result.StatusCode);
         }
 

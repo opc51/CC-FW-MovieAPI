@@ -20,7 +20,7 @@ namespace MovieAPI.Models
 
         private int score;
         /// <summary>
-        /// An intger score with a minimum value of 1 and a maximum value of 5
+        /// An integer score with a minimum value of 1 and a maximum value of 5
         /// </summary>
         public int Score
         {

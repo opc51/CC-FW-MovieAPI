@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieAPI.Models
 {
@@ -37,12 +38,14 @@ namespace MovieAPI.Models
         /// <summary>
         /// The primary key of the reviewer
         /// </summary>
+        [Required]
         public int ReviewerId { get; set; }
 
 
         /// <summary>
         /// The primary key of the movie
         /// </summary>
+        [Required]
         public int MovieId { get; set; }
 
 
@@ -52,6 +55,7 @@ namespace MovieAPI.Models
         /// 
         /// Has a minimum value of 1 and a maximum value of 5
         /// </summary>
+        [Required]
         public int Score
         {
             get { return score; }
