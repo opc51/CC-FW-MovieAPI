@@ -35,9 +35,28 @@ namespace MovieTests
         [Fact]
         public void GetShould_Return400WithInvalidSearchCriteria()
         {
+            
             var result = (ObjectResult)_controller.Get(new MovieSearchCriteria() { });
             Assert.Equal(400, result.StatusCode);
         }
+
+
+        [Fact]
+        public void GetShould_LogErrorMessageWithInvalidSearchCriteria()
+        {
+
+            _controller.Get(new MovieSearchCriteria() { });
+
+            _loggerMOQ.Verify(logger => logger.Log(
+                    It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
+                    It.Is<EventId>(eventId => eventId.Id == 0),
+                    It.Is<It.IsAnyType>((@object, @type) => @object.ToString() == "Bad request was recieved" && @type.Name == "FormattedLogValues"),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                    Times.Once);
+        }
+
+
 
 
         [Fact]
@@ -130,7 +149,6 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return404WhenNoDataFound()
         {
- 
             _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Returns(new List<MovieResultsList>());
 
             var result = (ObjectResult)_controller.TopFiveMoviesByReviewer(1);

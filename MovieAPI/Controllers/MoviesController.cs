@@ -38,7 +38,10 @@ namespace MovieAPI.Controllers
         public IActionResult Get([FromQuery] MovieSearchCriteria sc)
         {
             if (!sc.IsValid())
+            {
+                _logger.LogError("Bad request was recieved");
                 return BadRequest($"Data provided  was : {sc}");
+            }
             try
             {
                 var results = _movieService.GetMatchingMovies(sc);
