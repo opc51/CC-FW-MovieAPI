@@ -166,9 +166,11 @@ namespace MovieAPI.Services
         {
 
             var combinedMoviesReviews =
-                                        from reviews in _data.Reviews
+                                        (from reviews in _data.Reviews
+
                                         join movies in _data.Movies on reviews.MovieId equals movies.Id
                                         where reviews.ReviewerId == reviewerId
+                                        orderby reviews.Score descending, movies.Title descending
                                         select new MovieResultsList()
                                         {
                                             MovieId = movies.Id,
@@ -177,10 +179,9 @@ namespace MovieAPI.Services
                                             RunningTime = movies.YearOfRelease,
                                             Genres = movies.Genre,
                                             Rating = reviews.Score
-                                        };
+                                        }).Take(5).ToList();
 
-            return combinedMoviesReviews.AsQueryable().OrderByDescending(x => x.Rating)
-                                                            .ThenBy(x => x.MovieTitle).Take(5).ToList();
+            return combinedMoviesReviews;
         }
     }
 }
