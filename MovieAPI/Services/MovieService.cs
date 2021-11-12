@@ -55,14 +55,15 @@ namespace MovieAPI.Services
                 });
             }
 
-
-            if (_data.SaveChanges() != 1)
-            {
-                return false;
-            }
-
-            return true;
+            return SaveChanges();
         }
+
+        /// <summary>
+        /// Entity framework call to SaveChanges
+        /// </summary>
+        /// <returns>True is returned for successful save, false is returned for failed save</returns>
+        public bool SaveChanges() => _data.SaveChanges().CompareTo(-1) == 0 ? false : true;
+
 
 
         /// <summary>

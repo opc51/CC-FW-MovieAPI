@@ -9,7 +9,7 @@ namespace MovieAPI.Models
     public class Review
     {
         /// <summary>
-        /// A public sconstructor, currently needed for unit tsting. This should be done in a different way
+        /// A public sconstructor, currently needed for unit testing. This should be done in a different way
         /// </summary>
         public Review()
         {
