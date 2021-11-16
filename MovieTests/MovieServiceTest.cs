@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Moq;
+using MovieAPI.Models;
 using MovieAPI.Repository;
 using MovieAPI.Services;
-using MovieAPI.Models;
-using Xunit;
 using System.Collections.Generic;
+using Xunit;
 
 namespace MovieTests
 {
@@ -172,6 +173,26 @@ namespace MovieTests
 
             List<double> expected = new() { 5,4,4,3,3 };
             Assert.Equal(expected, scores);
+        }
+
+        [Fact]
+        public void Failed_SaveChanges_ReturnFalse()
+        {
+            Mock<APIContext> mockContext = new();
+            mockContext.Setup(c => c.SaveChanges()).Returns(-1);
+
+            Mock<MovieService> mockMoviesService = new Mock<MovieService>(mockContext.Object);
+            Assert.False(mockMoviesService.Object.SaveChanges());
+        }
+
+        [Fact]
+        public void Successful_SaveChanges_ReturnTrue()
+        {
+            Mock<APIContext> mockContext = new();
+            mockContext.Setup(c => c.SaveChanges()).Returns(3);
+
+            Mock<MovieService> mockMoviesService = new Mock<MovieService>(mockContext.Object);
+            Assert.True(mockMoviesService.Object.SaveChanges());
         }
     }
 }

@@ -77,7 +77,6 @@ namespace MovieTests
         [InlineData(7)]
         public void ReviewerShould_NotAllowsValuesOutside1and5(int score)
         {
-            Review sut = new();
             Assert.Throws<ArgumentOutOfRangeException>(() => new Review() { Score = score });
         }
 
@@ -101,7 +100,6 @@ namespace MovieTests
         [InlineData(7)]
         public void AddUpdateReviewShould_NotAllowsValuesOutside1and5(int score)
         {
-            AddUpdateReview sut = new();
             Assert.Throws<ArgumentOutOfRangeException>(() => new AddUpdateReview() { Score = score });
         }
 

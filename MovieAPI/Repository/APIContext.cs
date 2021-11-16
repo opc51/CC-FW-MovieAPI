@@ -39,6 +39,14 @@ namespace MovieAPI.Repository
         }
 
         /// <summary>
+        /// A public parameterless constructor needed for unit testing
+        /// </summary>
+        public APIContext()
+        {
+
+        }
+
+        /// <summary>
         /// Pre populates a number of movies into the API Database context
         /// </summary>
         public void LoadMovies()

@@ -32,52 +32,66 @@ namespace MovieTests
         }
 
 
-        //[Fact]
-        //public async void GetShould_Return400WithInvalidSearchCriteria()
-        //{
-        //    var result = (ObjectResult) _controller.Get(new MovieSearchCriteria() { }).Result;
-        //    Assert.NotNull(result);
-        //    //result.Status
-        //    //Assert.Equal(400, result.  );
-        //}
+        [Fact]
+        public void GetShould_Return400WithInvalidSearchCriteria()
+        {
+            
+            var result = (ObjectResult) _controller.Get(new MovieSearchCriteria() { });
+            Assert.Equal(400, result.StatusCode);
+        }
 
 
-        //[Fact]
-        //public void GetShould_Return404WhenNoDataFound()
-        //{
-        //    var sc = new MovieSearchCriteria() { Title = "movie" };
-        //    _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Returns(new List<Movie>());
+        [Fact]
+        public void GetShould_LogErrorMessageWithInvalidSearchCriteria()
+        {
+            _controller.Get(new MovieSearchCriteria() { });
 
-        //    var result = (ObjectResult)_controller.Get(sc).Result;
-
-        //    Assert.Equal(404, result.StatusCode);
-        //}
-
-
-        //[Fact]
-        //public void GetShould_Return200WhenDataFound()
-        //{
-        //    var sc = new MovieSearchCriteria() { Title = "movie" };
-        //    _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Returns(new List<Movie>()
-        //                                            {
-        //                                                new Movie("supermovie",2012,99,"action")
-
-        //                                            }); ;
-
-        //    var result = (ObjectResult)_controller.Get(sc);
-
-        //    Assert.Equal(200, result.StatusCode);
-        //}
+            _loggerMOQ.Verify(logger => logger.Log(
+                    It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
+                    It.Is<EventId>(eventId => eventId.Id == 0),
+                    It.Is<It.IsAnyType>((@object, @type) => @object.ToString() == "Bad request was recieved" && @type.Name == "FormattedLogValues"),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                    Times.Once);
+        }
 
 
-        //[Fact]
-        //public void GETShould_Return500OnException()
-        //{
-        //    var sc = new MovieSearchCriteria() { Title = "movie" };
-        //    _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Throws(new Exception("Serious Error Encountered"));
-        //    var result = (ObjectResult)_controller.Get(sc);
-        //    Assert.Equal(500, result.StatusCode);
-        //}
+        [Fact]
+        public void GetShould_Return404WhenNoDataFound()
+        {
+            var sc = new MovieSearchCriteria() { Title = "movie" };
+            _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Returns(new List<Movie>());
+
+            var result = (ObjectResult) _controller.Get(sc);
+
+            Assert.Equal(404, result.StatusCode);
+        }
+
+
+        [Fact]
+        public void GetShould_Return200WhenDataFound()
+        {
+            var sc = new MovieSearchCriteria() { Title = "movie" };
+            _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Returns(new List<Movie>()
+                                                    {
+                                                        new Movie("supermovie",2012,99,"action")
+
+                                                    }); ;
+
+            var result = (ObjectResult)_controller.Get(sc);
+
+            Assert.Equal(200, result.StatusCode);
+        }
+
+
+        [Fact]
+        public void GETShould_Return500OnException()
+        {
+            var sc = new MovieSearchCriteria() { Title = "movie" };
+            _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Throws(new Exception("Serious Error Encountered"));
+            var result = (ObjectResult) _controller.Get(sc);
+            Assert.Equal(500, result.StatusCode);
+        }
 
 
         [Fact]
@@ -132,7 +146,6 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return404WhenNoDataFound()
         {
- 
             _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Returns(new List<MovieResultsList>());
 
             var result = (ObjectResult)_controller.TopFiveMoviesByReviewer(1);

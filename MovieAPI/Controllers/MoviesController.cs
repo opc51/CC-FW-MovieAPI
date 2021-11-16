@@ -58,10 +58,13 @@ namespace MovieAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MovieResultsList>> Get([FromQuery] MovieSearchCriteria sc)
+        public IActionResult Get([FromQuery] MovieSearchCriteria sc)
         {
             if (!sc.IsValid())
+            {
+                _logger.LogError("Bad request was recieved");
                 return BadRequest($"Data provided  was : {sc}");
+            }
             try
             {
                 var results = _movieService.GetMatchingMovies(sc);

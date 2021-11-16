@@ -55,14 +55,15 @@ namespace MovieAPI.Services
                 });
             }
 
-
-            if (_data.SaveChanges() != 1)
-            {
-                return false;
-            }
-
-            return true;
+            return SaveChanges();
         }
+
+        /// <summary>
+        /// Entity framework call to SaveChanges
+        /// </summary>
+        /// <returns>True is returned for successful save, false is returned for failed save</returns>
+        public bool SaveChanges() => _data.SaveChanges().CompareTo(-1) == 0 ? false : true;
+
 
 
         /// <summary>
@@ -166,9 +167,11 @@ namespace MovieAPI.Services
         {
 
             var combinedMoviesReviews =
-                                        from reviews in _data.Reviews
+                                        (from reviews in _data.Reviews
+
                                         join movies in _data.Movies on reviews.MovieId equals movies.Id
                                         where reviews.ReviewerId == reviewerId
+                                        orderby reviews.Score descending, movies.Title descending
                                         select new MovieResultsList()
                                         {
                                             MovieId = movies.Id,
@@ -177,10 +180,9 @@ namespace MovieAPI.Services
                                             RunningTime = movies.YearOfRelease,
                                             Genres = movies.Genre,
                                             Rating = reviews.Score
-                                        };
+                                        }).Take(5).ToList();
 
-            return combinedMoviesReviews.AsQueryable().OrderByDescending(x => x.Rating)
-                                                            .ThenBy(x => x.MovieTitle).Take(5).ToList();
+            return combinedMoviesReviews;
         }
     }
 }
