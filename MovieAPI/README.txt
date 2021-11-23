@@ -1,4 +1,5 @@
-﻿Not Implemented
+﻿This project is now in Visual Studio 2022 format 
+Not Implemented
 
 Not using Async methods. As this project uses an InMemory Database rather than an external data source there is no need for
 async methods
@@ -13,23 +14,6 @@ https://www.andrewhoefling.com/Blog/Post/moq-entity-framework-dbset
 MOQ Verify that the loggin entries are being created
 
 Add the final controller actions, add the updaing of the code.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 From GetTopFiveMovies
@@ -58,3 +42,6 @@ From GetTopFiveMovies
             */
 
 
+Just use a stored  procedure in the inMemory Database
+
+Add migrations
