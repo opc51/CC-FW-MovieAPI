@@ -3,6 +3,7 @@ using MovieAPI.Models;
 using MovieAPI.Models.DTOs;
 using MovieAPI.Models.Entities;
 using MovieAPI.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DTO = MovieAPI.Models.DTOs;
@@ -23,7 +24,7 @@ namespace MovieAPI.Services
         /// <param name="_database"></param>
         public MovieService(APIContext _database)
         {
-            _data = _database;
+            _data = _database ?? throw new ArgumentNullException();
         }
 
 

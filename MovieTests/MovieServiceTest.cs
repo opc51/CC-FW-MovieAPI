@@ -3,6 +3,7 @@ using Moq;
 using MovieAPI.Models;
 using MovieAPI.Repository;
 using MovieAPI.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -11,10 +12,8 @@ namespace MovieTests
 {
     public class MovieServiceTesting
     {
-
         private readonly APIContext _database;
         private readonly MovieService _movieService;
-
 
         public MovieServiceTesting()
         {
@@ -22,6 +21,12 @@ namespace MovieTests
                                         .UseInMemoryDatabase("MovieDatabase").Options;
             _database = new APIContext(options);
             _movieService = new MovieService(_database);
+        }
+
+        [Fact]
+        public void ServiceThrowsException_NullContextPassed()
+        {
+            Assert.Throws<ArgumentNullException>(() => new APIContext(null));
         }
 
         [Theory]
