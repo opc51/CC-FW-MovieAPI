@@ -18,7 +18,7 @@ namespace MovieAPI.Profiles
             CreateMap<Entity.Movie, DTO.Movie>()
                 .ForMember(
                     dto => dto.YearsPassedSinceOriginalRelease,
-                    ent => ent.MapFrom(x => DateTime.Now.Year - x.YearOfRelease)
+                    ent => ent.MapFrom(ent => DateTime.Now.Year - ent.YearOfRelease)
                 );
         }
     }
