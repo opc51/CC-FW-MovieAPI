@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MovieAPI.Interfaces;
@@ -6,7 +7,7 @@ using MovieAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using DTO = MovieAPI.Models.DTOs;
 
 namespace MovieAPI.Controllers
 {
@@ -19,16 +20,19 @@ namespace MovieAPI.Controllers
     {
         private readonly ILogger<MoviesController> _logger;
         private readonly IMovieService _movieService;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// public constructor used to inject dependencies into the Movie Controller
         /// </summary>
         /// <param name="logger">The logging service that will be injected into to Movie Controller</param>
         /// <param name="movieDataService">The service class that will be injected to gather data from the API database context </param>
-        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService)
+        /// <param name="mapper">Automapper instance to convert databse movies to dto movies </param> 
+        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper)
         {
-            _logger = logger;
-            _movieService = movieDataService;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _movieService = movieDataService ?? throw new ArgumentNullException(nameof(movieDataService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -70,16 +74,16 @@ namespace MovieAPI.Controllers
                 var results = _movieService.GetMatchingMovies(sc);
 
                 if (!results.Any())
-                    return NotFound( new ProblemDetails() { Detail = "No data found for search criteria {sc}" });
+                    return NotFound(new ProblemDetails() { Detail = "No data found for search criteria {sc}" });
 
-                return Ok(results);
+                return Ok(_mapper.Map<List<DTO.Movie>>(results));
             }
             catch (Exception ex)
             {
                 //return Problem()
-                    
-                    //ProblemDetails() { Status = 500, Detail = ex.Message };
-                return ExceptionHandlingCode<MovieResultsList>(ex);
+                //ProblemDetails() { Status = 500, Detail = ex.Message };
+
+                return ExceptionHandlingCode<List<DTO.Movie>>(ex);
             }
         }
 
@@ -93,7 +97,7 @@ namespace MovieAPI.Controllers
         {
             try
             {
-                var results = _movieService.GetTopFiveMovies();
+                var results = _movieService.GetTopMovies(5);
 
                 if (!results.Any())
                     return NotFound("Unable to find the top 5 movies");
@@ -102,7 +106,7 @@ namespace MovieAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ExceptionHandlingCode<MovieResultsList>(ex);
+                return ExceptionHandlingCode<DTO.MovieResultsList>(ex);
             }
         }
 
@@ -130,7 +134,7 @@ namespace MovieAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ExceptionHandlingCode<MovieResultsList>(ex);
+                return ExceptionHandlingCode<DTO.MovieResultsList>(ex);
             }
         }
 

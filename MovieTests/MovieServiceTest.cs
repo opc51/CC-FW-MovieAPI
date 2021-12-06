@@ -4,6 +4,7 @@ using MovieAPI.Models;
 using MovieAPI.Repository;
 using MovieAPI.Services;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace MovieTests
@@ -71,46 +72,52 @@ namespace MovieTests
         [Fact]
         public void GetMatchingMoviesShould_FilterOnTitle()
         {
-            var searchResult =_movieService.GetMatchingMovies(new MovieSearchCriteria() { Title = "Super" });
+            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Title = "Super" });
             Assert.Equal(7, searchResult.Count);
-            foreach (var item in searchResult)
-            {
-                Assert.Contains("Super", item.Title);
-            }
+            var numberFound = searchResult.Where(x => x.Title.Contains("Super")).Count();
+            Assert.Equal(7, numberFound);
         }
+
+        [Theory]
+        [InlineData("super")]
+        [InlineData("Super")]
+        [InlineData("sUPER")]
+        public void GetMatchingMoviesShould_IsCaseInsentivie(string title)
+        {
+            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Title = title });
+            Assert.Equal(7, searchResult.Count);
+        }
+
 
         [Fact]
         public void GetMatchingMoviesShould_FilterOnYear()
         {
             var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Year = 2004 });
             Assert.Equal(3, searchResult.Count);
-            foreach (var item in searchResult)
-            {
-                Assert.Equal(2004, item.YearOfRelease);
-            }
+            var numberFound = searchResult.Where(x => x.YearOfRelease == 2004).Count();
+            Assert.Equal(3, numberFound);
         }
 
         [Fact]
         public void GetMatchingMoviesShould_FilterOnComedy()
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() {  Genre = "Comedy" });
+            const string COMEDY = "Comedy";
+            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Genre = COMEDY });
             Assert.Equal(5, searchResult.Count);
-            foreach (var item in searchResult)
-            {
-                Assert.Equal("Comedy",item.Genre);
-            }
+            var numberFound = searchResult.Where(x => string.Equals(x.Genre, COMEDY)).Count();
+            Assert.Equal(5, numberFound);
         }
 
 
         [Fact]
         public void GetMatchingMoviesShould_FilterOnAllCriteria()
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() 
-                                                                { 
-                                                                    Genre = "Romance" ,
-                                                                    Title = "Super",
-                                                                    Year = 2004
-                                                                 });
+            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria()
+            {
+                Genre = "Romance",
+                Title = "Super",
+                Year = 2004
+            });
             Assert.Single(searchResult);
         }
 
@@ -121,11 +128,12 @@ namespace MovieTests
             var review = _database.Reviews.FirstAsync().Result;
             var previous = review.Score;
             review.Score = 4;
-            var result = _movieService.AddUpdateReview(new AddUpdateReview() { 
-                                             MovieId = review.MovieId,
-                                             ReviewerId = review.ReviewerId,
-                                             Score = review.Score
-                                          });
+            var result = _movieService.AddUpdateReview(new AddUpdateReview()
+            {
+                MovieId = review.MovieId,
+                ReviewerId = review.ReviewerId,
+                Score = review.Score
+            });
             Assert.True(result);
             Assert.NotEqual(previous, review.Score);
         }
@@ -147,14 +155,14 @@ namespace MovieTests
         [Fact]
         public void GetTopFiveMoviesShould_GiveCorrectResult()
         {
-            var results = _movieService.GetTopFiveMovies();
+            var results = _movieService.GetTopMovies(5);
             Assert.Equal(5, results.Count);
             List<double> scores = new();
             foreach (var result in results)
             {
                 scores.Add(result.Rating);
             }
-            List<double> expected = new() { 4.5,3.5,3.5,2.5,2.5 };
+            List<double> expected = new() { 4.5, 3.5, 3.5, 2.5, 2.5 };
             Assert.Equal(expected, scores);
         }
 
@@ -171,7 +179,7 @@ namespace MovieTests
                 scores.Add(result.Rating);
             }
 
-            List<double> expected = new() { 5,4,4,3,3 };
+            List<double> expected = new() { 5, 4, 4, 3, 3 };
             Assert.Equal(expected, scores);
         }
 

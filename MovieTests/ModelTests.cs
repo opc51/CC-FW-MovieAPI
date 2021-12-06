@@ -1,4 +1,5 @@
 ﻿using MovieAPI.Models;
+using MovieAPI.Models.Entities;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -89,7 +90,7 @@ namespace MovieTests
         [InlineData(5)]
         public void AddUpdateReviewShould_AllowsValuesBetween1and5(int score)
         {
-            AddUpdateReview sut = new() {  MovieId = 1, ReviewerId = 1, Score = score};
+            AddUpdateReview sut = new() { MovieId = 1, ReviewerId = 1, Score = score };
             Assert.Equal(score, sut.Score);
         }
 

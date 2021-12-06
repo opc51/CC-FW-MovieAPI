@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MovieAPI.Models
+namespace MovieAPI.Models.Entities
 {
     /// <summary>
     /// A reviwer that contains an id and a name

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MovieAPI.Models
+namespace MovieAPI.Models.Entities
 {
     /// <summary>
     /// A movie review containing the Reviewer id, the movie id and the score

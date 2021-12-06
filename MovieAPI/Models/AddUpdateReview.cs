@@ -33,7 +33,7 @@ namespace MovieAPI.Models
                     score = value;
             }
         }
-        
+
         /// <summary>
         /// A method to check that the objct hasvalid data
         /// </summary>

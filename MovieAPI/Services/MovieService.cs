@@ -1,8 +1,12 @@
 ﻿using MovieAPI.Interfaces;
 using MovieAPI.Models;
+using MovieAPI.Models.DTOs;
+using MovieAPI.Models.Entities;
 using MovieAPI.Repository;
 using System.Collections.Generic;
 using System.Linq;
+using DTO = MovieAPI.Models.DTOs;
+using Entity = MovieAPI.Models.Entities;
 
 namespace MovieAPI.Services
 {
@@ -20,7 +24,6 @@ namespace MovieAPI.Services
         public MovieService(APIContext _database)
         {
             _data = _database;
-
         }
 
 
@@ -71,13 +74,13 @@ namespace MovieAPI.Services
         /// </summary>
         /// <param name="sc">The criteria used to find movies. Includes title, year and genre </param>
         /// <returns>A list of movies</returns>
-        public List<Movie> GetMatchingMovies(MovieSearchCriteria sc)
+        public List<Entity.Movie> GetMatchingMovies(MovieSearchCriteria sc)
         {
-            IQueryable<Movie> data = _data.Set<Movie>();
+            IQueryable<Entity.Movie> data = _data.Set<Entity.Movie>();
 
             if (!string.IsNullOrWhiteSpace(sc.Title))
             {
-                data = data.Where(x => x.Title.Contains(sc.Title));
+                data = data.Where(x => x.Title.ToLower().Contains(sc.Title.ToLower()));
             }
             if (sc.Year != 0)
             {
@@ -91,16 +94,16 @@ namespace MovieAPI.Services
             return data.ToList();
         }
 
-        
+
         /// <summary>
         /// Find a movie based upon the primary key
         /// </summary>
         /// <param name="movieId">The integer pimary key</param>
         /// <returns></returns>
-        public Movie GetMovieById(int movieId)
+        public Entity.Movie GetMovieById(int movieId)
         {
-            return  _data.Find<Movie>(movieId);
-            
+            return _data.Find<Entity.Movie>(movieId);
+
         }
 
         /// <summary>
@@ -118,7 +121,7 @@ namespace MovieAPI.Services
         /// Finds the top 5 rated movies. Rating determined by the scores given by all reviewers
         /// </summary>
         /// <returns>List of MovieResults</returns>
-        public List<MovieResultsList> GetTopFiveMovies()
+        public List<DTO.MovieResultsList> GetTopMovies(int numberOfMovies)
         {
             var combinedMoviesReviews =
                                     from reviews in _data.Reviews
@@ -143,7 +146,7 @@ namespace MovieAPI.Services
                                       cmr.Genre
                                   }
                                   into movieResults
-                                  select new MovieResultsList()
+                                  select new DTO.MovieResultsList()
                                   {
                                       MovieId = movieResults.Key.Id,
                                       MovieTitle = movieResults.Key.Title,
@@ -154,7 +157,7 @@ namespace MovieAPI.Services
 
                                   };
 
-            return grouppByMovieId.AsQueryable().OrderByDescending(x => x.Rating).ThenBy(x => x.MovieTitle).Take(5).ToList();
+            return grouppByMovieId.AsQueryable().OrderByDescending(x => x.Rating).ThenBy(x => x.MovieTitle).Take(numberOfMovies).ToList();
         }
 
 
@@ -169,18 +172,18 @@ namespace MovieAPI.Services
             var combinedMoviesReviews =
                                         (from reviews in _data.Reviews
 
-                                        join movies in _data.Movies on reviews.MovieId equals movies.Id
-                                        where reviews.ReviewerId == reviewerId
-                                        orderby reviews.Score descending, movies.Title descending
-                                        select new MovieResultsList()
-                                        {
-                                            MovieId = movies.Id,
-                                            MovieTitle = movies.Title,
-                                            YearOfRelease = movies.YearOfRelease,
-                                            RunningTime = movies.YearOfRelease,
-                                            Genres = movies.Genre,
-                                            Rating = reviews.Score
-                                        }).Take(5).ToList();
+                                         join movies in _data.Movies on reviews.MovieId equals movies.Id
+                                         where reviews.ReviewerId == reviewerId
+                                         orderby reviews.Score descending, movies.Title descending
+                                         select new MovieResultsList()
+                                         {
+                                             MovieId = movies.Id,
+                                             MovieTitle = movies.Title,
+                                             YearOfRelease = movies.YearOfRelease,
+                                             RunningTime = movies.YearOfRelease,
+                                             Genres = movies.Genre,
+                                             Rating = reviews.Score
+                                         }).Take(5).ToList();
 
             return combinedMoviesReviews;
         }
