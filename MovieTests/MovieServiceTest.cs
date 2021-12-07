@@ -10,16 +10,14 @@ using Xunit;
 
 namespace MovieTests
 {
-    public class MovieServiceTesting
+    public class MovieServiceTesting : IClassFixture<InMemoryDatabaseFixture>
     {
         private readonly APIContext _database;
         private readonly MovieService _movieService;
 
-        public MovieServiceTesting()
+        public MovieServiceTesting(InMemoryDatabaseFixture fixture)
         {
-            DbContextOptions options = new DbContextOptionsBuilder<APIContext>()
-                                        .UseInMemoryDatabase("MovieDatabase").Options;
-            _database = new APIContext(options);
+            _database = fixture._database;
             _movieService = new MovieService(_database);
         }
 
