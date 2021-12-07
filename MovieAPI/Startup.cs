@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,6 +78,17 @@ namespace MovieAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/FreeWheelMovies/swagger.yaml", "Movies"));
+            }
+            else
+            {
+                app.UseExceptionHandler( app =>
+                {
+                    app.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("It's not you it's me. I'm having a bit of a meltdown, give me a moment to compose myself");
+                    });
+                });
             }
 
             app.UseHttpsRedirection();
