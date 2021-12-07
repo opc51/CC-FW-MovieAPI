@@ -163,7 +163,7 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return400WithInvalidSearchCriteria()
         {
-            var result = _inMemoryController.TopFiveMoviesByReviewer(0);
+            var result = _inMemoryController.TopRankedMoviesByReviewer(0);
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
@@ -171,7 +171,7 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return404WhenNoDataFound()
         {
-            var result = _inMemoryController.TopFiveMoviesByReviewer(666);
+            var result = _inMemoryController.TopRankedMoviesByReviewer(666);
             Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
 
@@ -179,7 +179,7 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return200WhenDataFound()
         {
-            var result = _inMemoryController.TopFiveMoviesByReviewer(1);
+            var result = _inMemoryController.TopRankedMoviesByReviewer(1);
             Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
 
@@ -188,7 +188,7 @@ namespace MovieTests
         public void TopFiveMoviesByReviewerShould_Return500OnException()
         {
             _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Throws(new Exception("Serious Error Encountered"));
-            var result = _mockedController.TopFiveMoviesByReviewer(1);
+            var result = _mockedController.TopRankedMoviesByReviewer(1);
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 

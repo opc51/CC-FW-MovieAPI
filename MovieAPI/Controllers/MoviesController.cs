@@ -85,7 +85,7 @@ namespace MovieAPI.Controllers
         }
 
         /// <summary>
-        /// Get the 5 movies that have been given the highest rating by all reviewers
+        /// Get the top Rated movies, as judged by all reviewers
         /// </summary>
         /// <param name="numberOfMovies">How many of the top rated movie you want to see listed</param>
         /// <returns>An Http response</returns>
@@ -110,13 +110,13 @@ namespace MovieAPI.Controllers
 
 
         /// <summary>
-        /// For any given reviewer, find the 5 movies they gave the highest score to
+        /// For any given reviewer, find the movies they gave the highest score to
         /// </summary>
         /// <param name="reviewerId">The Primary Key of the Reviewer in the database</param>
         /// <returns>An HTTP response</returns>
         [HttpGet]
-        [Route("Top5ByReviewer/{reviewerId}")]
-        public ActionResult<List<DTO.Movie>> TopFiveMoviesByReviewer(int reviewerId)
+        [Route("TopRanked/{reviewerId}")]
+        public ActionResult<List<DTO.Movie>> TopRankedMoviesByReviewer(int reviewerId)
         {
             if (reviewerId == 0)
                 return StatusCode(StatusCodes.Status400BadRequest, "A valid Id must be provided. 0 is not a valid Id");
@@ -143,7 +143,7 @@ namespace MovieAPI.Controllers
         /// <param name="review">A Review Object that contains a movie review id, a reviewer id and a score </param>
         /// <returns>Http response</returns>
         [HttpPost]
-        [Route("AddReview")]
+        [Route("Review")]
         public ActionResult<List<DTO.Movie>> AddReview(AddUpdateReview review)
         {
             if (!review.IsValidForSubmission())
@@ -186,9 +186,9 @@ namespace MovieAPI.Controllers
 
             _logger.LogError(incidentNumber.ToString() + ' ' + ex.Message);
 
-            //return Problem($"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                            $"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
+            return Problem($"Problem retreving the data. Ask it to check log files for incidentNumber {incidentNumber}");
+            //return StatusCode(StatusCodes.Status500InternalServerError,
+            //                $"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
         }
     }
 }
