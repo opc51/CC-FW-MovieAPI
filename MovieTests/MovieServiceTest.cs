@@ -10,7 +10,8 @@ using Xunit;
 
 namespace MovieTests
 {
-    public class MovieServiceTesting : IClassFixture<InMemoryDatabaseFixture>
+    [Collection("In Memory Database Collection")]
+    public class MovieServiceTesting
     {
         private readonly APIContext _database;
         private readonly MovieService _movieService;

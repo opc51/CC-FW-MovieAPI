@@ -87,10 +87,11 @@ namespace MovieAPI.Controllers
         /// <summary>
         /// Get the 5 movies that have been given the highest rating by all reviewers
         /// </summary>
+        /// <param name="numberOfMovies">How many of the top rated movie you want to see listed</param>
         /// <returns>An Http response</returns>
         [HttpGet]
         [Route("TopRanked/{numberOfMovies}")]
-        public ActionResult<List<DTO.Movie>> TopFiveByAllRatings(int numberOfMovies)
+        public ActionResult<List<DTO.Movie>> TopRatedMovies(int numberOfMovies)
         {
             try
             {
