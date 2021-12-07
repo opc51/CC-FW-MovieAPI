@@ -6,6 +6,7 @@ using Moq;
 using MovieAPI.Controllers;
 using MovieAPI.Interfaces;
 using MovieAPI.Models;
+using MovieAPI.Profiles;
 using MovieAPI.Services;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,11 @@ namespace MovieTests
         /// <summary>
         /// A mock AUTO mapper
         /// </summary>
-        private readonly Mock<IMapper> _mapper = new();
+        private readonly Mock<IMapper> _mapperMOQ = new();
+        /// <summary>
+        /// A real Automapper to work on
+        /// </summary>
+        private readonly IMapper _mapper;
 
         private Fixture fixture = new();
 
@@ -55,23 +60,30 @@ namespace MovieTests
 
         public ControllerTest(InMemoryDatabaseFixture fixture)
         {
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile<MovieProfile>();
+            });
+
+            _mapper = config.CreateMapper();
+
+
             _movieService = new MovieService(fixture._database);
 
-            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper.Object);
+            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper);
 
-            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapper.Object);
+            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object);
         }
 
         [Fact]
         public void CreationWithNullLogger_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapper.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapperMOQ.Object));
         }
 
         [Fact]
         public void CreationWithNullService_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapper.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapperMOQ.Object));
         }
 
         [Fact]

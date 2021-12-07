@@ -115,7 +115,7 @@ namespace MovieAPI.Controllers
         /// <param name="reviewerId">The Primary Key of the Reviewer in the database</param>
         /// <returns>An HTTP response</returns>
         [HttpGet]
-        [Route("TopRanked/{reviewerId}")]
+        [Route("TopRanked/Reviewer/{reviewerId}")]
         public ActionResult<List<DTO.Movie>> TopRankedMoviesByReviewer(int reviewerId)
         {
             if (reviewerId == 0)
