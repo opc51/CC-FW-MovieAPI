@@ -119,7 +119,7 @@ namespace MovieTests
         {
             _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<DTO.MovieResultsList>());
 
-            var result = _controller.TopFiveByAllRatings();
+            var result = _controller.TopFiveByAllRatings(5);
 
             Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
@@ -140,7 +140,7 @@ namespace MovieTests
 
                                                     }); ;
 
-            var result = _controller.TopFiveByAllRatings();
+            var result = _controller.TopFiveByAllRatings(5);
 
             Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
@@ -150,7 +150,7 @@ namespace MovieTests
         public void TopFiveByAllRatingsShould_Return500OnException()
         {
             _movieMOQ.Setup(x => x.GetTopMovies(5)).Throws(new Exception("Serious Error Encountered"));
-            var result = _controller.TopFiveByAllRatings();
+            var result = _controller.TopFiveByAllRatings(5);
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
