@@ -62,7 +62,7 @@ namespace MovieAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get([FromQuery] MovieSearchCriteria sc)
+        public ActionResult<List<DTO.Movie>> Get([FromQuery] MovieSearchCriteria sc)
         {
             if (!sc.IsValid())
             {
@@ -80,10 +80,7 @@ namespace MovieAPI.Controllers
             }
             catch (Exception ex)
             {
-                //return Problem()
-                //ProblemDetails() { Status = 500, Detail = ex.Message };
-
-                return ExceptionHandlingCode<List<DTO.Movie>>(ex);
+                return ExceptionHandlingCode(ex);
             }
         }
 
@@ -93,7 +90,7 @@ namespace MovieAPI.Controllers
         /// <returns>An Http response</returns>
         [HttpGet]
         [Route("Top5")]
-        public IActionResult TopFiveByAllRatings()
+        public ActionResult<List<DTO.Movie>> TopFiveByAllRatings()
         {
             try
             {
@@ -106,7 +103,7 @@ namespace MovieAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ExceptionHandlingCode<DTO.MovieResultsList>(ex);
+                return ExceptionHandlingCode(ex);
             }
         }
 
@@ -118,7 +115,7 @@ namespace MovieAPI.Controllers
         /// <returns>An HTTP response</returns>
         [HttpGet]
         [Route("Top5ByReviewer/{reviewerId}")]
-        public IActionResult TopFiveMoviesByReviewer(int reviewerId)
+        public ActionResult<List<DTO.Movie>> TopFiveMoviesByReviewer(int reviewerId)
         {
             if (reviewerId == 0)
                 return StatusCode(StatusCodes.Status400BadRequest, "A valid Id must be provided. 0 is not a valid Id");
@@ -134,7 +131,7 @@ namespace MovieAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ExceptionHandlingCode<DTO.MovieResultsList>(ex);
+                return ExceptionHandlingCode(ex);
             }
         }
 
@@ -146,7 +143,7 @@ namespace MovieAPI.Controllers
         /// <returns>Http response</returns>
         [HttpPost]
         [Route("AddReview")]
-        public IActionResult AddReview(AddUpdateReview review)
+        public ActionResult<List<DTO.Movie>> AddReview(AddUpdateReview review)
         {
             if (!review.IsValidForSubmission())
             {
@@ -182,7 +179,7 @@ namespace MovieAPI.Controllers
         /// </summary>
         /// <param name="ex">The base exception thrown</param>
         /// <returns>Returns an HTTP 500 server exception error</returns>
-        private ActionResult ExceptionHandlingCode<T>(Exception ex) where T : class
+        private ActionResult ExceptionHandlingCode(Exception ex)
         {
             Guid incidentNumber = Guid.NewGuid();
 

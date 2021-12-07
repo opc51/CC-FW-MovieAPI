@@ -54,11 +54,10 @@ namespace MovieTests
         }
 
         [Fact]
-        public void GetShould_Return400WithInvalidSearchCriteria()
+        public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
         {
-
-            var result = (ObjectResult)_controller.Get(new MovieSearchCriteria() { });
-            Assert.Equal(400, result.StatusCode);
+            var result = _controller.Get(new MovieSearchCriteria() { });
+            Assert.Equal("BadRequestObjectResult", result.Result.GetType().Name);
         }
 
 
@@ -78,19 +77,19 @@ namespace MovieTests
 
 
         [Fact]
-        public void GetShould_Return404WhenNoDataFound()
+        public void GetShould_ReturnNotFound_WhenNoDataFound()
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
             _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Returns(new List<Entity.Movie>());
 
-            var result = (ObjectResult)_controller.Get(sc);
+            var result = _controller.Get(sc);
 
-            Assert.Equal(404, result.StatusCode);
+            Assert.Equal("NotFoundObjectResult", result.Result.GetType().Name);
         }
 
 
         [Fact]
-        public void GetShould_Return200WhenDataFound()
+        public void GetShould_ReturnOkResult_WhenDataFound()
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
             _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Returns(new List<Entity.Movie>()
@@ -98,10 +97,8 @@ namespace MovieTests
                                                         new Entity.Movie("supermovie",2012,99,"action")
 
                                                     }); ;
-
-            var result = (ObjectResult)_controller.Get(sc);
-
-            Assert.Equal(200, result.StatusCode);
+            var result = (_controller.Get(sc));
+            Assert.Equal("OkObjectResult", result.Result.GetType().Name);
         }
 
 
@@ -110,8 +107,10 @@ namespace MovieTests
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
             _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Throws(new Exception("Serious Error Encountered"));
-            var result = (ObjectResult)_controller.Get(sc);
-            Assert.Equal(500, result.StatusCode);
+
+            var result = _controller.Get(sc);
+
+            Assert.Equal("ObjectResult", result.Result.GetType().Name);
         }
 
 
@@ -120,9 +119,9 @@ namespace MovieTests
         {
             _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<DTO.MovieResultsList>());
 
-            var result = (ObjectResult)_controller.TopFiveByAllRatings();
+            var result = _controller.TopFiveByAllRatings();
 
-            Assert.Equal(404, result.StatusCode);
+            Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
 
 
@@ -141,9 +140,9 @@ namespace MovieTests
 
                                                     }); ;
 
-            var result = (ObjectResult)_controller.TopFiveByAllRatings();
+            var result = _controller.TopFiveByAllRatings();
 
-            Assert.Equal(200, result.StatusCode);
+            Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
 
 
@@ -151,16 +150,16 @@ namespace MovieTests
         public void TopFiveByAllRatingsShould_Return500OnException()
         {
             _movieMOQ.Setup(x => x.GetTopMovies(5)).Throws(new Exception("Serious Error Encountered"));
-            var result = (ObjectResult)_controller.TopFiveByAllRatings();
-            Assert.Equal(500, result.StatusCode);
+            var result = _controller.TopFiveByAllRatings();
+            Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
 
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return400WithInvalidSearchCriteria()
         {
-            var result = (ObjectResult)_controller.TopFiveMoviesByReviewer(0);
-            Assert.Equal(400, result.StatusCode);
+            var result = _controller.TopFiveMoviesByReviewer(0);
+            Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
 
@@ -169,9 +168,9 @@ namespace MovieTests
         {
             _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Returns(new List<MovieResultsList>());
 
-            var result = (ObjectResult)_controller.TopFiveMoviesByReviewer(1);
+            var result = _controller.TopFiveMoviesByReviewer(1);
 
-            Assert.Equal(404, result.StatusCode);
+            Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
 
 
@@ -189,9 +188,9 @@ namespace MovieTests
                                                         }
                                                     }); ;
 
-            var result = (ObjectResult)_controller.TopFiveMoviesByReviewer(1);
+            var result = _controller.TopFiveMoviesByReviewer(1);
 
-            Assert.Equal(200, result.StatusCode);
+            Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
 
 
@@ -199,47 +198,47 @@ namespace MovieTests
         public void TopFiveMoviesByReviewerShould_Return500OnException()
         {
             _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Throws(new Exception("Serious Error Encountered"));
-            var result = (ObjectResult)_controller.TopFiveMoviesByReviewer(1);
-            Assert.Equal(500, result.StatusCode);
+            var result = _controller.TopFiveMoviesByReviewer(1);
+            Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
 
         [Theory]
         [MemberData(nameof(invalidReviewSubmissions))]
-        public void AddReviewShould_Return400WithInvalidReview(int reviewerId, int movieId, int score)
+        public void AddReviewShould_ReturnBadRequest_WithInvalidReview(int reviewerId, int movieId, int score)
         {
-            var result = (ObjectResult)_controller.AddReview(new AddUpdateReview() { ReviewerId = reviewerId, MovieId = movieId, Score = score });
-            Assert.Equal(400, result.StatusCode);
+            var result = _controller.AddReview(new AddUpdateReview() { ReviewerId = reviewerId, MovieId = movieId, Score = score });
+            Assert.Equal(typeof(BadRequestObjectResult).Name, result.Result.GetType().Name);
         }
 
 
         [Fact]
-        public void AddReviewShould_Return404WhenMovieDoesNotExist()
+        public void AddReviewShould_ReturnBadRequest_WhenMovieDoesNotExist()
         {
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns((Entity.Movie)null);
-            var result = (ObjectResult)_controller.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1934442, Score = 5 });
-            Assert.Equal(404, result.StatusCode);
+            var result = _controller.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1934442, Score = 5 });
+            Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
 
 
         [Fact]
-        public void AddReviewShould_Return404WhenReviewerDoesNotExist()
+        public void AddReviewShould_ReturnNotFound_WhenReviewerDoesNotExist()
         {
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(new Entity.Movie() { Id = 1 });
             _movieMOQ.Setup(x => x.GetReviewerById(23432434)).Returns((Entity.Reviewer)null);
-            var result = (ObjectResult)_controller.AddReview(new AddUpdateReview() { ReviewerId = 23432434, MovieId = 1, Score = 4 });
-            Assert.Equal(404, result.StatusCode);
+            var result = _controller.AddReview(new AddUpdateReview() { ReviewerId = 23432434, MovieId = 1, Score = 4 });
+            Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
 
 
         [Fact]
-        public void AddReviewShould_Return500WhenNotABleToUpdate()
+        public void AddReviewShould_Return500_WhenNotABleToUpdate()
         {
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(new Entity.Movie() { Id = 1 });
             _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>())).Returns(new Entity.Reviewer() { Id = 1 });
             _movieMOQ.Setup(x => x.AddUpdateReview(It.IsAny<AddUpdateReview>())).Returns(false);
-            var result = (ObjectResult)_controller.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1, Score = 4 });
-            Assert.Equal(500, result.StatusCode);
+            var result = _controller.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1, Score = 4 });
+            Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
 
@@ -249,8 +248,8 @@ namespace MovieTests
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(new Entity.Movie() { Id = 2 });
             _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>())).Returns(new Entity.Reviewer() { Id = 2 });
             _movieMOQ.Setup(x => x.AddUpdateReview(It.IsAny<AddUpdateReview>())).Returns(true);
-            var result = (ObjectResult)_controller.AddReview(new AddUpdateReview() { MovieId = 2, ReviewerId = 2, Score = 3 });
-            Assert.Equal(200, result.StatusCode);
+            var result = _controller.AddReview(new AddUpdateReview() { MovieId = 2, ReviewerId = 2, Score = 3 });
+            Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
     }
 }
