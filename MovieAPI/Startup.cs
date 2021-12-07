@@ -93,11 +93,13 @@ namespace MovieAPI
 
             app.UseHttpsRedirection();
 
+            // routing decisions made here
             app.UseRouting();
 
             // not need for this simple app
             app.UseAuthorization();
 
+            // go to the slected endpoint
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -15,7 +15,7 @@ namespace MovieAPI.Controllers
     /// Contains methods used to add movie reviews and show lists of highly rated movies
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/Movies")]
     public class MoviesController : ControllerBase
     {
         private readonly ILogger<MoviesController> _logger;
@@ -57,7 +57,7 @@ namespace MovieAPI.Controllers
         /// } \
         /// Will return 1 movie in the test data
         /// </remarks>
-        [HttpGet]
+        [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,12 +89,12 @@ namespace MovieAPI.Controllers
         /// </summary>
         /// <returns>An Http response</returns>
         [HttpGet]
-        [Route("Top5")]
-        public ActionResult<List<DTO.Movie>> TopFiveByAllRatings()
+        [Route("TopRanked/{numberOfMovies}")]
+        public ActionResult<List<DTO.Movie>> TopFiveByAllRatings(int numberOfMovies)
         {
             try
             {
-                var results = _movieService.GetTopMovies(5);
+                var results = _movieService.GetTopMovies(numberOfMovies);
 
                 if (!results.Any())
                     return NotFound("Unable to find the top 5 movies");
