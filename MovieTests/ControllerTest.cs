@@ -60,7 +60,8 @@ namespace MovieTests
 
         public ControllerTest(InMemoryDatabaseFixture fixture)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.AddProfile<MovieProfile>();
             });
 
@@ -172,18 +173,20 @@ namespace MovieTests
         }
 
 
-        [Fact]
-        public void TopFiveMoviesByReviewerShould_Return400WithInvalidSearchCriteria()
+        [Theory]
+        [InlineData(5, 0)] // invalid reviewerID
+        [InlineData(0, 2)] // invlaid number of movies
+        [InlineData(0, 0)] // both invlaid
+        public void TopFiveMoviesByReviewerShould_Return400_WithZeroReviewerId(int numberOfMovies, int reviewerId)
         {
-            var result = _inMemoryController.TopRankedMoviesByReviewer(0);
+            var result = _inMemoryController.TopRankedMoviesByReviewer(numberOfMovies, reviewerId);
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
-
 
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return404WhenNoDataFound()
         {
-            var result = _inMemoryController.TopRankedMoviesByReviewer(666);
+            var result = _inMemoryController.TopRankedMoviesByReviewer(5, 666);
             Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
 
@@ -191,7 +194,7 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return200WhenDataFound()
         {
-            var result = _inMemoryController.TopRankedMoviesByReviewer(1);
+            var result = _inMemoryController.TopRankedMoviesByReviewer(3, 1);
             Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
 
@@ -199,8 +202,8 @@ namespace MovieTests
         [Fact]
         public void TopFiveMoviesByReviewerShould_Return500OnException()
         {
-            _movieMOQ.Setup(x => x.GetTopFiveMoviesByReviewer(It.IsAny<int>())).Throws(new Exception("Serious Error Encountered"));
-            var result = _mockedController.TopRankedMoviesByReviewer(1);
+            _movieMOQ.Setup(x => x.GetMoviesByReviewer(It.IsAny<int>(), It.IsAny<int>())).Throws(new Exception("Serious Error Encountered"));
+            var result = _mockedController.TopRankedMoviesByReviewer(5, 1);
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 

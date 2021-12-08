@@ -165,9 +165,10 @@ namespace MovieAPI.Services
         /// <summary>
         /// Find the top 5 movies for a specific reviewer
         /// </summary>
+        /// <param name="numberofMovies">The number of movies to return</param>
         /// <param name="reviewerId">The primary key of the reviewer</param>
         /// <returns>List of MovieResults</returns>
-        public List<MovieResultsList> GetTopFiveMoviesByReviewer(int reviewerId)
+        public List<MovieResultsList> GetMoviesByReviewer(int numberofMovies, int reviewerId)
         {
 
             var combinedMoviesReviews =
@@ -184,7 +185,7 @@ namespace MovieAPI.Services
                                              RunningTime = movies.YearOfRelease,
                                              Genres = movies.Genre,
                                              Rating = reviews.Score
-                                         }).Take(5).ToList();
+                                         }).Take(numberofMovies).ToList();
 
             return combinedMoviesReviews;
         }

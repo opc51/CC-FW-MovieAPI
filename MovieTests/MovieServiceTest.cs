@@ -173,7 +173,7 @@ namespace MovieTests
         [Fact]
         public void GetTopFiveMoviesByReviewerShould_GiveCorrectResults()
         {
-            var results = _movieService.GetTopFiveMoviesByReviewer(2);
+            var results = _movieService.GetMoviesByReviewer(5, 2);
 
             Assert.Equal(5, results.Count);
 

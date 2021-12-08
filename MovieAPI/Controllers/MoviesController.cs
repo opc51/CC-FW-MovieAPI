@@ -90,7 +90,7 @@ namespace MovieAPI.Controllers
         /// <param name="numberOfMovies">How many of the top rated movie you want to see listed</param>
         /// <returns>An Http response</returns>
         [HttpGet]
-        [Route("TopRanked/{numberOfMovies}")]
+        [Route("TopRankedMovies/{numberOfMovies}")]
         public ActionResult<List<DTO.Movie>> TopRatedMovies(int numberOfMovies)
         {
             try
@@ -112,18 +112,22 @@ namespace MovieAPI.Controllers
         /// <summary>
         /// For any given reviewer, find the movies they gave the highest score to
         /// </summary>
+        /// <param name="numberOfMovies">The number of top ranked films required</param>
         /// <param name="reviewerId">The Primary Key of the Reviewer in the database</param>
         /// <returns>An HTTP response</returns>
         [HttpGet]
-        [Route("TopRanked/Reviewer/{reviewerId}")]
-        public ActionResult<List<DTO.Movie>> TopRankedMoviesByReviewer(int reviewerId)
+        [Route("TopRankedMovies/{numberOfMovies}/Reviewer/{reviewerId}")]
+        public ActionResult<List<DTO.Movie>> TopRankedMoviesByReviewer(int numberOfMovies, int reviewerId)
         {
-            if (reviewerId == 0)
+            if (reviewerId == 0) 
                 return StatusCode(StatusCodes.Status400BadRequest, "A valid Id must be provided. 0 is not a valid Id");
+
+            if (numberOfMovies == 0)
+                return StatusCode(StatusCodes.Status400BadRequest, "A non zero number of movies");
 
             try
             {
-                var results = _movieService.GetTopFiveMoviesByReviewer(reviewerId);
+                var results = _movieService.GetMoviesByReviewer(numberOfMovies, reviewerId);
 
                 if (!results.Any())
                     return NotFound($"Unable to find top 5 reviewers for reviewer ID {reviewerId}");

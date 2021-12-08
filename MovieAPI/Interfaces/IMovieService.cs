@@ -28,9 +28,10 @@ namespace MovieAPI.Interfaces
         /// <summary>
         /// Get the top 5 rated movies for a specific reviewer
         /// </summary>
+        /// <param name="numberOfMovies">The number of top ranked movies required</param>
         /// <param name="reviewerId">The primary key of the reviewer</param>
         /// <returns>A list of Movie Results</returns>
-        public List<DTO.MovieResultsList> GetTopFiveMoviesByReviewer(int reviewerId);
+        public List<DTO.MovieResultsList> GetMoviesByReviewer(int numberOfMovies, int reviewerId);
 
 
         /// <summary>

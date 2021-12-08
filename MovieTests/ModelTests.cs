@@ -1,4 +1,5 @@
-﻿using MovieAPI.Models;
+﻿using AutoFixture;
+using MovieAPI.Models;
 using MovieAPI.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace MovieTests
                                                     new object[]{ 1, 1, 1}
                                                 };
 
+        private Fixture fixture = new();
 
         [Theory]
         [MemberData(nameof(invalidSearchCriteria))]
@@ -78,7 +80,13 @@ namespace MovieTests
         [InlineData(7)]
         public void ReviewerShould_NotAllowsValuesOutside1and5(int score)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Review() { Score = score });
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Review()
+            {
+                Id = fixture.Create<int>(),
+                MovieId = fixture.Create<int>(),
+                ReviewerId = fixture.Create<int>(),
+                Score = score
+            });
         }
 
 
@@ -90,7 +98,12 @@ namespace MovieTests
         [InlineData(5)]
         public void AddUpdateReviewShould_AllowsValuesBetween1and5(int score)
         {
-            AddUpdateReview sut = new() { MovieId = 1, ReviewerId = 1, Score = score };
+            AddUpdateReview sut = new() 
+            { 
+                MovieId = fixture.Create<int>(),
+                ReviewerId = fixture.Create<int>(),
+                Score = score 
+            };
             Assert.Equal(score, sut.Score);
         }
 
