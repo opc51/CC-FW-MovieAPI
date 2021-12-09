@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace MovieAPI.Models.Entities
 {
     /// <summary>
     /// A reviwer that contains an id and a name
     /// </summary>
+    [DebuggerDisplay("Name : {Name}")]
     public class Reviewer
     {
         /// <summary>

@@ -1,8 +1,11 @@
-﻿namespace MovieAPI.Models.DTOs
+﻿using System.Diagnostics;
+
+namespace MovieAPI.Models.DTOs
 {
     /// <summary>
     /// DTO used to transfer lists of movies and ratings back to the caller
     /// </summary>
+    [DebuggerDisplay("Title : {MovieTitle}, Rating : {Rating}")]
     public class MovieResultsList
     {
         /// <summary>

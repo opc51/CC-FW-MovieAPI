@@ -93,23 +93,28 @@ namespace MovieTests
         }
 
 
-        [Fact]
-        public void GetMatchingMoviesShould_FilterOnYear()
+        [Theory]
+        [InlineData(2004, 3)]
+        [InlineData(2002, 1)]
+        [InlineData(2011, 2)]
+        public void GetMatchingMoviesShould_FilterOnYear(int year, int recordCount)
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Year = 2004 });
-            Assert.Equal(3, searchResult.Count);
-            var numberFound = searchResult.Where(x => x.YearOfRelease == 2004).Count();
-            Assert.Equal(3, numberFound);
+            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Year = year });
+            Assert.Equal(recordCount, searchResult.Count);
+            var numberFound = searchResult.Where(x => x.YearOfRelease == year).Count();
+            Assert.Equal(recordCount, numberFound);
         }
 
-        [Fact]
-        public void GetMatchingMoviesShould_FilterOnComedy()
+        [Theory]
+        [InlineData("Comedy", 3)]
+        [InlineData("Romance", 2)]
+        [InlineData("Hero", 2)]
+        public void GetMatchingMoviesShould_FilterOnGenre(string genre, int resultCount)
         {
-            const string COMEDY = "Comedy";
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Genre = COMEDY });
-            Assert.Equal(5, searchResult.Count);
-            var numberFound = searchResult.Where(x => string.Equals(x.Genre, COMEDY)).Count();
-            Assert.Equal(5, numberFound);
+            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Genre = genre });
+            Assert.Equal(resultCount, searchResult.Count);
+            var numberFound = searchResult.Where(x => string.Equals(x.Genre, genre)).Count();
+            Assert.Equal(resultCount, numberFound);
         }
 
 

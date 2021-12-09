@@ -59,9 +59,9 @@ namespace MovieAPI.Repository
                     , new Movie("Super Fun Movie 3", 2006, 90, "Comedy")
                     , new Movie("Super Romance Movie", 2004, 120, "Romance")
                     , new Movie("Super Romance Movie 2", 2006, 120, "Romance")
-                    , new Movie("Super Hero Movie ", 2004, 180, "Comedy")
-                    , new Movie("Super Hero Movie 2 ", 2011, 180, "Comedy")
-                    , new Movie("No one reviews me ", 2001, 180, "Unknown")
+                    , new Movie("Super Hero Movie ", 2004, 180, "Hero")
+                    , new Movie("Super Hero Movie 2 ", 2011, 180, "Hero")
+                    , new Movie("No one reviews me ", 2011, 180, "Unknown")
                 );
                 SaveChanges();
             }

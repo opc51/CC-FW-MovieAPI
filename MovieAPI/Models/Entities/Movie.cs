@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace MovieAPI.Models.Entities
 {
     /// <summary>
     /// A movie containing Id, Title, year of release and Genre
     /// </summary>
+    [DebuggerDisplay("Title : {Title}, Genre : {Genre} ")]
     public class Movie
     {
         /// <summary>

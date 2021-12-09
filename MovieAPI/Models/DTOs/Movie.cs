@@ -1,8 +1,11 @@
-﻿namespace MovieAPI.Models.DTOs
+﻿using System.Diagnostics;
+
+namespace MovieAPI.Models.DTOs
 {
     /// <summary>
     /// Data Transfer Object used pass back Movie details
     /// </summary>
+    [DebuggerDisplay("Title : {Title}, Genre : {Genre} ")]
     public class Movie
     {
         /// <summary>
