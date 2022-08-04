@@ -30,6 +30,7 @@ namespace MovieAPI.Mediatr
         public async Task<List<MovieResultsList>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
         {
             var movieEntities = await _movieDataService.GetMatchingMovies(request, cancellationToken);
+            // to do fix this mapping!
             var data =  _mapper.Map<List<MovieResultsList>>(movieEntities);
             return data;
         }

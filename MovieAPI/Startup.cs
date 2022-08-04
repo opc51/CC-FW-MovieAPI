@@ -11,6 +11,7 @@ using MovieAPI.Interfaces;
 using MovieAPI.Repository;
 using MovieAPI.Services;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace MovieAPI
@@ -18,6 +19,7 @@ namespace MovieAPI
     /// <summary>
     /// .NET Core inbuilt class to build the web host
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         /// <summary>
