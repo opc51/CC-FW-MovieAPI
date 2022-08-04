@@ -1,6 +1,6 @@
 ﻿using MovieAPI.Models;
 using System.Collections.Generic;
-using DTO = MovieAPI.Models.DTOs;
+using MovieAPI.Models.DTOs.Outputs;
 using Entity = MovieAPI.Models.Entities;
 
 namespace MovieAPI.Interfaces
@@ -22,7 +22,7 @@ namespace MovieAPI.Interfaces
         /// Get the top 5 highest rated movies
         /// </summary>
         /// <returns></returns>
-        public List<DTO.MovieResultsList> GetTopMovies(int NumberOfMovies);
+        public List<MovieResultsList> GetTopMovies(int NumberOfMovies);
 
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace MovieAPI.Interfaces
         /// <param name="numberOfMovies">The number of top ranked movies required</param>
         /// <param name="reviewerId">The primary key of the reviewer</param>
         /// <returns>A list of Movie Results</returns>
-        public List<DTO.MovieResultsList> GetMoviesByReviewer(int numberOfMovies, int reviewerId);
+        public List<MovieResultsList> GetMoviesByReviewer(int numberOfMovies, int reviewerId);
 
 
         /// <summary>

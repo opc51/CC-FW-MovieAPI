@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace MovieAPI.Models.DTOs
+namespace MovieAPI.Models.DTOs.Outputs
 {
     /// <summary>
     /// DTO used to transfer lists of movies and ratings back to the caller

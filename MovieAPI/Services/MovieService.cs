@@ -1,6 +1,6 @@
 ﻿using MovieAPI.Interfaces;
 using MovieAPI.Models;
-using MovieAPI.Models.DTOs;
+using MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Models.Entities;
 using MovieAPI.Repository;
 using System;
@@ -122,7 +122,7 @@ namespace MovieAPI.Services
         /// Finds the top 5 rated movies. Rating determined by the scores given by all reviewers
         /// </summary>
         /// <returns>List of MovieResults</returns>
-        public List<DTO.MovieResultsList> GetTopMovies(int numberOfMovies)
+        public List<MovieResultsList> GetTopMovies(int numberOfMovies)
         {
             var combinedMoviesReviews =
                                     from reviews in _data.Reviews
@@ -147,7 +147,7 @@ namespace MovieAPI.Services
                                       cmr.Genre
                                   }
                                   into movieResults
-                                  select new DTO.MovieResultsList()
+                                  select new MovieResultsList()
                                   {
                                       MovieId = movieResults.Key.Id,
                                       MovieTitle = movieResults.Key.Title,

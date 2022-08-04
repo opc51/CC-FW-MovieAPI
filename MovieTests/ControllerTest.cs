@@ -6,12 +6,12 @@ using Moq;
 using MovieAPI.Controllers;
 using MovieAPI.Interfaces;
 using MovieAPI.Models;
+using MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Profiles;
 using MovieAPI.Services;
 using System;
 using System.Collections.Generic;
 using Xunit;
-using DTO = MovieAPI.Models.DTOs;
 using Entity = MovieAPI.Models.Entities;
 
 namespace MovieTests
@@ -150,7 +150,7 @@ namespace MovieTests
         [Fact]
         public void TopRated_Should_Return404WhenNoDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<DTO.MovieResultsList>());
+            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<MovieResultsList>());
             var result = _mockedController.TopRatedMovies(5);
             Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
@@ -175,8 +175,8 @@ namespace MovieTests
 
         [Theory]
         [InlineData(5, 0)] // invalid reviewerID
-        [InlineData(0, 2)] // invlaid number of movies
-        [InlineData(0, 0)] // both invlaid
+        [InlineData(0, 2)] // Invalid number of movies
+        [InlineData(0, 0)] // both invalid
         public void TopFiveMoviesByReviewerShould_Return400_WithZeroReviewerId(int numberOfMovies, int reviewerId)
         {
             var result = _inMemoryController.TopRankedMoviesByReviewer(numberOfMovies, reviewerId);

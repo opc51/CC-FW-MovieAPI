@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace MovieAPI.Models.DTOs
+namespace MovieAPI.Models.DTOs.Outputs
 {
     /// <summary>
     /// Data Transfer Object used pass back Movie details

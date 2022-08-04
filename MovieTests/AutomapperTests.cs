@@ -3,7 +3,7 @@ using AutoMapper;
 using MovieAPI.Profiles;
 using System;
 using Xunit;
-using DTO = MovieAPI.Models.DTOs;
+using MovieAPI.Models.DTOs.Outputs;
 using Entities = MovieAPI.Models.Entities;
 
 namespace MovieTests
@@ -31,7 +31,7 @@ namespace MovieTests
             Entities.Movie movie = new(movieName, 2000, 180, "COMEDY");
 
             //Act
-            DTO.Movie converted = _mapper.Map<Entities.Movie, DTO.Movie>(movie);
+            Movie converted = _mapper.Map<Entities.Movie, Movie>(movie);
 
             //Assert
             Assert.True(string.Equals(movie.Title, converted.Title));

@@ -1,0 +1,1 @@
+﻿This folder contains examples of tests to define what happens when you use specific LINQ commands on empty IEnumerables and nulls

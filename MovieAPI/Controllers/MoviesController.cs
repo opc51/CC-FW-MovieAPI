@@ -7,7 +7,7 @@ using MovieAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DTO = MovieAPI.Models.DTOs;
+using Output = MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieAPI.Controllers
 {
@@ -62,7 +62,7 @@ namespace MovieAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<DTO.Movie>> Get([FromQuery] MovieSearchCriteria sc)
+        public ActionResult<List<Output.Movie>> Get([FromQuery] MovieSearchCriteria sc)
         {
             if (!sc.IsValid())
             {
@@ -76,7 +76,7 @@ namespace MovieAPI.Controllers
                 if (!results.Any())
                     return NotFound(new ProblemDetails() { Detail = "No data found for search criteria {sc}" });
 
-                return Ok(_mapper.Map<List<DTO.Movie>>(results));
+                return Ok(_mapper.Map<List<Output.Movie>>(results));
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace MovieAPI.Controllers
         /// <returns>An Http response</returns>
         [HttpGet]
         [Route("TopRankedMovies/{numberOfMovies}")]
-        public ActionResult<List<DTO.Movie>> TopRatedMovies(int numberOfMovies)
+        public ActionResult<List<Output.Movie>> TopRatedMovies(int numberOfMovies)
         {
             try
             {
@@ -117,7 +117,8 @@ namespace MovieAPI.Controllers
         /// <returns>An HTTP response</returns>
         [HttpGet]
         [Route("TopRankedMovies/{numberOfMovies}/Reviewer/{reviewerId}")]
-        public ActionResult<List<DTO.Movie>> TopRankedMoviesByReviewer(int numberOfMovies, int reviewerId)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<List<Output.Movie>> TopRankedMoviesByReviewer(int numberOfMovies, int reviewerId)
         {
             if (reviewerId == 0) 
                 return StatusCode(StatusCodes.Status400BadRequest, "A valid Id must be provided. 0 is not a valid Id");
@@ -148,7 +149,7 @@ namespace MovieAPI.Controllers
         /// <returns>Http response</returns>
         [HttpPost]
         [Route("Review")]
-        public ActionResult<List<DTO.Movie>> AddReview(AddUpdateReview review)
+        public ActionResult<List<Output.Movie>> AddReview(AddUpdateReview review)
         {
             if (!review.IsValidForSubmission())
             {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Entity = MovieAPI.Models.Entities;
-using DTO = MovieAPI.Models.DTOs;
+using Output = MovieAPI.Models.DTOs.Outputs;
 using System;
 
 namespace MovieAPI.Profiles
@@ -15,7 +15,7 @@ namespace MovieAPI.Profiles
         /// </summary>
         public MovieProfile()
         {
-            CreateMap<Entity.Movie, DTO.Movie>()
+            CreateMap<Entity.Movie, Output.Movie>()
                 .ForMember(
                     dto => dto.YearsPassedSinceOriginalRelease,
                     ent => ent.MapFrom(ent => DateTime.Now.Year - ent.YearOfRelease)
