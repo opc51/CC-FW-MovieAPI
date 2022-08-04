@@ -64,35 +64,13 @@ namespace MovieAPI.Controllers
         /// </remarks>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<Output.Movie>>> Get([FromQuery] MovieSearchCriteria sc, CancellationToken cancellationToken)
         {
-            //if (!sc.IsValid())
-            //{
-            //    _logger.LogError("Bad request was recieved");
-            //    return BadRequest($"Data provided  was : {sc}");
-            //}
-
             var request = _mapper.Map<GetMoviesQuery>(sc);
             var data = await _sender.Send(request, cancellationToken);
-            return data == null || !data.Any() ? NotFound() : Ok(data);
-
-
-            //try
-            //{
-            //    var results = _movieService.GetMatchingMovies(sc);
-
-            //    if (!results.Any())
-            //        return NotFound(new ProblemDetails() { Detail = "No data found for search criteria {sc}" });
-
-            //    return Ok(_mapper.Map<List<Output.Movie>>(results));
-            //}
-            //catch (Exception ex)
-            //{
-            //    return ExceptionHandlingCode(ex);
-            //}
+            return data == null || !data.Any() ? NotFound("Unable to ") : Ok(data);
         }
 
         /// <summary>

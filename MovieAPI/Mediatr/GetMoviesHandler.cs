@@ -11,14 +11,15 @@ namespace MovieAPI.Mediatr
     /// <summary>
     /// The handler used to get a movie list from specific search criteria
     /// </summary>
-    public class GetMoviesHandler : IRequestHandler<GetMoviesQuery, List<MovieResultsList>>
+    public class GetMoviesQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieResultsList>>
     {
         private readonly IMovieService _movieDataService;
         private readonly IMapper _mapper;
 
-        public GetMoviesHandler(IMovieService movieDataService)
+        public GetMoviesQueryHandler(IMovieService movieDataService, IMapper mapper)
         {
             _movieDataService = movieDataService;
+            _mapper = mapper;
         }
         /// <summary>
         /// The main handler
@@ -26,8 +27,7 @@ namespace MovieAPI.Mediatr
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public Task<List<MovieResultsList>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
+        public async Task<List<MovieResultsList>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
         {
             var movieEntities = await _movieDataService.GetMatchingMovies(request, cancellationToken);
             var data =  _mapper.Map<List<MovieResultsList>>(movieEntities);

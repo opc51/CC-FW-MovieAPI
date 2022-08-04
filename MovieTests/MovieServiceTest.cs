@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using System.Threading;
+using MovieAPI.Mediatr;
 
 namespace MovieTests
 {
@@ -76,7 +78,7 @@ namespace MovieTests
         [Fact]
         public void GetMatchingMoviesShould_FilterOnTitle()
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Title = "Super" });
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Title = "Super" }, new CancellationToken()).Result;
             Assert.Equal(7, searchResult.Count);
             var numberFound = searchResult.Where(x => x.Title.Contains("Super")).Count();
             Assert.Equal(7, numberFound);
@@ -88,7 +90,7 @@ namespace MovieTests
         [InlineData("sUPER")]
         public void GetMatchingMoviesShould_IsCaseInsentivie(string title)
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Title = title });
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Title = title }, new CancellationToken()).Result;
             Assert.Equal(7, searchResult.Count);
         }
 
@@ -99,7 +101,7 @@ namespace MovieTests
         [InlineData(2011, 2)]
         public void GetMatchingMoviesShould_FilterOnYear(int year, int recordCount)
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Year = year });
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Year = year }, new CancellationToken()).Result;
             Assert.Equal(recordCount, searchResult.Count);
             var numberFound = searchResult.Where(x => x.YearOfRelease == year).Count();
             Assert.Equal(recordCount, numberFound);
@@ -111,7 +113,7 @@ namespace MovieTests
         [InlineData("Hero", 2)]
         public void GetMatchingMoviesShould_FilterOnGenre(string genre, int resultCount)
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria() { Genre = genre });
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre }, new CancellationToken()).Result;
             Assert.Equal(resultCount, searchResult.Count);
             var numberFound = searchResult.Where(x => string.Equals(x.Genre, genre)).Count();
             Assert.Equal(resultCount, numberFound);
@@ -121,12 +123,12 @@ namespace MovieTests
         [Fact]
         public void GetMatchingMoviesShould_FilterOnAllCriteria()
         {
-            var searchResult = _movieService.GetMatchingMovies(new MovieSearchCriteria()
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery()
             {
                 Genre = "Romance",
                 Title = "Super",
                 Year = 2004
-            });
+            }, new CancellationToken()).Result;
             Assert.Single(searchResult);
         }
 

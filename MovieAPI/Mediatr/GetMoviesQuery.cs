@@ -8,7 +8,7 @@ namespace MovieAPI.Mediatr
     /// <summary>
     /// The query used by the GetMoviesHandler
     /// </summary>
-    public class GetMoviesQuery : IRequest<List<Movie>>
+    public class GetMoviesQuery : IRequest<List<MovieResultsList>>
     {
         /// <summary>
         /// The name of the movie

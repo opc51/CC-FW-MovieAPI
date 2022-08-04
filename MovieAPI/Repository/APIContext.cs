@@ -11,7 +11,7 @@ namespace MovieAPI.Repository
         /// <summary>
         /// A Database set of Movie details
         /// </summary>
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Movie> Movies => Set<Movie>();
 
 
         /// <summary>

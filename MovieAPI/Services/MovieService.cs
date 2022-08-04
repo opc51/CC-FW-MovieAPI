@@ -1,4 +1,5 @@
-﻿using MovieAPI.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieAPI.Interfaces;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using MovieAPI.Models.DTOs.Outputs;
@@ -8,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using DTO = MovieAPI.Models.DTOs;
+using System.Threading.Tasks;
 using Entity = MovieAPI.Models.Entities;
 
 namespace MovieAPI.Services
@@ -77,10 +78,9 @@ namespace MovieAPI.Services
         /// </summary>
         /// <param name="sc">The criteria used to find movies. Includes title, year and genre </param>
         /// <returns>A list of movies</returns>
-        public List<Entity.Movie> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken)
+        public async Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken)
         {
-            IQueryable<Entity.Movie> data = _data.Set<Entity.Movie>();
-
+            var data = _data.Movies.Select(x => x);
             if (!string.IsNullOrWhiteSpace(sc.Title))
             {
                 data = data.Where(x => x.Title.ToLower().Contains(sc.Title.ToLower()));
@@ -94,7 +94,7 @@ namespace MovieAPI.Services
                 data = data.Where(x => x.Genre.Contains(sc.Genre));
             }
 
-            return data.ToList();
+            return await data.ToListAsync(cancellationToken);
         }
 
 

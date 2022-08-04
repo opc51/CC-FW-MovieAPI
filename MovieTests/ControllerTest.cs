@@ -1,11 +1,13 @@
 ﻿using AutoFixture;
 using AutoMapper;
+using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using MovieAPI.Controllers;
 using MovieAPI.Interfaces;
+using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Profiles;
@@ -15,6 +17,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 using Entity = MovieAPI.Models.Entities;
+using System.Web.Http;
 
 namespace MovieTests
 {
@@ -100,6 +103,12 @@ namespace MovieTests
         }
 
         [Fact]
+        public void CreationWithNullSender_ThrowsArgumentNulException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, null));
+        }
+
+        [Fact]
         public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
         {
             var result = _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
@@ -145,11 +154,10 @@ namespace MovieTests
         public void GETShould_Return500OnException()
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
-            _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Throws(new Exception("Serious Error Encountered"));
-
+            _senderMOQ.Setup(x => x.Send(It.IsAny<GetMoviesQuery>(), It.IsAny<CancellationToken>()))
+                .Throws(new Exception("Serious Error Encountered"));
             var result = _mockedController.Get(sc, new CancellationToken());
-
-            Assert.Equal("ObjectResult", result.Result.GetType().Name);
+            result.Result.Should().BeOfType<InternalServerErrorResult>();
         }
 
 

@@ -4,6 +4,7 @@ using MovieAPI.Models.DTOs.Outputs;
 using Entity = MovieAPI.Models.Entities;
 using MovieAPI.Mediatr;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MovieAPI.Interfaces
 {
@@ -16,8 +17,9 @@ namespace MovieAPI.Interfaces
         /// Find movies according to search criteria
         /// </summary>
         /// <param name="sc">Movie Search criteria</param>
+        /// <param name="cancellationToken">Cancellation Token</param>
         /// <returns>A list of movies</returns>
-        public List<Entity.Movie> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellation);
+        public Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken);
 
 
         /// <summary>
