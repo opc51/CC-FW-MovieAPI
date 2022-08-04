@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MovieAPI.Interfaces;
+using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Output = MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieAPI.Controllers
@@ -21,18 +25,19 @@ namespace MovieAPI.Controllers
         private readonly ILogger<MoviesController> _logger;
         private readonly IMovieService _movieService;
         private readonly IMapper _mapper;
-
+        private readonly ISender _sender;
         /// <summary>
         /// public constructor used to inject dependencies into the Movie Controller
         /// </summary>
         /// <param name="logger">The logging service that will be injected into to Movie Controller</param>
         /// <param name="movieDataService">The service class that will be injected to gather data from the API database context </param>
         /// <param name="mapper">Automapper instance to convert databse movies to dto movies </param> 
-        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper)
+        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _movieService = movieDataService ?? throw new ArgumentNullException(nameof(movieDataService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _sender = sender ?? throw new ArgumentNullException(nameof(sender));
         }
 
         /// <summary>
@@ -62,26 +67,32 @@ namespace MovieAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<Output.Movie>> Get([FromQuery] MovieSearchCriteria sc)
+        public async Task<ActionResult<List<Output.Movie>>> Get([FromQuery] MovieSearchCriteria sc, CancellationToken cancellationToken)
         {
-            if (!sc.IsValid())
-            {
-                _logger.LogError("Bad request was recieved");
-                return BadRequest($"Data provided  was : {sc}");
-            }
-            try
-            {
-                var results = _movieService.GetMatchingMovies(sc);
+            //if (!sc.IsValid())
+            //{
+            //    _logger.LogError("Bad request was recieved");
+            //    return BadRequest($"Data provided  was : {sc}");
+            //}
 
-                if (!results.Any())
-                    return NotFound(new ProblemDetails() { Detail = "No data found for search criteria {sc}" });
+            var request = _mapper.Map<GetMoviesQuery>(sc);
+            var data = await _sender.Send(request, cancellationToken);
+            return data == null || !data.Any() ? NotFound() : Ok(data);
 
-                return Ok(_mapper.Map<List<Output.Movie>>(results));
-            }
-            catch (Exception ex)
-            {
-                return ExceptionHandlingCode(ex);
-            }
+
+            //try
+            //{
+            //    var results = _movieService.GetMatchingMovies(sc);
+
+            //    if (!results.Any())
+            //        return NotFound(new ProblemDetails() { Detail = "No data found for search criteria {sc}" });
+
+            //    return Ok(_mapper.Map<List<Output.Movie>>(results));
+            //}
+            //catch (Exception ex)
+            //{
+            //    return ExceptionHandlingCode(ex);
+            //}
         }
 
         /// <summary>

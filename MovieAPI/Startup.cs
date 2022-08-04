@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -43,6 +44,8 @@ namespace MovieAPI
             services.AddDbContext<APIContext>(opt => opt.UseInMemoryDatabase("MovieDatabase"));
 
             services.AddControllers();
+
+            services.AddMediatR(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {

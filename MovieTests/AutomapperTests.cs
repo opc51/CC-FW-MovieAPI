@@ -17,7 +17,7 @@ namespace MovieTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<MovieProfile>();
+                cfg.AddProfile<MovieProfiles>();
             });
 
             _mapper = config.CreateMapper();

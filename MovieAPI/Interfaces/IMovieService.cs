@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using MovieAPI.Models.DTOs.Outputs;
 using Entity = MovieAPI.Models.Entities;
+using MovieAPI.Mediatr;
+using System.Threading;
 
 namespace MovieAPI.Interfaces
 {
@@ -15,7 +17,7 @@ namespace MovieAPI.Interfaces
         /// </summary>
         /// <param name="sc">Movie Search criteria</param>
         /// <returns>A list of movies</returns>
-        public List<Entity.Movie> GetMatchingMovies(MovieSearchCriteria sc);
+        public List<Entity.Movie> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellation);
 
 
         /// <summary>

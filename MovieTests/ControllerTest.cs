@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -11,6 +12,7 @@ using MovieAPI.Profiles;
 using MovieAPI.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Xunit;
 using Entity = MovieAPI.Models.Entities;
 
@@ -44,6 +46,10 @@ namespace MovieTests
         /// </summary>
         private readonly Mock<IMapper> _mapperMOQ = new();
         /// <summary>
+        /// A mock Mediatr Sender
+        /// </summary>
+        private readonly Mock<ISender> _senderMOQ = new();
+        /// <summary>
         /// A real Automapper to work on
         /// </summary>
         private readonly IMapper _mapper;
@@ -62,7 +68,7 @@ namespace MovieTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<MovieProfile>();
+                cfg.AddProfile<MovieProfiles>();
             });
 
             _mapper = config.CreateMapper();
@@ -70,40 +76,40 @@ namespace MovieTests
 
             _movieService = new MovieService(fixture._database);
 
-            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper);
+            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper, _senderMOQ.Object);
 
-            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object);
+            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object);
         }
 
         [Fact]
         public void CreationWithNullLogger_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapperMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapperMOQ.Object, _senderMOQ.Object));
         }
 
         [Fact]
         public void CreationWithNullService_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapperMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapperMOQ.Object, _senderMOQ.Object));
         }
 
         [Fact]
         public void CreationWithNullMapper_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, null));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, null, _senderMOQ.Object));
         }
 
         [Fact]
         public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
         {
-            var result = _inMemoryController.Get(new MovieSearchCriteria() { });
+            var result = _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
             Assert.Equal("BadRequestObjectResult", result.Result.GetType().Name);
         }
 
         [Fact]
         public void GetShould_LogErrorMessageWithInvalidSearchCriteria()
         {
-            _inMemoryController.Get(new MovieSearchCriteria() { });
+            _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
 
             _loggerMOQ.Verify(logger => logger.Log(
                     It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
@@ -120,7 +126,7 @@ namespace MovieTests
         {
             var sc = new MovieSearchCriteria() { Title = fixture.Create<string>() };
 
-            var result = _inMemoryController.Get(sc);
+            var result = _inMemoryController.Get(sc, new CancellationToken());
 
             Assert.Equal("NotFoundObjectResult", result.Result.GetType().Name);
         }
@@ -130,7 +136,7 @@ namespace MovieTests
         public void GetShould_ReturnOkResult_WhenDataFound()
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
-            var result = (_inMemoryController.Get(sc));
+            var result = (_inMemoryController.Get(sc, new CancellationToken()));
             Assert.Equal("OkObjectResult", result.Result.GetType().Name);
         }
 
@@ -141,7 +147,7 @@ namespace MovieTests
             var sc = new MovieSearchCriteria() { Title = "movie" };
             _movieMOQ.Setup(x => x.GetMatchingMovies(It.IsAny<MovieSearchCriteria>())).Throws(new Exception("Serious Error Encountered"));
 
-            var result = _mockedController.Get(sc);
+            var result = _mockedController.Get(sc, new CancellationToken());
 
             Assert.Equal("ObjectResult", result.Result.GetType().Name);
         }
