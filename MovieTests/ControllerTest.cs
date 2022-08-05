@@ -112,7 +112,7 @@ namespace MovieTests
         public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
         {
             var result = _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
-            Assert.Equal("BadRequestObjectResult", result.Result.GetType().Name);
+            result.Result.Result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
@@ -134,10 +134,8 @@ namespace MovieTests
         public void GetShould_ReturnNotFound_WhenNoDataFound()
         {
             var sc = new MovieSearchCriteria() { Title = fixture.Create<string>() };
-
             var result = _inMemoryController.Get(sc, new CancellationToken());
-
-            Assert.Equal("NotFoundObjectResult", result.Result.GetType().Name);
+            result.Result.Result.Should().BeOfType<NotFoundObjectResult>();
         }
 
 
@@ -146,7 +144,7 @@ namespace MovieTests
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
             var result = (_inMemoryController.Get(sc, new CancellationToken()));
-            Assert.Equal("OkObjectResult", result.Result.GetType().Name);
+            result.Result.Result.Should().BeOfType<OkObjectResult>();
         }
 
 
@@ -157,7 +155,7 @@ namespace MovieTests
             _senderMOQ.Setup(x => x.Send(It.IsAny<GetMoviesQuery>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception("Serious Error Encountered"));
             var result = _mockedController.Get(sc, new CancellationToken());
-            result.Result.Should().BeOfType<InternalServerErrorResult>();
+            result.Result.Result.Should().BeOfType<InternalServerErrorResult>();
         }
 
 

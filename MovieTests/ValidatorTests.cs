@@ -1,13 +1,6 @@
-﻿using AutoFixture;
-using AutoMapper;
-using MovieAPI.Profiles;
-using System;
-using Xunit;
-using MovieAPI.Models.DTOs.Outputs;
-using Entities = MovieAPI.Models.Entities;
-
+﻿using FluentValidation.TestHelper;
 using MovieAPI.Mediatr;
-using FluentValidation.TestHelper;
+using Xunit;
 
 namespace MovieTests
 {

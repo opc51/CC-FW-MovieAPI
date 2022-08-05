@@ -38,9 +38,9 @@ namespace MovieAPI.Mediatr
         /// </summary>
         public GetMoviesQueryValidator()
         {
-            RuleFor(c => c.Title).NotEmpty().When(c => string.IsNullOrEmpty(c.Genre) || c.Year == 0);
-            RuleFor(c => c.Genre).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) || c.Year == 0);
-            RuleFor(c => c.Year).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) || string.IsNullOrEmpty(c.Genre));
+            RuleFor(c => c.Title).NotEmpty().When(c => string.IsNullOrEmpty(c.Genre) && c.Year == 0);
+            RuleFor(c => c.Genre).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && c.Year == 0);
+            RuleFor(c => c.Year).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && string.IsNullOrEmpty(c.Genre));
         }
     }
 }

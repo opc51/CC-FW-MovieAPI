@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.TestHelper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +70,12 @@ namespace MovieAPI.Controllers
         public async Task<ActionResult<List<Output.Movie>>> Get([FromQuery] MovieSearchCriteria sc, CancellationToken cancellationToken)
         {
             var request = _mapper.Map<GetMoviesQuery>(sc);
+            var validator = new GetMoviesQueryValidator();
+            var result = validator.TestValidate(request);
+            if (result.Errors.Count > 0)
+            {
+                return BadRequest(result.ToString());
+            }
             var data = await _sender.Send(request, cancellationToken);
             return data == null || !data.Any() ? NotFound("Unable to ") : Ok(data);
         }
