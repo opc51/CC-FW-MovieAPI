@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using FluentValidation.TestHelper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -65,19 +66,29 @@ namespace MovieAPI.Controllers
         /// </remarks>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<Output.Movie>>> Get([FromQuery] MovieSearchCriteria sc, CancellationToken cancellationToken)
         {
-            var request = _mapper.Map<GetMoviesQuery>(sc);
-            var validator = new GetMoviesQueryValidator();
-            var result = validator.TestValidate(request);
-            if (result.Errors.Count > 0)
+            try
             {
-                return BadRequest(result.ToString());
+                var request = _mapper.Map<GetMoviesQuery>(sc);
+
+                var validator = new GetMoviesQueryValidator();
+                var result = validator.TestValidate(request);
+                if (!result.IsValid)
+                {
+                    _logger.LogError($"Bad request was recieved {string.Join(' ', result.Errors.Select(x => x))}");
+                    return BadRequest(string.Join(' ', result.Errors.Select(x => x)));
+                }
+                var data = await _sender.Send(request, cancellationToken);
+                return data == null || !data.Any() ? NotFound("Unable to ") : Ok(data);
             }
-            var data = await _sender.Send(request, cancellationToken);
-            return data == null || !data.Any() ? NotFound("Unable to ") : Ok(data);
+            catch (Exception ex)
+            {
+                return ExceptionHandlingCode(ex);
+            }
         }
 
         /// <summary>
@@ -116,7 +127,7 @@ namespace MovieAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<Output.Movie>> TopRankedMoviesByReviewer(int numberOfMovies, int reviewerId)
         {
-            if (reviewerId == 0) 
+            if (reviewerId == 0)
                 return StatusCode(StatusCodes.Status400BadRequest, "A valid Id must be provided. 0 is not a valid Id");
 
             if (numberOfMovies == 0)
@@ -186,8 +197,10 @@ namespace MovieAPI.Controllers
             Guid incidentNumber = Guid.NewGuid();
 
             _logger.LogError(incidentNumber.ToString() + ' ' + ex.Message);
-
-            return Problem($"Problem retreving the data. Ask it to check log files for incidentNumber {incidentNumber}");
+            return new ObjectResult(ex) { StatusCode = 500 };
+            // return Problem($"Problem retreving the data. Ask it to check log files for incidentNumber {incidentNumber}"
+            //               ,null
+            //             ,StatusCodes.Status500InternalServerError);
             //return StatusCode(StatusCodes.Status500InternalServerError,
             //                $"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
         }

@@ -4,7 +4,6 @@ using Output = MovieAPI.Models.DTOs.Outputs;
 using System;
 using MovieAPI.Models;
 using MovieAPI.Mediatr;
-using MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieAPI.Profiles
 {
@@ -24,7 +23,6 @@ namespace MovieAPI.Profiles
                     ent => ent.MapFrom(ent => DateTime.Now.Year - ent.YearOfRelease)
                 );
             CreateMap<MovieSearchCriteria, GetMoviesQuery>();
-            CreateMap<Entity.Movie, MovieResultsList>();
         }
     }
 }

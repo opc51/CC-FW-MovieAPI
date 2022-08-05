@@ -9,7 +9,7 @@ using MovieAPI.Controllers;
 using MovieAPI.Interfaces;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
-using MovieAPI.Models.DTOs.Outputs;
+using Output = MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Profiles;
 using MovieAPI.Services;
 using System;
@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 using Entity = MovieAPI.Models.Entities;
-using System.Web.Http;
 
 namespace MovieTests
 {
@@ -123,7 +122,7 @@ namespace MovieTests
             _loggerMOQ.Verify(logger => logger.Log(
                     It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                     It.Is<EventId>(eventId => eventId.Id == 0),
-                    It.Is<It.IsAnyType>((@object, @type) => @object.ToString() == "Bad request was recieved" && @type.Name == "FormattedLogValues"),
+                    It.Is<It.IsAnyType>((@object, @type) => @object.ToString() == "Bad request was recieved 'Title' must not be empty. 'Genre' must not be empty. 'Year' must not be empty." && @type.Name == "FormattedLogValues"),
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception, string>>()),
                     Times.Once);
@@ -143,7 +142,14 @@ namespace MovieTests
         public void GetShould_ReturnOkResult_WhenDataFound()
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
-            var result = (_inMemoryController.Get(sc, new CancellationToken()));
+            var data = new List<Output.Movie>() {
+                    new Output.Movie() { Title = "Super Fun Movie 1" }
+                    ,new Output.Movie() { Title = "Super Fun Movie 2" }
+            };
+            _senderMOQ.Setup(x => x.Send(It.IsAny<GetMoviesQuery>(), It.IsAny<CancellationToken>()).Result)
+                .Returns(data);
+            var result = _inMemoryController.Get(sc, new CancellationToken());
+
             result.Result.Result.Should().BeOfType<OkObjectResult>();
         }
 
@@ -152,17 +158,20 @@ namespace MovieTests
         public void GETShould_Return500OnException()
         {
             var sc = new MovieSearchCriteria() { Title = "movie" };
+            _mapperMOQ.Setup(m => m.Map<GetMoviesQuery>(It.IsAny<string>()))
+                        .Throws(new Exception("First Serious Error Thrown"));
             _senderMOQ.Setup(x => x.Send(It.IsAny<GetMoviesQuery>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception("Serious Error Encountered"));
             var result = _mockedController.Get(sc, new CancellationToken());
-            result.Result.Result.Should().BeOfType<InternalServerErrorResult>();
+            var objectResult = (ObjectResult)result.Result.Result;
+            Assert.Equal(objectResult.StatusCode, 500);
         }
 
 
         [Fact]
         public void TopRated_Should_Return404WhenNoDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<MovieResultsList>());
+            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<Output.MovieResultsList>());
             var result = _mockedController.TopRatedMovies(5);
             Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }

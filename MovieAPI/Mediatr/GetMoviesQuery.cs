@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using MovieAPI.Models.DTOs.Outputs;
+using Output = MovieAPI.Models.DTOs.Outputs;
 using System.Collections.Generic;
 
 namespace MovieAPI.Mediatr
@@ -8,7 +8,7 @@ namespace MovieAPI.Mediatr
     /// <summary>
     /// The query used by the GetMoviesHandler
     /// </summary>
-    public class GetMoviesQuery : IRequest<List<MovieResultsList>>
+    public class GetMoviesQuery : IRequest<List<Output.Movie>>
     {
         /// <summary>
         /// The name of the movie

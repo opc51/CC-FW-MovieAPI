@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MovieAPI
+﻿namespace MovieAPI
 {
     /// <summary>
     /// Static Utility Classes. Useful functionality that could be needed in multiple places
@@ -23,11 +18,12 @@ namespace MovieAPI
             if (decimals < 0.25)
             {
                 return digits;
-            } 
-            else if (decimals >= 0.25 && decimals <0.75)
+            }
+            else if (decimals >= 0.25 && decimals < 0.75)
             {
                 return digits + 0.5;
-            } else
+            }
+            else
             {
                 return digits + 1;
             }

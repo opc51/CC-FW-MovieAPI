@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using AutoMapper;
+using MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Profiles;
 using System;
 using Xunit;
-using MovieAPI.Models.DTOs.Outputs;
 using Entities = MovieAPI.Models.Entities;
 
 namespace MovieTests
