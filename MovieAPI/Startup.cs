@@ -97,12 +97,14 @@ namespace MovieAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseCookiePolicy();
 
             // routing decisions made here
             app.UseRouting();
 
             // not need for this simple app
-            app.UseAuthorization();
+            //app.UseAuthorization();
+            //app.UseAuthentication();
 
             // go to the slected endpoint
             app.UseEndpoints(endpoints =>

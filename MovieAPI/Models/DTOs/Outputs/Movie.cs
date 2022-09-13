@@ -6,26 +6,26 @@ namespace MovieAPI.Models.DTOs.Outputs
     /// Data Transfer Object used pass back Movie details
     /// </summary>
     [DebuggerDisplay("Title : {Title}, Genre : {Genre} ")]
-    public class Movie
+    public record Movie
     {
         /// <summary>
         /// The title of the movie
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; init; }
 
         /// <summary>
         /// The number of years passed since the movie was originally released
         /// </summary>
-        public int YearsPassedSinceOriginalRelease { get; set; }
+        public int YearsPassedSinceOriginalRelease { get; init; }
 
         /// <summary>
         /// How many minutes did the movie run for
         /// </summary>
-        public int RunningTime { get; set; }
+        public int RunningTime { get; init; }
 
         /// <summary>
         /// The type of movie
         /// </summary>
-        public string Genre { get; set; }
+        public string Genre { get; init; }
     }
 }

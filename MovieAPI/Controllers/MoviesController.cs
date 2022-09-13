@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using FluentValidation.TestHelper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
