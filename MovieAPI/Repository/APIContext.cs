@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieAPI.Models.Entities;
+using MovieAPI.Models.Enum;
 
 namespace MovieAPI.Repository
 {
@@ -8,6 +9,18 @@ namespace MovieAPI.Repository
     /// </summary>
     public class APIContext : DbContext
     {
+        /// <summary>
+        /// Needed to handle smart enums
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Movie>()
+                        .Property(m => m.Genre)
+                        .HasConversion(m => m.Value, m => GenreType.FromValue(m));
+        }
+
         /// <summary>
         /// A Database set of Movie details
         /// </summary>
@@ -54,14 +67,14 @@ namespace MovieAPI.Repository
             if (!Movies.AnyAsync().Result)
             {
                 Movies.AddRange(
-                    new Movie("Super Fun Movie", 2002, 120, "Comedy")
-                    , new Movie("Super Fun Movie 2", 2004, 180, "Comedy")
-                    , new Movie("Super Fun Movie 3", 2006, 90, "Comedy")
-                    , new Movie("Super Romance Movie", 2004, 120, "Romance")
-                    , new Movie("Super Romance Movie 2", 2006, 120, "Romance")
-                    , new Movie("Super Hero Movie ", 2004, 180, "Hero")
-                    , new Movie("Super Hero Movie 2 ", 2011, 180, "Hero")
-                    , new Movie("No one reviews me ", 2011, 180, "Unknown")
+                    new Movie("Super Hero Movie ", 2004, 180, GenreType.SuperHero)
+                    , new Movie("Super Fun Movie", 2002, 120, GenreType.Comedy)
+                    , new Movie("Super Fun Movie 2", 2004, 180, GenreType.Comedy)
+                    , new Movie("Super Fun Movie 3", 2006, 90, GenreType.Comedy)
+                    , new Movie("Super Romance Movie", 2004, 120, GenreType.Romance)
+                    , new Movie("Super Romance Movie 2", 2006, 120, GenreType.Romance)
+                    , new Movie("Super Hero Movie 2 ", 2011, 180, GenreType.SuperHero)
+                    , new Movie("No one reviews me ", 2011, 180, GenreType.Unknown)
                 );
                 SaveChanges();
             }

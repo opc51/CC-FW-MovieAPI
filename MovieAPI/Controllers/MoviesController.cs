@@ -82,7 +82,7 @@ namespace MovieAPI.Controllers
                     return BadRequest(string.Join(' ', result.Errors.Select(x => x)));
                 }
                 var data = await _sender.Send(request, cancellationToken);
-                return data == null || !data.Any() ? NotFound("Unable to ") : Ok(data);
+                return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);
             }
             catch (Exception ex)
             {

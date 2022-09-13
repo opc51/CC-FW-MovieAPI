@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.SmartEnum" Version="2.1.0" />
     <PackageReference Include="AutoFixture" Version="4.17.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />

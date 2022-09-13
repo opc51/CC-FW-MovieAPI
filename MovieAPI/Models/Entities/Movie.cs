@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MovieAPI.Models.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace MovieAPI.Models.Entities
@@ -27,7 +28,7 @@ namespace MovieAPI.Models.Entities
         /// <param name="yearOfRelease">The year of release, string</param>
         /// <param name="runnigTime"> The length of the movie measure in minutes, int</param>
         /// <param name="genre">The type of movie .e.g. "horror", "romance". string</param>
-        public Movie(string title, int yearOfRelease, int runnigTime, string genre)
+        public Movie(string title, int yearOfRelease, int runnigTime, GenreType genre)
         {
             Title = title;
             YearOfRelease = yearOfRelease;
@@ -67,6 +68,6 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// The "type" of moviefor example "Horror", "Superhero", etc 
         /// </summary>
-        public string Genre { get; set; }
+        public GenreType Genre { get; set; }
     }
 }

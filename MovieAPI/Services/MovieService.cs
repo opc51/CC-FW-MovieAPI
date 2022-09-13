@@ -4,6 +4,7 @@ using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Models.Entities;
+using MovieAPI.Models.Enum;
 using MovieAPI.Repository;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,7 @@ namespace MovieAPI.Services
         /// <returns>A list of movies</returns>
         public async Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken)
         {
+            //var asNumber = ConvertStringToEnumInt(sc.Genre);
             var data = _data.Movies.Select(x => x);
             if (!string.IsNullOrWhiteSpace(sc.Title))
             {
@@ -91,12 +93,17 @@ namespace MovieAPI.Services
             }
             if (!string.IsNullOrWhiteSpace(sc.Genre))
             {
-                data = data.Where(x => x.Genre.Contains(sc.Genre));
+                data = data.Where(x => x.Genre.Value == ConvertStringToEnumInt(sc.Genre));
             }
 
             return await data.ToListAsync(cancellationToken);
         }
 
+        // To do - Extract into it's proper place - this conversion should happen when the input arrives
+        private int ConvertStringToEnumInt(string genre)
+        {
+            return GenreType.FromName(genre).Value;
+        }
 
         /// <summary>
         /// Find a movie based upon the primary key
@@ -154,7 +161,7 @@ namespace MovieAPI.Services
                                       MovieId = movieResults.Key.Id,
                                       MovieTitle = movieResults.Key.Title,
                                       Rating = Utilities.RoundToTheNearestHalf(movieResults.Average(x => x.Rating)),
-                                      Genres = movieResults.Key.Genre,
+                                      Genres = movieResults.Key.Genre.Name,
                                       YearOfRelease = movieResults.Key.YearOfRelease,
                                       RunningTime = movieResults.Key.RunningTime
 
@@ -185,7 +192,7 @@ namespace MovieAPI.Services
                                              MovieTitle = movies.Title,
                                              YearOfRelease = movies.YearOfRelease,
                                              RunningTime = movies.YearOfRelease,
-                                             Genres = movies.Genre,
+                                             Genres = movies.Genre.Name,
                                              Rating = reviews.Score
                                          }).Take(numberofMovies).ToList();
 

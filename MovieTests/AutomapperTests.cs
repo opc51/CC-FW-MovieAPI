@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using MovieAPI.Models.DTOs.Outputs;
+using MovieAPI.Models.Enum;
 using MovieAPI.Profiles;
 using System;
 using Xunit;
@@ -28,7 +29,7 @@ namespace MovieTests
         {
             //Arrange
             string movieName = _fixture.Create<string>();
-            Entities.Movie movie = new(movieName, 2000, 180, "COMEDY");
+            Entities.Movie movie = new(movieName, 2000, 180, GenreType.Comedy);
 
             //Act
             Movie converted = _mapper.Map<Entities.Movie, Movie>(movie);

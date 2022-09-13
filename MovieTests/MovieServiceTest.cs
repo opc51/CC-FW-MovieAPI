@@ -1,3 +1,4 @@
+using Ardalis.SmartEnum;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using MovieAPI.Models;
@@ -9,6 +10,8 @@ using System.Linq;
 using Xunit;
 using System.Threading;
 using MovieAPI.Mediatr;
+using MovieAPI.Models.Enum;
+using System.Collections;
 
 namespace MovieTests
 {
@@ -107,16 +110,25 @@ namespace MovieTests
             Assert.Equal(recordCount, numberFound);
         }
 
-        [Theory]
-        [InlineData("Comedy", 3)]
-        [InlineData("Romance", 2)]
-        [InlineData("Hero", 2)]
-        public void GetMatchingMoviesShould_FilterOnGenre(string genre, int resultCount)
+        class MatchingTestData : IEnumerable<object[]>
         {
-            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre }, new CancellationToken()).Result;
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { GenreType.Comedy, 3 };
+                yield return new object[] { GenreType.Romance, 2 };
+                yield return new object[] { GenreType.SuperHero, 2 };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+
+        [Theory]
+        [ClassData(typeof(MatchingTestData))]
+        public void GetMatchingMoviesShould_FilterOnGenre(GenreType genre, int resultCount)
+        {
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre.Name }, new CancellationToken()).Result;
             Assert.Equal(resultCount, searchResult.Count);
-            var numberFound = searchResult.Where(x => string.Equals(x.Genre, genre)).Count();
-            Assert.Equal(resultCount, numberFound);
         }
 
 
@@ -125,7 +137,7 @@ namespace MovieTests
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery()
             {
-                Genre = "Romance",
+                Genre = GenreType.Romance.Name,
                 Title = "Super",
                 Year = 2004
             }, new CancellationToken()).Result;

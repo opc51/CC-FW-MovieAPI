@@ -2,6 +2,7 @@
 using MediatR;
 using Output = MovieAPI.Models.DTOs.Outputs;
 using System.Collections.Generic;
+using MovieAPI.Models.Enum;
 
 namespace MovieAPI.Mediatr
 {
@@ -38,9 +39,9 @@ namespace MovieAPI.Mediatr
         /// </summary>
         public GetMoviesQueryValidator()
         {
-            RuleFor(c => c.Title).NotEmpty().When(c => string.IsNullOrEmpty(c.Genre) && c.Year == 0);
+            //RuleFor(c => c.Title).NotEmpty().When(c => string.IsNullOrEmpty(c.Genre) && c.Year == 0);
             RuleFor(c => c.Genre).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && c.Year == 0);
-            RuleFor(c => c.Year).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && string.IsNullOrEmpty(c.Genre));
+            //RuleFor(c => c.Year).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && string.IsNullOrEmpty(c.Genre));
         }
     }
 }
