@@ -91,19 +91,19 @@ namespace MovieAPI.Services
             {
                 data = data.Where(x => x.YearOfRelease == sc.Year);
             }
-            if (!string.IsNullOrWhiteSpace(sc.Genre))
+            if (sc.Genre != 0)
             {
-                data = data.Where(x => x.Genre.Value == ConvertStringToEnumInt(sc.Genre));
+                data = data.Where(x => x.Genre.Value == sc.Genre);
             }
 
             return await data.ToListAsync(cancellationToken);
         }
 
-        // To do - Extract into it's proper place - this conversion should happen when the input arrives
-        private int ConvertStringToEnumInt(string genre)
-        {
-            return GenreType.FromName(genre).Value;
-        }
+        //// To do - Extract into it's proper place - this conversion should happen when the input arrives
+        //private int ConvertStringToEnumInt(string genre)
+        //{
+        //    return GenreType.FromName(genre).Value;
+        //}
 
         /// <summary>
         /// Find a movie based upon the primary key

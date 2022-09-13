@@ -1,26 +1,44 @@
-﻿namespace MovieAPI.Models
+﻿using MovieAPI.Models.Enum;
+
+namespace MovieAPI.Models
 {
     /// <summary>
     /// The search criteria used to find movies
     /// </summary>
-    public class MovieSearchCriteria
+    public record MovieSearchCriteria
     {
         /// <summary>
         /// The name of the movie
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; init; }
 
 
         /// <summary>
         /// The year the movie was released in the USA
         /// </summary>
-        public int Year { get; set; }
+        public int Year { get; init; }
 
 
         /// <summary>
-        /// The type of Movie .e.g. "Horror", "Sci Fi", ""
+        /// The type of Movie .e.g. "SuperHero", "Comedy", "Romance"
         /// </summary>
-        public string Genre { get; set; }
+        public string Genre { get; init; }
+
+
+        /// <summary>
+        /// Used by Enity
+        /// </summary>
+        public int GenreAsInteger
+        {
+            get
+            {
+                if (GenreType.TryFromName(Genre, out var genre))
+                {
+                    return genre.Value;
+                }
+                return 0;
+            }
+        }
 
 
         /// <summary>

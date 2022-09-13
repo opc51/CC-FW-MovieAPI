@@ -127,17 +127,36 @@ namespace MovieTests
         [ClassData(typeof(MatchingTestData))]
         public void GetMatchingMoviesShould_FilterOnGenre(GenreType genre, int resultCount)
         {
-            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre.Name }, new CancellationToken()).Result;
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre.Value }, new CancellationToken()).Result;
             Assert.Equal(resultCount, searchResult.Count);
         }
 
+        class SuperHeroData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { GenreType.SuperHero, 2 };
+                yield return new object[] { GenreType.Hero, 2 };
+                yield return new object[] { GenreType.Heros, 2 };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        [Theory]
+        [ClassData(typeof(SuperHeroData))]
+        public void GettingSuperHeroMovies_WithDifferent_NamesWorks(GenreType genre, int resultCount)
+        {
+            var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre.Value }, new CancellationToken()).Result;
+            Assert.Equal(resultCount, searchResult.Count);
+        }
 
         [Fact]
         public void GetMatchingMoviesShould_FilterOnAllCriteria()
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery()
             {
-                Genre = GenreType.Romance.Name,
+                Genre = GenreType.Romance.Value,
                 Title = "Super",
                 Year = 2004
             }, new CancellationToken()).Result;

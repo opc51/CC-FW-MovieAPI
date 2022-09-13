@@ -22,7 +22,10 @@ namespace MovieAPI.Profiles
                     dto => dto.YearsPassedSinceOriginalRelease,
                     ent => ent.MapFrom(ent => DateTime.Now.Year - ent.YearOfRelease)
                 );
-            CreateMap<MovieSearchCriteria, GetMoviesQuery>();
+            CreateMap<MovieSearchCriteria, GetMoviesQuery>()
+                .ForMember(q => q.Genre,
+                            sc => sc.MapFrom(sc => sc.GenreAsInteger)
+                 );
         }
     }
 }

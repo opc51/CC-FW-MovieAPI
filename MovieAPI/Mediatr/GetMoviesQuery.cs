@@ -2,7 +2,6 @@
 using MediatR;
 using Output = MovieAPI.Models.DTOs.Outputs;
 using System.Collections.Generic;
-using MovieAPI.Models.Enum;
 
 namespace MovieAPI.Mediatr
 {
@@ -24,9 +23,9 @@ namespace MovieAPI.Mediatr
 
 
         /// <summary>
-        /// The type of Movie .e.g. "Horror", "Sci Fi", ""
+        /// The integer value of the specific Genre entered
         /// </summary>
-        public string Genre { get; set; }
+        public int Genre { get; set; }
     }
 
     /// <summary>
@@ -35,13 +34,13 @@ namespace MovieAPI.Mediatr
     public class GetMoviesQueryValidator : AbstractValidator<GetMoviesQuery>
     {
         /// <summary>
-        /// dsd dsd sdds
+        /// Restriction Put upon the movie query validator
         /// </summary>
         public GetMoviesQueryValidator()
         {
-            //RuleFor(c => c.Title).NotEmpty().When(c => string.IsNullOrEmpty(c.Genre) && c.Year == 0);
+            RuleFor(c => c.Title).NotEmpty().When(c => c.Genre == 0 && c.Year == 0);
             RuleFor(c => c.Genre).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && c.Year == 0);
-            //RuleFor(c => c.Year).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && string.IsNullOrEmpty(c.Genre));
+            RuleFor(c => c.Year).NotEmpty().When(c => string.IsNullOrEmpty(c.Title) && c.Genre == 0);
         }
     }
 }
