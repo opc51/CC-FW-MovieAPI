@@ -26,7 +26,7 @@ namespace MovieAPI.Models
 
 
         /// <summary>
-        /// Used by Enity
+        /// Used by Entity framework to 
         /// </summary>
         public int GenreAsInteger
         {

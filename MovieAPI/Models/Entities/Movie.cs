@@ -13,7 +13,7 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// A movie that contains a title, a year of release, a running time and a genre.
         /// </summary>
-        public Movie()
+        private Movie()
         {
             // allows an invalid state
             // configuration
@@ -58,7 +58,7 @@ namespace MovieAPI.Models.Entities
 
 
         /// <summary>
-        /// The numbr of minutes that th emovie was running for
+        /// The number of minutes that the movie was runs for
         /// </summary>
         [Required]
         public int RunningTime { get; set; }
@@ -69,5 +69,23 @@ namespace MovieAPI.Models.Entities
         /// The "type" of moviefor example "Horror", "Superhero", etc 
         /// </summary>
         public GenreType Genre { get; set; }
+
+        /// <summary>
+        /// Used to create a new instance of type <see cref="Movie"/>
+        /// </summary>
+        /// <param name="title">The name of the Movie. Type <see cref="string"/> </param>
+        /// <param name="year">The Year the movie was released. Type <see cref="int"/></param>
+        /// <param name="runningTime">The Year the movie was released. Type <see cref="int"/></param>
+        /// <param name="genre">The Year the movie was released. Type <see cref="GenreType"/></param>
+        /// <returns></returns>
+        public static Movie Create(string title, int year, int runningTime, GenreType genre)
+        {
+            return new Movie() { 
+                Title = title,
+                YearOfRelease = year,
+                RunningTime = runningTime,
+                Genre = genre
+            };
+        }
     }
 }

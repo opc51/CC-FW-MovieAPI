@@ -145,7 +145,7 @@ namespace MovieTests
 
         [Theory]
         [ClassData(typeof(SuperHeroData))]
-        public void GettingSuperHeroMovies_WithDifferent_NamesWorks(GenreType genre, int resultCount)
+        public void GettingSuperHeroMovies_WithDifferentNames_Suceeds(GenreType genre, int resultCount)
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre.Value }, new CancellationToken()).Result;
             Assert.Equal(resultCount, searchResult.Count);

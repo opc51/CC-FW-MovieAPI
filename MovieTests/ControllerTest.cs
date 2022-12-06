@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 using Entity = MovieAPI.Models.Entities;
+using MovieAPI.Models.Enum;
 
 namespace MovieTests
 {
@@ -56,7 +57,7 @@ namespace MovieTests
         /// </summary>
         private readonly IMapper _mapper;
 
-        private Fixture fixture = new();
+        private Fixture _fixture = new();
 
 
         public static IEnumerable<object[]> invalidReviewSubmissions = new List<object[]>()
@@ -132,7 +133,7 @@ namespace MovieTests
         [Fact]
         public void GetShould_ReturnNotFound_WhenNoDataFound()
         {
-            var sc = new MovieSearchCriteria() { Title = fixture.Create<string>() };
+            var sc = new MovieSearchCriteria() { Title = _fixture.Create<string>() };
             var result = _inMemoryController.Get(sc, new CancellationToken());
             result.Result.Result.Should().BeOfType<NotFoundObjectResult>();
         }
@@ -257,7 +258,9 @@ namespace MovieTests
         [Fact]
         public void AddReviewShould_Return500_WhenNotABleToUpdate()
         {
-            _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(new Entity.Movie() { Id = 1 });
+            var movieOne = Entity.Movie.Create(_fixture.Create<string>(), _fixture.Create<int>(), _fixture.Create<int>(), _fixture.Create<GenreType>());
+            _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(movieOne);
+
             _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>())).Returns(new Entity.Reviewer() { Id = 1 });
             _movieMOQ.Setup(x => x.AddUpdateReview(It.IsAny<AddUpdateReview>())).Returns(false);
             var result = _mockedController.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1, Score = 4 });
