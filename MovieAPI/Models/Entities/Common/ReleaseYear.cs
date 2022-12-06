@@ -1,4 +1,6 @@
-﻿namespace MovieAPI.Models.Entities.Common
+﻿using System;
+
+namespace MovieAPI.Models.Entities.Common
 {
     public class ReleaseYear
     {
@@ -18,11 +20,16 @@
 
         private static bool IsValidReleaseYear(int value)
         {
-            // check date not befor first movie made
-
-            // check not in the future
-
-            throw new System.NotImplementedException();
+            // Cannot be before the date movies were invented
+            if (value < 1895)
+            {
+                return false;
+            } 
+            if (value > DateTime.Now.Year)
+            {
+                return false;
+            }
+             return true;
         }
     }
 }
