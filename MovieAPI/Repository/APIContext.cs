@@ -17,9 +17,18 @@ namespace MovieAPI.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Movie>()
                         .Property(m => m.Genre)
                         .HasConversion(m => m.Value, m => GenreType.FromValue(m));
+
+            modelBuilder.Entity<Movie>()
+                .Property(m => m.RunningTime)
+                .HasConversion(v => v.Value, v => RunningTime.Create(v));
+
+            modelBuilder.Entity<Movie>()
+                .Property(m => m.YearOfRelease)
+                .HasConversion(v => v.Value, v => ReleaseYear.Create(v));
         }
 
         /// <summary>
@@ -68,7 +77,7 @@ namespace MovieAPI.Repository
             if (!Movies.AnyAsync().Result)
             {
                 Movies.AddRange(
-                    Movie.Create("Super Hero Movie ", ReleaseYear.Create(2004), 
+                    Movie.Create("Super Hero Movie ", ReleaseYear.Create(2004),
                                    RunningTime.Create(180), GenreType.SuperHero)
                     , Movie.Create("Super Fun Movie", ReleaseYear.Create(2002),
                                     RunningTime.Create(120), GenreType.Comedy)

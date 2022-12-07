@@ -79,6 +79,7 @@ namespace MovieAPI.Services
         /// Finds a list of movies that match specific search criteria
         /// </summary>
         /// <param name="sc">The criteria used to find movies. Includes title, year and genre </param>
+        /// <param name="cancellationToken">Cancellation Token for async operations </param>
         /// <returns>A list of movies</returns>
         public async Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken)
         {
@@ -164,7 +165,7 @@ namespace MovieAPI.Services
                                       Rating = Utilities.RoundToTheNearestHalf(movieResults.Average(x => x.Rating)),
                                       Genres = movieResults.Key.Genre.Name,
                                       YearOfRelease = movieResults.Key.YearOfRelease,
-                                      RunningTime = movieResults.Key.RunningTime
+                                      RunningTime = movieResults.Key.RunningTime.Value
 
                                   };
 

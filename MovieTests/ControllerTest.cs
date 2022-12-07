@@ -18,6 +18,7 @@ using System.Threading;
 using Xunit;
 using Entity = MovieAPI.Models.Entities;
 using MovieAPI.Models.Enum;
+using MovieAPI.Models.Entities.Common;
 
 namespace MovieTests
 {
@@ -258,7 +259,8 @@ namespace MovieTests
         [Fact]
         public void AddReviewShould_Return500_WhenNotABleToUpdate()
         {
-            var movieOne = Entity.Movie.Create(_fixture.Create<string>(), _fixture.Create<int>(), _fixture.Create<int>(), _fixture.Create<GenreType>());
+            var movieOne = Entity.Movie.Create(_fixture.Create<string>(), _fixture.Create<ReleaseYear>(), 
+                                               _fixture.Create<RunningTime>(), _fixture.Create<GenreType>());
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(movieOne);
 
             _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>())).Returns(new Entity.Reviewer() { Id = 1 });

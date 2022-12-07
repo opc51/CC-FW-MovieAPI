@@ -31,7 +31,7 @@ namespace MovieTests
             //Arrange
             string movieName = _fixture.Create<string>();
             var movie = Entities.Movie.Create(movieName, ReleaseYear.Create(2000),
-                                              180, GenreType.Comedy);
+                                              RunningTime.Create(180), GenreType.Comedy);
 
             //Act
             Movie converted = _mapper.Map<Entities.Movie, Movie>(movie);

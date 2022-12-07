@@ -1,11 +1,7 @@
-﻿using AutoFixture;
-using AutoMapper;
-using MovieAPI.Profiles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using DTO = MovieAPI.Models.DTOs;
 using Entities = MovieAPI.Models.Entities;
 
 namespace MovieTests
@@ -68,7 +64,7 @@ namespace MovieTests
             List<Entities.Movie> _sut = null;
 
             //Act Assert
-            Assert.Throws<ArgumentNullException>(() => _sut.Where(x => x.Id == x.RunningTime));
+            Assert.Throws<ArgumentNullException>(() => _sut.Where(x => x.Id == x.RunningTime.Value));
         }
 
         #region FirstOrDefault
@@ -164,13 +160,13 @@ namespace MovieTests
         [Fact]
         public void ChangeClass_Works()
         {
-            var david = new Person() { Age = 21, Name = "Joe" };
+            var person = new Person() { Age = 21, Name = "Joe" };
 
-            Assert.True(string.Equals("Joe", david.Name));
+            Assert.True(string.Equals("Joe", person.Name));
 
-            ChangeName(david);
+            ChangeName(person);
 
-            Assert.True(string.Equals("david", david.Name));
+            Assert.True(string.Equals("david", person.Name));
         }
 
 

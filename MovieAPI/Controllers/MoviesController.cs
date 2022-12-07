@@ -32,7 +32,8 @@ namespace MovieAPI.Controllers
         /// </summary>
         /// <param name="logger">The logging service that will be injected into to Movie Controller</param>
         /// <param name="movieDataService">The service class that will be injected to gather data from the API database context </param>
-        /// <param name="mapper">Automapper instance to convert databse movies to dto movies </param> 
+        /// <param name="mapper">Automapper instance to convert Domain objects to outbound DTO objects </param> 
+        /// <param name="sender">Mediatr</param> 
         public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -45,6 +46,7 @@ namespace MovieAPI.Controllers
         /// Finds a movie based upon specific search criteria
         /// </summary>
         /// <param name="sc">Can search based upon Title, Year and Genre</param>
+        /// <param name="cancellationToken">Can search based upon Title, Year and Genre</param>
         /// <returns>Http request</returns>
         /// <remarks>
         /// This search is an "and" search. If "Title" and "Year" are provided. It will narrow the selction to those that fulfill both critera. \
