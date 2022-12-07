@@ -134,15 +134,5 @@ namespace MovieTests
             AddUpdateReview sut = new() { ReviewerId = reviewerId, MovieId = movieId, Score = score };
             Assert.True(sut.IsValidForSubmission());
         }
-
-
-        [Fact]
-        public void GenreTypes_Worksas_expected()
-        {
-            var myenum = GenreType.FromName("SuperHero");
-            Assert.Equal(myenum, GenreType.SuperHero);
-        }
-
-
     }
 }

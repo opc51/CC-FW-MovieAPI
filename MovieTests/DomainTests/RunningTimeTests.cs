@@ -58,6 +58,5 @@ namespace MovieTests.DomainTests
         {
             Assert.Throws<ArgumentException>(() => RunningTime.Create(timing));
         }
-
     }
 }
