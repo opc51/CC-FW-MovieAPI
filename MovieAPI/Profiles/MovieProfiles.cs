@@ -20,7 +20,7 @@ namespace MovieAPI.Profiles
             CreateMap<Entity.Movie, Output.Movie>()
                 .ForMember(
                     dto => dto.YearsPassedSinceOriginalRelease,
-                    ent => ent.MapFrom(ent => DateTime.Now.Year - ent.YearOfRelease)
+                    ent => ent.MapFrom(src => src.)
                 );
             CreateMap<MovieSearchCriteria, GetMoviesQuery>()
                 .ForMember(q => q.Genre,

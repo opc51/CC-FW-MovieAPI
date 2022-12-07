@@ -2,20 +2,24 @@
 
 namespace MovieAPI.Models.Entities.Common
 {
+    /// <summary>
+    /// The year a movie was released
+    /// </summary>
     public class ReleaseYear
     {
-        public int Value { get; private set; }
-
-        public ReleaseYear(int value)
+        public static int Value { get; private set; }
+        private ReleaseYear()
         {
-            if (!IsValidReleaseYear(value))
-            {
-                // thow my own exception
-                var errorMessage = $"";
-                throw new System.Exception(errorMessage);
-            }
 
-            Value = value;
+        }
+
+        /// <summary>
+        /// Calculates how many years ago it was since the movie was released
+        /// </summary>
+        /// <returns>The number of years since the movies release <<see cref="int"></returns>
+        public static int NumberOfYearsAgoReleased()
+        {
+            return DateTime.Now.Year - Value;
         }
 
         private static bool IsValidReleaseYear(int value)
@@ -29,7 +33,19 @@ namespace MovieAPI.Models.Entities.Common
             {
                 return false;
             }
-             return true;
+            return true;
         }
+
+        public static ReleaseYear Create(int value)
+        {
+            if (!IsValidReleaseYear(value))
+            {
+                var errorMessage = $"";
+                throw new NotImplementedException(errorMessage);
+            }
+            return Create(value);
+        }
+
+
     }
 }

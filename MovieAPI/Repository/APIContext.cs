@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieAPI.Models.Entities;
+using MovieAPI.Models.Entities.Common;
 using MovieAPI.Models.Enum;
 
 namespace MovieAPI.Repository
@@ -67,14 +68,22 @@ namespace MovieAPI.Repository
             if (!Movies.AnyAsync().Result)
             {
                 Movies.AddRange(
-                    new Movie("Super Hero Movie ", 2004, 180, GenreType.SuperHero)
-                    , new Movie("Super Fun Movie", 2002, 120, GenreType.Comedy)
-                    , new Movie("Super Fun Movie 2", 2004, 180, GenreType.Comedy)
-                    , new Movie("Super Fun Movie 3", 2006, 90, GenreType.Comedy)
-                    , new Movie("Super Romance Movie", 2004, 120, GenreType.Romance)
-                    , new Movie("Super Romance Movie 2", 2006, 120, GenreType.Romance)
-                    , new Movie("Super Hero Movie 2 ", 2011, 180, GenreType.SuperHero)
-                    , new Movie("No one reviews me ", 2011, 180, GenreType.Unknown)
+                    Movie.Create("Super Hero Movie ", ReleaseYear.Create(2004), 
+                                   RunningTime.Create(180), GenreType.SuperHero)
+                    , Movie.Create("Super Fun Movie", ReleaseYear.Create(2002),
+                                    RunningTime.Create(120), GenreType.Comedy)
+                    , Movie.Create("Super Fun Movie 2", ReleaseYear.Create(2004),
+                                    RunningTime.Create(180), GenreType.Comedy)
+                    , Movie.Create("Super Fun Movie 3", ReleaseYear.Create(2006),
+                                    RunningTime.Create(90), GenreType.Comedy)
+                    , Movie.Create("Super Romance Movie", ReleaseYear.Create(2004),
+                                    RunningTime.Create(120), GenreType.Romance)
+                    , Movie.Create("Super Romance Movie 2", ReleaseYear.Create(2006),
+                                    RunningTime.Create(120), GenreType.Romance)
+                    , Movie.Create("Super Hero Movie 2 ", ReleaseYear.Create(2011),
+                                    RunningTime.Create(180), GenreType.SuperHero)
+                    , Movie.Create("No one reviews me ", ReleaseYear.Create(2011),
+                                    RunningTime.Create(180), GenreType.Unknown)
                 );
                 SaveChanges();
             }

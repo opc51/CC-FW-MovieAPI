@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using MovieAPI.Models.DTOs.Outputs;
+using MovieAPI.Models.Entities.Common;
 using MovieAPI.Models.Enum;
 using MovieAPI.Profiles;
 using System;
@@ -29,14 +30,15 @@ namespace MovieTests
         {
             //Arrange
             string movieName = _fixture.Create<string>();
-            Entities.Movie movie = new(movieName, 2000, 180, GenreType.Comedy);
+            var movie = Entities.Movie.Create(movieName, ReleaseYear.Create(2000),
+                                              180, GenreType.Comedy);
 
             //Act
             Movie converted = _mapper.Map<Entities.Movie, Movie>(movie);
 
             //Assert
             Assert.True(string.Equals(movie.Title, converted.Title));
-            Assert.Equal(movie.RunningTime, converted.RunningTime);
+            Assert.Equal(movie.RunningTime.Value, converted.RunningTime);
             Assert.Equal(DateTime.Now.Year - movie.YearOfRelease, converted.YearsPassedSinceOriginalRelease);
         }
     }

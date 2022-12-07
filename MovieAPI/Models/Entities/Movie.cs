@@ -1,6 +1,7 @@
 ﻿using MovieAPI.Models.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using MovieAPI.Models.Entities.Common;
 
 namespace MovieAPI.Models.Entities
 {
@@ -11,30 +12,9 @@ namespace MovieAPI.Models.Entities
     public class Movie
     {
         /// <summary>
-        /// A movie that contains a title, a year of release, a running time and a genre.
+        /// Private to prevent creation of an invalid movie
         /// </summary>
-        private Movie()
-        {
-            // allows an invalid state
-            // configuration
-            // able to create domain entity is a valid cooncerns
-            // private enmpty constructor
-        }
-
-        /// <summary>
-        /// Constructor for a movie
-        /// </summary>
-        /// <param name="title">The name of the movie, string</param>
-        /// <param name="yearOfRelease">The year of release, string</param>
-        /// <param name="runnigTime"> The length of the movie measure in minutes, int</param>
-        /// <param name="genre">The type of movie .e.g. "horror", "romance". string</param>
-        public Movie(string title, int yearOfRelease, int runnigTime, GenreType genre)
-        {
-            Title = title;
-            YearOfRelease = yearOfRelease;
-            RunningTime = runnigTime;
-            Genre = genre;
-        }
+        private Movie() { }
 
         /// <summary>
         /// The primary key of the Movie
@@ -54,19 +34,19 @@ namespace MovieAPI.Models.Entities
         /// The year the movie was release in the USA
         /// </summary>
         [Required]
-        public int YearOfRelease { get; set; }
+        public ReleaseYear YearOfRelease { get; set; }
 
 
         /// <summary>
         /// The number of minutes that the movie was runs for
         /// </summary>
         [Required]
-        public int RunningTime { get; set; }
+        public RunningTime RunningTime { get; set; }
 
 
 
         /// <summary>
-        /// The "type" of moviefor example "Horror", "Superhero", etc 
+        /// The "type" of movie .e.g. "Horror", "Superhero", etc 
         /// </summary>
         public GenreType Genre { get; set; }
 
@@ -78,7 +58,8 @@ namespace MovieAPI.Models.Entities
         /// <param name="runningTime">The Year the movie was released. Type <see cref="int"/></param>
         /// <param name="genre">The Year the movie was released. Type <see cref="GenreType"/></param>
         /// <returns></returns>
-        public static Movie Create(string title, int year, int runningTime, GenreType genre)
+        public static Movie Create(string title, ReleaseYear year, 
+                                   RunningTime runningTime, GenreType genre)
         {
             return new Movie() { 
                 Title = title,

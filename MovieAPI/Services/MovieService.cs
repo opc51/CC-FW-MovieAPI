@@ -4,6 +4,7 @@ using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Models.Entities;
+using MovieAPI.Models.Entities.Common;
 using MovieAPI.Models.Enum;
 using MovieAPI.Repository;
 using System;
@@ -190,7 +191,7 @@ namespace MovieAPI.Services
                                          {
                                              MovieId = movies.Id,
                                              MovieTitle = movies.Title,
-                                             YearOfRelease = movies.YearOfRelease,
+                                             YearOfRelease = movies.YearOfRelease.Value,
                                              RunningTime = movies.YearOfRelease,
                                              Genres = movies.Genre.Name,
                                              Rating = reviews.Score
