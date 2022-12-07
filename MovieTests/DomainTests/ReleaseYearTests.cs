@@ -6,6 +6,23 @@ namespace MovieTests.DomainTests
 {
     public class ReleaseYearTests
     {
+        [Fact]
+        public void ImplicityConversion_FromReleaseYearToInt_Sucessful()
+        {
+            int year = 2000;
+            ReleaseYear releaseYear = ReleaseYear.Create(year);
+            int sut = releaseYear;
+            Assert.Equal(typeof(int), sut.GetType());
+        }
+
+        [Fact]
+        public void ExplicitConversion_FromIntToReleaseYearSuccessful()
+        {
+            int year = 2000;
+            ReleaseYear sut = (ReleaseYear)year;
+            Assert.Equal(typeof(ReleaseYear), sut.GetType());
+        }
+
         [Theory]
         [InlineData(1895)]
         [InlineData(2022)]
@@ -21,23 +38,6 @@ namespace MovieTests.DomainTests
         public void ThrowsException_WhenData_IsValid(int year)
         {
             Assert.Throws<ArgumentException>(() => ReleaseYear.Create(year));
-        }
-
-        [Fact]
-        public void ImplicityConversion_FromReleaseYearToInt_Sucessful()
-        {
-            int year = 2000;
-            ReleaseYear releaseYear = ReleaseYear.Create(year);
-            int sut = releaseYear;
-            Assert.Equal(typeof(int), sut.GetType());
-        }
-
-        [Fact]
-        public void ExplicitConversion_FromIntToReleaseYearSuccessful()
-        {
-            int year = 2000;
-            ReleaseYear sut = (ReleaseYear) year;
-            Assert.Equal(typeof(ReleaseYear), sut.GetType());
         }
     }
 }
