@@ -18,10 +18,10 @@ namespace MovieAPI.EntityFramework
                 .HasConversion(m => m.Value, m => GenreType.FromValue(m));
 
             builder.Property(x => x.RunningTime)
-                .HasConversion(m => m.Value, m => RunningTime.Create(m));
+                .HasConversion(m => m.Value, m => (RunningTime) m);
 
             builder.Property(x => x.YearOfRelease)
-                .HasConversion(m => m.Value, m => ReleaseYear.Create(m));
+                .HasConversion(m => m.Value, m => (ReleaseYear) m);
         }
     }
 }
