@@ -9,7 +9,8 @@ using MovieAPI.Controllers;
 using MovieAPI.Interfaces;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
-using Output = MovieAPI.Models.DTOs.Outputs;
+using MovieAPI.Models.Entities.Common;
+using MovieAPI.Models.Enum;
 using MovieAPI.Profiles;
 using MovieAPI.Services;
 using System;
@@ -17,9 +18,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 using Entity = MovieAPI.Models.Entities;
-using MovieAPI.Models.Enum;
-using MovieAPI.Models.Entities.Common;
-using AutoFixture.Kernel;
+using Output = MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieTests
 {
@@ -118,9 +117,9 @@ namespace MovieTests
         }
 
         [Fact]
-        public void GetShould_LogErrorMessageWithInvalidSearchCriteria()
+        public async void GetShould_LogErrorMessageWithInvalidSearchCriteria()
         {
-            _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
+            await _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
 
             _loggerMOQ.Verify(logger => logger.Log(
                     It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
@@ -167,7 +166,7 @@ namespace MovieTests
                 .Throws(new Exception("Serious Error Encountered"));
             var result = _mockedController.Get(sc, new CancellationToken());
             var objectResult = (ObjectResult)result.Result.Result;
-            Assert.Equal(objectResult.StatusCode, 500);
+            Assert.Equal(500, objectResult.StatusCode);
         }
 
 

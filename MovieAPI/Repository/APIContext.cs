@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieAPI.EntityFramework;
 using MovieAPI.Models.Entities;
 using MovieAPI.Models.Entities.Common;
 using MovieAPI.Models.Enum;
@@ -20,18 +19,6 @@ namespace MovieAPI.Repository
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<Movie>()
-            //            .Property(m => m.Genre)
-            //            .HasConversion(m => m.Value, m => GenreType.FromValue(m));
-
-            //modelBuilder.Entity<Movie>()
-            //    .Property(m => m.RunningTime)
-            //    .HasConversion(v => v.Value, v => RunningTime.Create(v));
-
-            //modelBuilder.Entity<Movie>()
-            //    .Property(m => m.YearOfRelease)
-            //    .HasConversion(v => v.Value, v => ReleaseYear.Create(v));
         }
 
         /// <summary>
@@ -127,9 +114,9 @@ namespace MovieAPI.Repository
             if (!Reviews.AnyAsync().Result)
             {
                 Reviews.AddRange(
-                    new Review(1, 1, 5), new Review(1, 2, 4), new Review(1, 3, 5), new Review(1, 4, 2), new Review(1, 5, 3), new Review(1, 6, 5)
-                    , new Review(2, 1, 2), new Review(2, 2, 1), new Review(2, 3, 3), new Review(2, 4, 4), new Review(2, 5, 3), new Review(2, 6, 5)
-                    , new Review(3, 1, 1), new Review(3, 2, 1), new Review(3, 3, 5), new Review(3, 4, 5), new Review(3, 5, 2), new Review(3, 6, 1)
+                    Review.Create(1, 1, 5), Review.Create(1, 2, 4), Review.Create(1, 3, 5), Review.Create(1, 4, 2), Review.Create(1, 5, 3), Review.Create(1, 6, 5)
+                    , Review.Create(2, 1, 2), Review.Create(2, 2, 1), Review.Create(2, 3, 3), Review.Create(2, 4, 4), Review.Create(2, 5, 3), Review.Create(2, 6, 5)
+                    , Review.Create(3, 1, 1), Review.Create(3, 2, 1), Review.Create(3, 3, 5), Review.Create(3, 4, 5), Review.Create(3, 5, 2), Review.Create(3, 6, 1)
                 );
                 SaveChanges();
             }

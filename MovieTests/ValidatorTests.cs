@@ -6,7 +6,7 @@ namespace MovieTests
 {
     public class ValidatorTests
     {
-        private GetMoviesQuery? _query;
+        private GetMoviesQuery _query;
         private GetMoviesQueryValidator _validator;
 
 

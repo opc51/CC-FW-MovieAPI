@@ -1,7 +1,5 @@
 ﻿using AutoFixture;
 using MovieAPI.Models;
-using MovieAPI.Models.Entities;
-using MovieAPI.Models.Enum;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -60,36 +58,6 @@ namespace MovieTests
             MovieSearchCriteria sut = new() { Title = title, Genre = genre, Year = year };
             Assert.True(sut.IsValid());
         }
-
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
-        [InlineData(5)]
-        public void ReviewerShould_AllowsValuesBetween1and5(int score)
-        {
-            Review sut = new(1, 1, score);
-            Assert.Equal(score, sut.Score);
-        }
-
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(6)]
-        [InlineData(7)]
-        public void ReviewerShould_NotAllowsValuesOutside1and5(int score)
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Review()
-            {
-                Id = fixture.Create<int>(),
-                MovieId = fixture.Create<int>(),
-                ReviewerId = fixture.Create<int>(),
-                Score = score
-            });
-        }
-
 
         [Theory]
         [InlineData(1)]

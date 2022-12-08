@@ -56,12 +56,7 @@ namespace MovieAPI.Services
             }
             else
             {
-                _data.Reviews.Add(new Review()
-                {
-                    MovieId = review.MovieId,
-                    ReviewerId = review.ReviewerId,
-                    Score = review.Score
-                });
+                _data.Reviews.Add(Review.Create(review.MovieId, review.ReviewerId, review.Score));
             }
 
             return SaveChanges();

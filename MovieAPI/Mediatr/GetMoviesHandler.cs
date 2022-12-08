@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using MovieAPI.Interfaces;
-using Output = MovieAPI.Models.DTOs.Outputs;
 using System.Collections.Generic;
 using System.Threading;
-using AutoMapper;
 using System.Threading.Tasks;
+using Output = MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieAPI.Mediatr
 {
@@ -16,16 +16,22 @@ namespace MovieAPI.Mediatr
         private readonly IMovieService _movieDataService;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Constructor for the type <see cref="GetMoviesQueryHandler"/>
+        /// </summary>
+        /// <param name="movieDataService">The service used to get the data. Type of <see cref="IMovieService"/></param>
+        /// <param name="mapper">The data mapper. Type of <see cref="IMapper"/></param>
         public GetMoviesQueryHandler(IMovieService movieDataService, IMapper mapper)
         {
             _movieDataService = movieDataService;
             _mapper = mapper;
         }
+
         /// <summary>
-        /// The main handler
+        /// Handler that accepts the search criteria and produces the data
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="request">The search criteria. Type of <see cref="GetMoviesQuery"/></param>
+        /// <param name="cancellationToken">The cancellation Token required for async operations. Type of <see cref="CancellationToken"/></param>
         /// <returns></returns>
         public async Task<List<Output.Movie>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
         {
@@ -33,6 +39,5 @@ namespace MovieAPI.Mediatr
             var data = _mapper.Map<List<Output.Movie>>(movieEntities);
             return data;
         }
-
     }
 }
