@@ -19,6 +19,7 @@ using Xunit;
 using Entity = MovieAPI.Models.Entities;
 using MovieAPI.Models.Enum;
 using MovieAPI.Models.Entities.Common;
+using AutoFixture.Kernel;
 
 namespace MovieTests
 {
@@ -259,7 +260,8 @@ namespace MovieTests
         [Fact]
         public void AddReviewShould_Return500_WhenNotABleToUpdate()
         {
-            var movieOne = Entity.Movie.Create(_fixture.Create<string>(), _fixture.Create<ReleaseYear>(), 
+            ReleaseYear validReleaseYear = 2012;
+            var movieOne = Entity.Movie.Create(_fixture.Create<string>(), validReleaseYear, 
                                                _fixture.Create<RunningTime>(), _fixture.Create<GenreType>());
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(movieOne);
 

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieAPI.EntityFramework;
 using MovieAPI.Models.Entities;
 using MovieAPI.Models.Entities.Common;
 using MovieAPI.Models.Enum;
+using System.Reflection;
 
 namespace MovieAPI.Repository
 {
@@ -16,19 +18,20 @@ namespace MovieAPI.Repository
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Movie>()
-                        .Property(m => m.Genre)
-                        .HasConversion(m => m.Value, m => GenreType.FromValue(m));
+            //modelBuilder.Entity<Movie>()
+            //            .Property(m => m.Genre)
+            //            .HasConversion(m => m.Value, m => GenreType.FromValue(m));
 
-            modelBuilder.Entity<Movie>()
-                .Property(m => m.RunningTime)
-                .HasConversion(v => v.Value, v => RunningTime.Create(v));
+            //modelBuilder.Entity<Movie>()
+            //    .Property(m => m.RunningTime)
+            //    .HasConversion(v => v.Value, v => RunningTime.Create(v));
 
-            modelBuilder.Entity<Movie>()
-                .Property(m => m.YearOfRelease)
-                .HasConversion(v => v.Value, v => ReleaseYear.Create(v));
+            //modelBuilder.Entity<Movie>()
+            //    .Property(m => m.YearOfRelease)
+            //    .HasConversion(v => v.Value, v => ReleaseYear.Create(v));
         }
 
         /// <summary>

@@ -67,6 +67,22 @@ namespace MovieAPI.Models.Entities.Common
 
         #endregion
 
+        #region
+
+        /// <summary>
+        /// Allows the automatic conversion of the type <see cref="ReleaseYear"/> into type <see cref="int"/>
+        /// </summary>
+        /// <param name="y">Type of <see cref="ReleaseYear"/></param>
+        public static implicit operator int(ReleaseYear y) => y.Value;
+
+        /// <summary>
+        /// Allows the automatic conversion of type <see cref="int"/> into type <see cref="ReleaseYear"/>
+        /// </summary>
+        /// <param name="y">Type of <see cref="int"/></param>
+        public static implicit operator ReleaseYear(int y) => Create(y);
+
+        #endregion
+
         #region IEquatable Members
 
         /// <summary>
@@ -98,18 +114,6 @@ namespace MovieAPI.Models.Entities.Common
         {
             return HashCode.Combine(Value);
         }
-
-        /// <summary>
-        /// Allows the automatic conversion of the type <see cref="ReleaseYear"/> into type <see cref="int"/>
-        /// </summary>
-        /// <param name="y">Type of <see cref="ReleaseYear"/></param>
-        public static implicit operator int(ReleaseYear y) => y.Value;
-
-        /// <summary>
-        /// Allows the automatic conversion of type <see cref="int"/> into type <see cref="ReleaseYear"/>
-        /// </summary>
-        /// <param name="y">Type of <see cref="int"/></param>
-        public static explicit operator ReleaseYear(int y) => Create(y);
 
         /// <summary>
         /// Required Equality operator for type <see cref="ReleaseYear"/>

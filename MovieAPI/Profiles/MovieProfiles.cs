@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Entity = MovieAPI.Models.Entities;
 using Output = MovieAPI.Models.DTOs.Outputs;
-using System;
 using MovieAPI.Models;
 using MovieAPI.Mediatr;
 

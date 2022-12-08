@@ -24,7 +24,7 @@ namespace MovieAPI.Models.Entities.Common
         /// Used to create an instance of type <see cref="RunningTime"/>
         /// </summary>
         /// <param name="movieLength">Runtime in minutes. Type <see cref="int"/></param>
-        /// <returns>An instance of type <see cref="RunningTime"></returns>
+        /// <returns>An instance of type <see cref="RunningTime"/></returns>
         /// <exception cref="System.ArgumentException">Thrown if movie length is less than 1 minute or greater than 24 hours</exception>
         public static RunningTime Create(int movieLength)
         {
@@ -40,7 +40,7 @@ namespace MovieAPI.Models.Entities.Common
         /// Used to create an instance of type <see cref="RunningTime"/>
         /// </summary>
         /// <param name="movieLength">Runtime in minutes. Type <see cref="float"/></param>
-        /// <returns>An instance of type <see cref="RunningTime"></returns>
+        /// <returns>An instance of type <see cref="RunningTime"/></returns>
         /// <exception cref="System.ArgumentException">Thrown if movie length is less than 1 minute or greater than 24 hours</exception>
         public static RunningTime Create(float movieLength)
         {
