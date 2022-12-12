@@ -2,6 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using MovieAPI.Models.Entities.Common;
+using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
 
 namespace MovieAPI.Models.Entities
 {
@@ -27,8 +30,11 @@ namespace MovieAPI.Models.Entities
         /// </summary>
         [Required]
         public string Title { get; set; }
-
-
+        
+        /// <summary>
+        /// Movie reviews of type <see cref="Review"/> attached to this Movie
+        /// </summary>
+        public List<Review> Reviews { get; set; }
 
         /// <summary>
         /// The year the movie was release in the USA
@@ -43,12 +49,20 @@ namespace MovieAPI.Models.Entities
         [Required]
         public RunningTime RunningTime { get; set; }
 
-
-
         /// <summary>
         /// The "type" of movie .e.g. "Horror", "Superhero", etc 
         /// </summary>
         public GenreType Genre { get; set; }
+
+        /// <summary>
+        /// Contains the average score of the movie has over all 
+        /// </summary>
+        public double GetAverageScore
+        {
+            get {     
+                return Reviews.Average(r => r.Score).As<double>(); 
+            }
+        }
 
         /// <summary>
         /// Used to create a new instance of type <see cref="Movie"/>

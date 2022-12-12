@@ -4,8 +4,6 @@ using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using MovieAPI.Models.DTOs.Outputs;
 using MovieAPI.Models.Entities;
-using MovieAPI.Models.Entities.Common;
-using MovieAPI.Models.Enum;
 using MovieAPI.Repository;
 using System;
 using System.Collections.Generic;
@@ -123,6 +121,12 @@ namespace MovieAPI.Services
             return _data.Find<Reviewer>(reviewerId);
         }
 
+        //class tempClass
+        //{
+        //    internal Entity.Movie movie { get; set; }
+        //    internal double average { get; set; }
+
+        //}
 
         /// <summary>
         /// Finds the top 5 rated movies. Rating determined by the scores given by all reviewers
@@ -130,42 +134,114 @@ namespace MovieAPI.Services
         /// <returns>List of MovieResults</returns>
         public List<MovieResultsList> GetTopMovies(int numberOfMovies)
         {
-            var combinedMoviesReviews =
-                                    from reviews in _data.Reviews
-                                    join movies in _data.Movies on reviews.MovieId equals movies.Id
-                                    select new
-                                    {
-                                        movies.Id,
-                                        movies.Title,
-                                        movies.YearOfRelease,
-                                        movies.RunningTime,
-                                        movies.Genre,
-                                        Rating = reviews.Score
-                                    };
 
-            var grouppByMovieId = from cmr in combinedMoviesReviews
-                                  group cmr by new
-                                  {
-                                      cmr.Id,
-                                      cmr.Title,
-                                      cmr.RunningTime,
-                                      cmr.YearOfRelease,
-                                      cmr.Genre
-                                  }
-                                  into movieResults
-                                  select new MovieResultsList()
-                                  {
-                                      MovieId = movieResults.Key.Id,
-                                      MovieTitle = movieResults.Key.Title,
-                                      Rating = Utilities.RoundToTheNearestHalf(movieResults.Average(x => x.Rating)),
-                                      Genres = movieResults.Key.Genre.Name,
-                                      YearOfRelease = movieResults.Key.YearOfRelease,
-                                      RunningTime = movieResults.Key.RunningTime.Value
+            var result = _data.Movies
+                            .OrderByDescending(x => x.GetAverageScore)
+                            .Take(numberOfMovies)
+                                            .Select(x => new MovieResultsList()
+                                            {
+                                                MovieId = x.Id,
+                                                MovieTitle = x.Title,
+                                                YearOfRelease = x.YearOfRelease.Value,
+                                                RunningTime = x.YearOfRelease,
+                                                Genres = x.Genre.Name,
+                                                Rating = x.Reviews.Average(r => r.Score)
+                                            })
+                            .ToList();
 
-                                  };
+            return result;
 
-            return grouppByMovieId.AsQueryable().OrderByDescending(x => x.Rating).ThenBy(x => x.MovieTitle).Take(numberOfMovies).ToList();
+            //var result = _data.Reviews.GroupBy(p => p.MovieId)
+            //    .Select(x => new
+            //    {
+            //        movieId = x.First().MovieId,
+            //        score = x.Average(x => x.Score)
+            //    }).ToList();
+
+
+            //var reviews = _data.Reviews.GroupBy(r => r.MovieId)
+            //                .Select(n => new
+            //                {
+            //                    movie = n.First().Movie,
+            //                    average = n.Average(x => x.Score)
+            //                }).ToList();
+
+
+            //var ob = _data.Movies.Average(movie => movie.Reviews.).ToList();
+
+            //var tup = _data.Movies.Select(m => new
+            //{
+            //    movie = m,
+            //    score = m.Reviews.Average(x => x.Score)
+            //});
+
+            //var dasd = _data.Movies.SelectMany(m => m.Reviews).Average(x => x.Score);
+
+
+            //var tup = _data.Movies.Select(x => new tempClass()
+            //{
+            //    movie = x,
+            //    average = x.Reviews.Average(x => x.Score)
+            //})
+            //    .ToList();
+
+
+            //var hope = _data.Movies.SelectMany(m => m.Reviews).Select(
+            //    x => new
+            //    {
+            //        movie = x,
+            //        average = x.Score
+            //    }
+            //    ).
+            //    OrderByDescending(h => h.average)
+            //    .Take(5)
+            //    .ToList();
+
+            //    Select(x => new
+            //{
+            //    movie = x,
+            //    average = x.Reviews.Average(x => x.Score)
+            //});
+
+            //throw new NotImplementedException();
+
+            //.OrderByDescending(t => t.movie)
+            //.Take(numberOfMovies)
+            //.Select(x => new MovieResultsList()
+            //{
+            //    MovieId = x.movie.Id,
+            //    MovieTitle = x.movie.Title,
+            //    YearOfRelease = x.movie.YearOfRelease.Value,
+            //    RunningTime = x.movie.YearOfRelease,
+            //    Genres = x.movie.Genre.Name,
+            //    Rating = x.score
+            //})
+            //.ToList();
+
+            //return tup;
         }
+
+
+        //var fordd = _data.Movies.GroupBy(x => x.Id).Average
+
+        //    (x => x.Reviews.Average(r => r.Score)).ToList(); 
+
+        //var movieAverage = _data.Movies.Select(m => m.Reviews.Average(r => r.Score)).ToList();
+
+        // .OrderByDescending(m => m.Reviews.Average(r => r.Score).ToString());
+
+
+
+        //    var getAverageScore = _data.Movies.OrderBy(m => m.Reviews.Average(r => r.Score).ToString())
+        //        .Take(numberOfMovies)
+
+        //        .ToList();
+
+
+        //    return getAverageScore;
+
+        //}
+
 
 
         /// <summary>
@@ -176,24 +252,20 @@ namespace MovieAPI.Services
         /// <returns>List of MovieResults</returns>
         public List<MovieResultsList> GetMoviesByReviewer(int numberofMovies, int reviewerId)
         {
-
-            var combinedMoviesReviews =
-                                        (from reviews in _data.Reviews
-
-                                         join movies in _data.Movies on reviews.MovieId equals movies.Id
-                                         where reviews.ReviewerId == reviewerId
-                                         orderby reviews.Score descending, movies.Title descending
-                                         select new MovieResultsList()
-                                         {
-                                             MovieId = movies.Id,
-                                             MovieTitle = movies.Title,
-                                             YearOfRelease = movies.YearOfRelease.Value,
-                                             RunningTime = movies.YearOfRelease,
-                                             Genres = movies.Genre.Name,
-                                             Rating = reviews.Score
-                                         }).Take(numberofMovies).ToList();
-
-            return combinedMoviesReviews;
+            var moviesByReviewer = _data.Reviews.Where(r => r.ReviewerId == reviewerId)
+                                    .OrderByDescending(r => r.Score)
+                                    .Take(numberofMovies)
+                                    .Select(x => new MovieResultsList()
+                                    {
+                                        MovieId = x.MovieId,
+                                        MovieTitle = x.Movie.Title,
+                                        YearOfRelease = x.Movie.YearOfRelease.Value,
+                                        RunningTime = x.Movie.YearOfRelease,
+                                        Genres = x.Movie.Genre.Name,
+                                        Rating = x.Score
+                                    }
+                                    ).ToList();
+            return moviesByReviewer;
         }
     }
 }

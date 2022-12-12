@@ -24,8 +24,12 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// The primary key of the movie. Type <see cref="int"/>
         /// </summary>
-        [Required]
         public int MovieId { get; set; }
+
+        /// <summary>
+        /// The Movie of type <see cref="Movie"/> that is the parent of this review
+        /// </summary>
+        public Movie Movie { get; set; }
 
         /// <summary>
         /// The score for the Movie. Type <see cref="int"/>

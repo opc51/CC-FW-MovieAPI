@@ -1,17 +1,16 @@
-using Ardalis.SmartEnum;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using MovieAPI.Mediatr;
 using MovieAPI.Models;
+using MovieAPI.Models.Enum;
 using MovieAPI.Repository;
 using MovieAPI.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
 using System.Threading;
-using MovieAPI.Mediatr;
-using MovieAPI.Models.Enum;
-using System.Collections;
+using Xunit;
 
 namespace MovieTests
 {
