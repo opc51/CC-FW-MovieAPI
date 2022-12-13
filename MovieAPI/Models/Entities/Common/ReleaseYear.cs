@@ -67,7 +67,7 @@ namespace MovieAPI.Models.Entities.Common
 
         #endregion
 
-        #region Conversions
+        #region TypeConversions
 
         /// <summary>
         /// Allows the automatic conversion of the type <see cref="ReleaseYear"/> into type <see cref="int"/>

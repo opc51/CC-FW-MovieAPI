@@ -13,6 +13,7 @@ namespace MovieAPI.Models
         /// The primary key of the Reviewer
         /// </summary>
         public int ReviewerId { get; set; }
+
         /// <summary>
         /// The primary key of the movie
         /// </summary>
@@ -35,14 +36,13 @@ namespace MovieAPI.Models
         }
 
         /// <summary>
-        /// A method to check that the objct hasvalid data
+        /// A method to check that the objct has valid data
         /// </summary>
         /// <returns></returns>
         public bool IsValidForSubmission()
         {
             return ReviewerId != 0 & MovieId != 0 & Score != 0;
         }
-
 
         /// <summary>
         /// overriden versions that outputs the movie Id, reviewer id and the score

@@ -12,14 +12,11 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// Empty constructor needed for unit tests. However should be removed.
         /// </summary>
-        public Reviewer()
-        {
-
-        }
+        public Reviewer() { }
         /// <summary>
-        /// Constructor with name only
+        /// Constructor to create a Reviewer class
         /// </summary>
-        /// <param name="name">The name of the reviewer</param>
+        /// <param name="name">The name of the reviewer. Type <see cref="string"/></param>
         public Reviewer(string name)
         {
             Name = name;

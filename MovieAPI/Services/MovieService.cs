@@ -73,7 +73,6 @@ namespace MovieAPI.Services
         /// <returns>A list of movies</returns>
         public async Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken)
         {
-            //var asNumber = ConvertStringToEnumInt(sc.Genre);
             var data = _data.Movies.Select(x => x);
             if (!string.IsNullOrWhiteSpace(sc.Title))
             {
@@ -143,6 +142,7 @@ namespace MovieAPI.Services
         {
             return _data.Reviews.Where(r => r.ReviewerId == reviewerId)
                                     .OrderByDescending(r => r.Score)
+                                    .Take(numberofMovies)
                                     .Select(x => new MovieResultsList()
                                     {
                                         MovieId = x.MovieId,
@@ -153,7 +153,6 @@ namespace MovieAPI.Services
                                         Rating = x.Score
                                     }
                                     )
-                                    .Take(numberofMovies)
                                     .ToList();
         }
     }

@@ -49,7 +49,6 @@ namespace MovieAPI.Models.Entities
         /// </summary>
         public GenreType Genre { get; set; }
 
-        //public List<Review> Reviews { get; set; }
         private List<Review> reviews { get; set; }  
 
         /// <summary>
