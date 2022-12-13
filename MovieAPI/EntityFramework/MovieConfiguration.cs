@@ -23,7 +23,8 @@ namespace MovieAPI.EntityFramework
             builder.Property(x => x.YearOfRelease)
                 .HasConversion(m => m.Value, m => (ReleaseYear) m);
 
-            //builder.Property(x => x.GetAverageScore);
+            // is this still needed?
+            builder.Property(x => x.GetAverageScore);
         }
     }
 }

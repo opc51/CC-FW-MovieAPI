@@ -136,7 +136,7 @@ namespace MovieAPI.Services
         {
 
             var result = _data.Movies
-                            .OrderByDescending(x => x.GetAverageScore)
+                            .OrderByDescending(x => x.Id)
                             .Take(numberOfMovies)
                                             .Select(x => new MovieResultsList()
                                             {
@@ -150,6 +150,7 @@ namespace MovieAPI.Services
                             .ToList();
 
             return result;
+
 
             //var result = _data.Reviews.GroupBy(p => p.MovieId)
             //    .Select(x => new

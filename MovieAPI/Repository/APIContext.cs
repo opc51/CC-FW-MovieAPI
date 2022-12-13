@@ -105,7 +105,7 @@ namespace MovieAPI.Repository
             }
         }
 
-
+        //TO DO this is nbo longer the model we are using. We are adding reviews to the movie object not doing it separately
         /// <summary>
         /// Pre populates a number of movies into the API Database context
         /// </summary>

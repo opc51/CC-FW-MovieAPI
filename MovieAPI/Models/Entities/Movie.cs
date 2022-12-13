@@ -17,31 +17,26 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// Private to prevent creation of an invalid movie
         /// </summary>
-        private Movie() { }
+        private Movie() { 
+            reviews = new List<Review>();
+        }
 
         /// <summary>
         /// The primary key of the Movie
         /// </summary>
         public int Id { get; set; }
 
-
         /// <summary>
         /// The name of the movie
         /// </summary>
         [Required]
         public string Title { get; set; }
-        
-        /// <summary>
-        /// Movie reviews of type <see cref="Review"/> attached to this Movie
-        /// </summary>
-        public List<Review> Reviews { get; set; }
-
+       
         /// <summary>
         /// The year the movie was release in the USA
         /// </summary>
         [Required]
         public ReleaseYear YearOfRelease { get; set; }
-
 
         /// <summary>
         /// The number of minutes that the movie was runs for
@@ -54,14 +49,23 @@ namespace MovieAPI.Models.Entities
         /// </summary>
         public GenreType Genre { get; set; }
 
+        private List<Review> reviews { get; set; }  
+
+        /// <summary>
+        /// Movie reviews of type <see cref="Review"/> attached to this Movie
+        /// </summary>
+        public IReadOnlyCollection<Review> Reviews { get { return reviews; } }
+
         /// <summary>
         /// Contains the average score of the movie has over all 
         /// </summary>
         public double GetAverageScore
         {
             get {     
-                return Reviews.Average(r => r.Score).As<double>(); 
+                return reviews.Average(r => r.Score).As<double>(); 
             }
+
+            private set { }
         }
 
         /// <summary>
@@ -81,6 +85,22 @@ namespace MovieAPI.Models.Entities
                 RunningTime = runningTime,
                 Genre = genre
             };
+        }
+
+        /// <summary>
+        /// Used to add reviews of type <see cref="Review"/> to <see cref="Movie"/>.
+        /// 
+        /// New reviews are appended to old reviews
+        /// </summary>
+        /// <param name="reviewList">An <see cref="Enumerable"/> of <see cref="Review"/></param>
+        /// <exception cref="System.ArgumentException">If no reviews are passed in</exception>
+        public void AddReviews(IEnumerable<Review> reviewList)
+        {
+            if (!reviewList.Any())
+            {
+                throw new System.ArgumentException("Reviews cannot be null or empty when adding to an Movie");
+            }
+            reviews.AddRange(reviewList);
         }
     }
 }
