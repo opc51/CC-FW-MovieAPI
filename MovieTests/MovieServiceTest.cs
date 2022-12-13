@@ -38,10 +38,12 @@ namespace MovieTests
         [InlineData(3)]
         [InlineData(4)]
         [InlineData(5)]
+        [InlineData(6)]
         public void GetMovieByIdShould_GetMoviesThatExist(int movieId)
         {
             var movie = _movieService.GetMovieById(movieId);
             Assert.Equal(movieId.ToString(), movie.Id.ToString());
+            Assert.Equal(3, movie.Reviews.Count());
         }
 
         [Theory]
@@ -166,7 +168,7 @@ namespace MovieTests
         [Fact]
         public void AddUpdateShould_UpdateExistingRecord()
         {
-            var review = _database.Reviews.FirstAsync().Result;
+            var review = _database.Reviews.Where(r => r.Id == 8).FirstOrDefault();
             var previous = review.Score;
             review.Score = 4;
             var result = _movieService.AddUpdateReview(new AddUpdateReview()
@@ -198,20 +200,20 @@ namespace MovieTests
         {
             var results = _movieService.GetTopMovies(5);
             Assert.Equal(5, results.Count);
+
             List<double> scores = new();
             foreach (var result in results)
             {
                 scores.Add(result.Rating);
             }
-            List<double> expected = new() { 4.5, 3.5, 3.5, 2.5, 2.5 };
+            List<double> expected = new() { 4.333333333333333, 3.6666666666666665, 3.6666666666666665, 2.6666666666666665, 2.6666666666666665 };
             Assert.Equal(expected, scores);
         }
 
         [Fact]
         public void GetTopFiveMoviesByReviewerShould_GiveCorrectResults()
         {
-            var results = _movieService.GetMoviesByReviewer(5, 2);
-
+            var results = _movieService.GetMoviesByReviewer(5, 3);
             Assert.Equal(5, results.Count);
 
             List<double> scores = new();
@@ -220,7 +222,7 @@ namespace MovieTests
                 scores.Add(result.Rating);
             }
 
-            List<double> expected = new() { 5, 4, 4, 3, 3 };
+            List<double> expected = new() { 5, 5, 2, 1, 1};//{ 5, 4, 3, 3, 2 };
             Assert.Equal(expected, scores);
         }
 

@@ -49,6 +49,7 @@ namespace MovieAPI.Models.Entities
         /// </summary>
         public GenreType Genre { get; set; }
 
+        //public List<Review> Reviews { get; set; }
         private List<Review> reviews { get; set; }  
 
         /// <summary>
@@ -62,6 +63,10 @@ namespace MovieAPI.Models.Entities
         public double GetAverageScore
         {
             get {     
+                if (!Reviews.Any())
+                {
+                    return 0;
+                }
                 return reviews.Average(r => r.Score).As<double>(); 
             }
 
