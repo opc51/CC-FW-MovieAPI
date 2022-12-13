@@ -139,10 +139,10 @@ namespace MovieAPI.Repository
             if (!Reviewers.AnyAsync().Result)
             {
                 Reviewers.AddRange(
-                    new Reviewer("John")
-                    , new Reviewer("Jane")
-                    , new Reviewer("Josey")
-                );
+                    Reviewer.Create("John", "john@john.com")
+                    , Reviewer.Create("Jane", "john@john.com")
+                    , Reviewer.Create("Josey", "john@john.com")
+                ); 
                 SaveChanges();
             }
         }

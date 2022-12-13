@@ -264,7 +264,8 @@ namespace MovieTests
                                                _fixture.Create<RunningTime>(), _fixture.Create<GenreType>());
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(movieOne);
 
-            _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>())).Returns(new Entity.Reviewer() { Id = 1 });
+            _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>()))
+                            .Returns(Entity.Reviewer.Create(_fixture.Create<string>(), _fixture.Create<string>()));
             _movieMOQ.Setup(x => x.AddUpdateReview(It.IsAny<AddUpdateReview>())).Returns(false);
             var result = _mockedController.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1, Score = 4 });
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
