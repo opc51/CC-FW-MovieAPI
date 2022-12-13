@@ -8,7 +8,6 @@ using MovieAPI.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Entity = MovieAPI.Models.Entities;
@@ -73,7 +72,7 @@ namespace MovieAPI.Services
         /// <returns>A list of movies</returns>
         public async Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken)
         {
-            var data = _data.Movies.Select(x => x);
+            IQueryable<Entity.Movie> data = _data.Movies;
             if (!string.IsNullOrWhiteSpace(sc.Title))
             {
                 data = data.Where(x => x.Title.ToLower().Contains(sc.Title.ToLower()));

@@ -226,24 +226,24 @@ namespace MovieTests
             Assert.Equal(expected, scores);
         }
 
-        [Fact]
-        public void Failed_SaveChanges_ReturnFalse()
-        {
-            Mock<APIContext> mockContext = new();
-            mockContext.Setup(c => c.SaveChanges()).Returns(-1);
+        //[Fact]
+        //public void Failed_SaveChanges_ReturnFalse()
+        //{
+        //    Mock<APIContext> mockContext = new();
+        //    mockContext.Setup(c => c.SaveChanges()).Returns(-1);
 
-            Mock<MovieService> mockMoviesService = new Mock<MovieService>(mockContext.Object);
-            Assert.False(mockMoviesService.Object.SaveChanges());
-        }
+        //    Mock<MovieService> mockMoviesService = new Mock<MovieService>(mockContext.Object);
+        //    Assert.False(mockMoviesService.Object.SaveChanges());
+        //}
 
-        [Fact]
-        public void Successful_SaveChanges_ReturnTrue()
-        {
-            Mock<APIContext> mockContext = new();
-            mockContext.Setup(c => c.SaveChanges()).Returns(3);
+        //[Fact]
+        //public void Successful_SaveChanges_ReturnTrue()
+        //{
+        //    Mock<APIContext> mockContext = new();
+        //    mockContext.Setup(c => c.SaveChanges()).Returns(3);
 
-            Mock<MovieService> mockMoviesService = new Mock<MovieService>(mockContext.Object);
-            Assert.True(mockMoviesService.Object.SaveChanges());
-        }
+        //    Mock<MovieService> mockMoviesService = new Mock<MovieService>(mockContext.Object);
+        //    Assert.True(mockMoviesService.Object.SaveChanges());
+        //}
     }
 }
