@@ -12,6 +12,13 @@ namespace MovieAPI.Models.Entities
     public class Reviewer
     {
         /// <summary>
+        /// Private constructor to prevent public miss use of the object
+        /// 
+        /// Use the provide static Create method to instantiate new instances of <see cref="Reviewer"/>
+        /// </summary>
+        private Reviewer() { }
+
+        /// <summary>
         /// The primary key of the Id. Type of <see cref="int"/>
         /// </summary>
         [Required]
@@ -40,16 +47,6 @@ namespace MovieAPI.Models.Entities
         }
 
         /// <summary>
-        /// Private constructor to prevent public miss use of the object
-        /// 
-        /// Use the provide static Create method to instantiate new instances of <see cref="Reviewer"/>
-        /// </summary>
-        private Reviewer(string name, string email) {
-            Name = name;
-            Email = email;
-        }
-
-        /// <summary>
         /// Creates an instance of <see cref="Reviewer"/>
         /// </summary>
         /// <param name="name">The Reviewers Name <see cref="string"/></param>
@@ -62,7 +59,11 @@ namespace MovieAPI.Models.Entities
                 throw new ArgumentException("Reviewer Name and Email cannot be empty when creating a reviewer");
             }
 
-            return new Reviewer(name, email);
+            return new Reviewer()
+            {
+                Name = name,
+                Email = email
+            };
         }
     }
 }
