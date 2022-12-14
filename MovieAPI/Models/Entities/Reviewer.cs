@@ -6,7 +6,7 @@ using System.Net.Mail;
 namespace MovieAPI.Models.Entities
 {
     /// <summary>
-    /// A movie reviewer class
+    /// Details of the person who reviewed the Movie
     /// </summary>
     [DebuggerDisplay("Name : {Name}, Email ; {Email}")]
     public class Reviewer
@@ -17,17 +17,27 @@ namespace MovieAPI.Models.Entities
         [Required]
         public int Id { get; set; }
 
-
         /// <summary>
         /// The name of the reviewer. Type of <see cref="string"/>
         /// </summary>
         [Required]
         public string Name { get; set; }
 
+        private string email;
         /// <summary>
         /// The email of the Reviewer. Type of <see cref="string"/>
         /// </summary>
-        public string Email { get; set; }
+        public string Email {
+            get { 
+                return email;
+            }
+
+            set { 
+                // throws InvalidFormatException if email address is not valid
+                var mailAddress = new MailAddress(value);
+                email = mailAddress.Address;
+            }
+        }
 
         /// <summary>
         /// Private constructor to prevent public miss use of the object
@@ -52,9 +62,7 @@ namespace MovieAPI.Models.Entities
                 throw new ArgumentException("Reviewer Name and Email cannot be empty when creating a reviewer");
             }
 
-            var emailAddress = new MailAddress(email); // does email format validation
-
-            return new Reviewer(name, emailAddress.Address);
+            return new Reviewer(name, email);
         }
     }
 }
