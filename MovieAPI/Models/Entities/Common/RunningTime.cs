@@ -16,9 +16,7 @@ namespace MovieAPI.Models.Entities.Common
         ///  Private constructor to prevent invalid object creation
         /// </summary>
         /// <param name="length">Type of <see cref="int"/></param>
-        private RunningTime(int length) {
-            Value = length;
-        }
+        private RunningTime() { }
 
         /// <summary>
         /// Used to create an instance of type <see cref="RunningTime"/>
@@ -33,7 +31,10 @@ namespace MovieAPI.Models.Entities.Common
                 var errorMessage = $"The movie cannot be more than 24 hours or less than 1 minute";
                 throw new ArgumentException(errorMessage);
             }
-            return new RunningTime(movieLength);
+            return new RunningTime()
+            {
+                Value = movieLength
+            };
         }
 
         /// <summary>

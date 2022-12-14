@@ -40,10 +40,9 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// A private constructor to prevent invalid objects being created
         /// </summary>
-        private Review(int reviewerId, int movieId, int score) {
-            ReviewerId = reviewerId;
-            MovieId = movieId;
-            Score = score;
+        private Review()
+        {//int reviewerId, int movieId, int score) {
+
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace MovieAPI.Models.Entities
         /// <param name="score">The score given to the movie. Minimum value 1, maximum value 5. Type <see cref="int"/></param>
         public static Review Create(int reviewerId, int movieId, int score)
         {
-            if(!IsScoreValid(score))
+            if (!IsScoreValid(score))
             {
                 var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
                 throw new ArgumentOutOfRangeException(errorMessage);
@@ -65,7 +64,12 @@ namespace MovieAPI.Models.Entities
                 var errorMessage = $"The reviewer Id or the movieIds provided was zero. Please provie the real reviewer and movie Ids.";
                 throw new ArgumentException(errorMessage);
             }
-            return new Review(reviewerId, movieId, score);
+            return new Review()
+            {
+                ReviewerId = reviewerId,
+                MovieId = movieId,
+                Score = score
+            };
         }
 
         #region APIs

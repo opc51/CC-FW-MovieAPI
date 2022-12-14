@@ -12,10 +12,10 @@ namespace MovieAPI.Models.Entities.Common
         /// </summary>
         public int Value { get; private set; }
 
-        private ReleaseYear(int value){
-            // private constructor to ensure only valid objects are created
-            Value = value;
-        }
+        /// <summary>
+        /// Private constructor to prevent public abuse
+        /// </summary>
+        private ReleaseYear(){ }
 
         /// <summary>
         /// Method to create a new instance of type <see cref="ReleaseYear"/>
@@ -30,7 +30,10 @@ namespace MovieAPI.Models.Entities.Common
                 var errorMessage = $"The year {year} cannot be used. Valid values are between 1895 and this year";
                 throw new ArgumentException(errorMessage);
             }
-            return new ReleaseYear(year);
+            return new ReleaseYear()
+            {
+                 Value = year,
+            };
         }
 
         #region APIs
