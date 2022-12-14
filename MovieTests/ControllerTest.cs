@@ -265,7 +265,7 @@ namespace MovieTests
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(movieOne);
 
             _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>()))
-                            .Returns(Entity.Reviewer.Create(_fixture.Create<string>(), _fixture.Create<string>()));
+                            .Returns(Entity.Reviewer.Create(_fixture.Create<string>(), "adminuser@freewheel.com"));
             _movieMOQ.Setup(x => x.AddUpdateReview(It.IsAny<AddUpdateReview>())).Returns(false);
             var result = _mockedController.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1, Score = 4 });
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);

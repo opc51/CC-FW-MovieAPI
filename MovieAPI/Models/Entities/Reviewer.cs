@@ -1,4 +1,4 @@
-﻿using MovieAPI.Models.Entities.Common;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net.Mail;
@@ -6,48 +6,55 @@ using System.Net.Mail;
 namespace MovieAPI.Models.Entities
 {
     /// <summary>
-    /// A reviwer that contains an id and a name
+    /// A movie reviewer class
     /// </summary>
-    [DebuggerDisplay("Name : {Name}, Email : {Email}")]
+    [DebuggerDisplay("Name : {Name}, Email ; {Email}")]
     public class Reviewer
     {
         /// <summary>
-        /// Empty constructor needed for unit tests. However should be removed.
-        /// </summary>
-        private Reviewer(string name, string email) {
-            Name = name;
-            Email = new MailAddress(email);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="email"></param>
-        /// <returns></returns>
-        public static Reviewer Create(string name, string email)
-        {
-            // safety checks
-
-            return new Reviewer(name, email);
-        }
-
-        /// <summary>
-        /// The primary key of the Id
+        /// The primary key of the Id. Type of <see cref="int"/>
         /// </summary>
         [Required]
         public int Id { get; set; }
 
 
         /// <summary>
-        /// The name of the reviewer
+        /// The name of the reviewer. Type of <see cref="string"/>
         /// </summary>
         [Required]
         public string Name { get; set; }
 
         /// <summary>
-        /// The reviewers email address
+        /// The email of the Reviewer. Type of <see cref="string"/>
         /// </summary>
-        public MailAddress Email { get; set; }
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Private constructor to prevent public miss use of the object
+        /// 
+        /// Use the provide static Create method to instantiate new instances of <see cref="Reviewer"/>
+        /// </summary>
+        private Reviewer(string name, string email) {
+            Name = name;
+            Email = email;
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="Reviewer"/>
+        /// </summary>
+        /// <param name="name">The Reviewers Name <see cref="string"/></param>
+        /// <param name="email">The Reviewers Email <see cref="string"/></param>
+        /// <returns>A new instance of <see cref="Reviewer"/></returns>
+        public static Reviewer Create(string name, string email)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentException("Reviewer Name and Email cannot be empty when creating a reviewer");
+            }
+
+            var emailAddress = new MailAddress(email); // does email format validation
+
+            return new Reviewer(name, emailAddress.Address);
+        }
     }
 }

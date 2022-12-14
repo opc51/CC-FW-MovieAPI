@@ -1,6 +1,7 @@
 ﻿using MovieAPI.Models.DTOs.Outputs;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MovieAPI.Models.Entities

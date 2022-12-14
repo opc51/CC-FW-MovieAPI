@@ -36,7 +36,7 @@ namespace MovieAPI.Repository
         /// <summary>
         /// A database set of movies reviewers
         /// </summary>
-        public DbSet<Reviewer> Reviewers { get; set; }
+        public DbSet<Reviewer> Reviewers => Set<Reviewer>();
 
 
         /// <summary>
