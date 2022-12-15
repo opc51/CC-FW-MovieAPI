@@ -14,14 +14,14 @@ namespace MovieAPI.EntityFramework
         /// <param name="builder"></param>
         public void Configure(EntityTypeBuilder<Movie> builder)
         {
-            builder.Property( x => x.Genre)
+            builder.Property(x => x.Genre)
                 .HasConversion(m => m.Value, m => GenreType.FromValue(m));
 
             builder.Property(x => x.RunningTime)
-                .HasConversion(m => m.Value, m => (RunningTime) m);
+                .HasConversion(m => m.Value, m => (RunningTime)m);
 
             builder.Property(x => x.YearOfRelease)
-                .HasConversion(m => m.Value, m => (ReleaseYear) m);
+                .HasConversion(m => m.Value, m => (ReleaseYear)m);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Xunit;
-using MovieAPI;
+﻿using MovieAPI;
+using Xunit;
 
 namespace MovieTests
 {
@@ -7,7 +7,7 @@ namespace MovieTests
     {
 
         [Theory]
-        [InlineData(2.91,3.0)]
+        [InlineData(2.91, 3.0)]
         [InlineData(3.249, 3.0)]
         [InlineData(3.25, 3.5)]
         [InlineData(3.6, 3.5)]

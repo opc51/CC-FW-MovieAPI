@@ -67,11 +67,11 @@ namespace MovieTests
         [InlineData(5)]
         public void AddUpdateReviewShould_AllowsValuesBetween1and5(int score)
         {
-            AddUpdateReview sut = new() 
-            { 
+            AddUpdateReview sut = new()
+            {
                 MovieId = fixture.Create<int>(),
                 ReviewerId = fixture.Create<int>(),
-                Score = score 
+                Score = score
             };
             Assert.Equal(score, sut.Score);
         }

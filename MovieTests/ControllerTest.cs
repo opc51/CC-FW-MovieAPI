@@ -260,7 +260,7 @@ namespace MovieTests
         public void AddReviewShould_Return500_WhenNotABleToUpdate()
         {
             ReleaseYear validReleaseYear = 2012;
-            var movieOne = Entity.Movie.Create(_fixture.Create<string>(), validReleaseYear, 
+            var movieOne = Entity.Movie.Create(_fixture.Create<string>(), validReleaseYear,
                                                _fixture.Create<RunningTime>(), _fixture.Create<GenreType>());
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(movieOne);
 

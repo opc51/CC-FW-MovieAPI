@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
-using Output = MovieAPI.Models.DTOs.Outputs;
 using System.Collections.Generic;
+using Output = MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieAPI.Mediatr
 {

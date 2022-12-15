@@ -86,14 +86,14 @@ namespace MovieAPI
             }
             else
             {
-                app.UseExceptionHandler( app =>
-                {
-                    app.Run(async context =>
-                    {
-                        context.Response.StatusCode = 500;
-                        await context.Response.WriteAsync("It's not you it's me. I'm having a bit of a meltdown, give me a moment to compose myself");
-                    });
-                });
+                app.UseExceptionHandler(app =>
+               {
+                   app.Run(async context =>
+                   {
+                       context.Response.StatusCode = 500;
+                       await context.Response.WriteAsync("It's not you it's me. I'm having a bit of a meltdown, give me a moment to compose myself");
+                   });
+               });
             }
 
             app.UseHttpsRedirection();

@@ -8,7 +8,8 @@ namespace MovieTests.DomainTests
     public class MovieTests
     {
         [Fact]
-        public void MovieSetUp_ValidData_Succeeds() {
+        public void MovieSetUp_ValidData_Succeeds()
+        {
             const string TITLE = "Enter The Dragon";
             var movie = Movie.Create(TITLE, 1974, 123, MovieAPI.Models.Enum.GenreType.Action);
             var reviewList = new List<Review>()

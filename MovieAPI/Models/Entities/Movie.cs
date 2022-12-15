@@ -1,10 +1,10 @@
-﻿using MovieAPI.Models.Enum;
+﻿using FluentAssertions;
+using MovieAPI.Models.Entities.Common;
+using MovieAPI.Models.Enum;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using MovieAPI.Models.Entities.Common;
-using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
 
 namespace MovieAPI.Models.Entities
 {
@@ -17,7 +17,8 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// Private to prevent creation of an invalid movie
         /// </summary>
-        private Movie() { 
+        private Movie()
+        {
             reviews = new List<Review>();
         }
 
@@ -31,7 +32,7 @@ namespace MovieAPI.Models.Entities
         /// </summary>
         [Required]
         public string Title { get; set; }
-       
+
         /// <summary>
         /// The year the movie was release in the USA
         /// </summary>
@@ -49,7 +50,7 @@ namespace MovieAPI.Models.Entities
         /// </summary>
         public GenreType Genre { get; set; }
 
-        private List<Review> reviews { get; set; }  
+        private List<Review> reviews { get; set; }
 
         /// <summary>
         /// Movie reviews of type <see cref="Review"/> attached to this Movie
@@ -61,12 +62,13 @@ namespace MovieAPI.Models.Entities
         /// </summary>
         public double GetAverageScore
         {
-            get {     
+            get
+            {
                 if (!Reviews.Any())
                 {
                     return 0;
                 }
-                return reviews.Average(r => r.Score).As<double>(); 
+                return reviews.Average(r => r.Score).As<double>();
             }
 
             private set { }
@@ -80,10 +82,11 @@ namespace MovieAPI.Models.Entities
         /// <param name="runningTime">The Year the movie was released. Type <see cref="int"/></param>
         /// <param name="genre">The Year the movie was released. Type <see cref="GenreType"/></param>
         /// <returns></returns>
-        public static Movie Create(string title, ReleaseYear year, 
+        public static Movie Create(string title, ReleaseYear year,
                                    RunningTime runningTime, GenreType genre)
         {
-            return new Movie() { 
+            return new Movie()
+            {
                 Title = title,
                 YearOfRelease = year,
                 RunningTime = runningTime,

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using MovieAPI.Mediatr;
+using MovieAPI.Models;
 using Entity = MovieAPI.Models.Entities;
 using Output = MovieAPI.Models.DTOs.Outputs;
-using MovieAPI.Models;
-using MovieAPI.Mediatr;
 
 namespace MovieAPI.Profiles
 {

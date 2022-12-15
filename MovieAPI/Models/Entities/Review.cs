@@ -1,7 +1,4 @@
-﻿using MovieAPI.Models.DTOs.Outputs;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MovieAPI.Models.Entities
@@ -21,13 +18,13 @@ namespace MovieAPI.Models.Entities
         /// The primary key of the reviewer. Type <see cref="int"/>
         /// </summary>
         [Required]
-        public int ReviewerId 
-        { 
+        public int ReviewerId
+        {
             get
             {
                 return reviewerId;
             }
-            
+
             set
             {
                 if (!AreIntegersPostiveAndNonZero(value))
@@ -37,19 +34,20 @@ namespace MovieAPI.Models.Entities
                 }
                 reviewerId = value;
             }
-        
+
         }
 
         private int movieId;
         /// <summary>
         /// The primary key of the movie. Type <see cref="int"/>
         /// </summary>
-        public int MovieId { 
+        public int MovieId
+        {
             get
             {
                 return movieId;
             }
-            
+
             set
             {
                 if (!AreIntegersPostiveAndNonZero(value))
@@ -58,7 +56,6 @@ namespace MovieAPI.Models.Entities
                     throw new ArgumentOutOfRangeException(errorMessage);
                 }
                 movieId = value;
-
             }
         }
 
@@ -71,8 +68,9 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// The score for the Movie. Type <see cref="int"/>
         /// </summary>
-        public int Score {
-            get 
+        public int Score
+        {
+            get
             {
                 return score;
             }
@@ -86,7 +84,7 @@ namespace MovieAPI.Models.Entities
                 }
                 score = value;
             }
-        
+
         }
 
         /// <summary>

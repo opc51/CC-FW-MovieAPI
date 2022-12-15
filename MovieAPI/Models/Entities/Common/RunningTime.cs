@@ -68,7 +68,7 @@ namespace MovieAPI.Models.Entities.Common
 
         private static int ConvertHoursToMinutes(float time)
         {
-            return (int) (time * 60);
+            return (int)(time * 60);
         }
 
         #endregion

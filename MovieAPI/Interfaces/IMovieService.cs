@@ -1,10 +1,10 @@
-﻿using MovieAPI.Models;
-using System.Collections.Generic;
+﻿using MovieAPI.Mediatr;
+using MovieAPI.Models;
 using MovieAPI.Models.DTOs.Outputs;
-using Entity = MovieAPI.Models.Entities;
-using MovieAPI.Mediatr;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Entity = MovieAPI.Models.Entities;
 
 namespace MovieAPI.Interfaces
 {

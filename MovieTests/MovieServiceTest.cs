@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using MovieAPI.Models.Enum;
@@ -222,7 +220,7 @@ namespace MovieTests
                 scores.Add(result.Rating);
             }
 
-            List<double> expected = new() { 5, 5, 2, 1, 1};//{ 5, 4, 3, 3, 2 };
+            List<double> expected = new() { 5, 5, 2, 1, 1 };//{ 5, 4, 3, 3, 2 };
             Assert.Equal(expected, scores);
         }
 

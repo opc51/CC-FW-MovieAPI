@@ -142,7 +142,7 @@ namespace MovieAPI.Repository
                     Reviewer.Create("John", "john@john.com")
                     , Reviewer.Create("Jane", "john@john.com")
                     , Reviewer.Create("Josey", "john@john.com")
-                ); 
+                );
                 SaveChanges();
             }
         }

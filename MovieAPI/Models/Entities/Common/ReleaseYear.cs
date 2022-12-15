@@ -15,7 +15,7 @@ namespace MovieAPI.Models.Entities.Common
         /// <summary>
         /// Private constructor to prevent public abuse
         /// </summary>
-        private ReleaseYear(){ }
+        private ReleaseYear() { }
 
         /// <summary>
         /// Method to create a new instance of type <see cref="ReleaseYear"/>
@@ -32,7 +32,7 @@ namespace MovieAPI.Models.Entities.Common
             }
             return new ReleaseYear()
             {
-                 Value = year,
+                Value = year,
             };
         }
 
@@ -59,7 +59,7 @@ namespace MovieAPI.Models.Entities.Common
             if (year < 1895)
             {
                 return false;
-            } 
+            }
             // cannot be in the future
             if (year > DateTime.Now.Year)
             {
@@ -126,7 +126,7 @@ namespace MovieAPI.Models.Entities.Common
         /// <returns>True is they are equal. False otherwise</returns>
         public static bool operator ==(ReleaseYear x, ReleaseYear y)
         {
-            return Equals(x,y);
+            return Equals(x, y);
         }
 
         /// <summary>
