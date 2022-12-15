@@ -6,7 +6,7 @@ using Output = MovieAPI.Models.DTOs.Outputs;
 namespace MovieAPI.Mediatr
 {
     /// <summary>
-    /// The query used by the GetMoviesHandler
+    /// The the input used by <see cref="GetMoviesHandler"/> 
     /// </summary>
     public class GetMoviesQuery : IRequest<List<Output.Movie>>
     {
@@ -29,7 +29,7 @@ namespace MovieAPI.Mediatr
     }
 
     /// <summary>
-    /// dsfdsdfd dffdf dfdfdff v
+    /// Validates <see cref="GetMoviesQuery"/>
     /// </summary> 
     public class GetMoviesQueryValidator : AbstractValidator<GetMoviesQuery>
     {

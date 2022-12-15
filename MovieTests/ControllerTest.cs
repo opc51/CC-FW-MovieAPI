@@ -77,7 +77,6 @@ namespace MovieTests
 
             _mapper = config.CreateMapper();
 
-
             _movieService = new MovieService(fixture._database);
 
             _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper, _senderMOQ.Object);

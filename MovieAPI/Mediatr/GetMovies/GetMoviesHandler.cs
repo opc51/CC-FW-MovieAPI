@@ -9,19 +9,19 @@ using Output = MovieAPI.Models.DTOs.Outputs;
 namespace MovieAPI.Mediatr
 {
     /// <summary>
-    /// The handler used to get a movie list from specific search criteria
+    /// 
     /// </summary>
-    public class GetMoviesQueryHandler : IRequestHandler<GetMoviesQuery, List<Output.Movie>>
+    public class GetMoviesHandler : IRequestHandler<GetMoviesQuery, List<Output.Movie>>
     {
         private readonly IMovieService _movieDataService;
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Constructor for the type <see cref="GetMoviesQueryHandler"/>
+        /// Constructor for the type <see cref="GetMoviesHandler"/>
         /// </summary>
         /// <param name="movieDataService">The service used to get the data. Type of <see cref="IMovieService"/></param>
         /// <param name="mapper">The data mapper. Type of <see cref="IMapper"/></param>
-        public GetMoviesQueryHandler(IMovieService movieDataService, IMapper mapper)
+        public GetMoviesHandler(IMovieService movieDataService, IMapper mapper)
         {
             _movieDataService = movieDataService;
             _mapper = mapper;

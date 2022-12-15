@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using MovieAPI.Interfaces;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
+using MovieAPI.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,13 +28,15 @@ namespace MovieAPI.Controllers
         private readonly IMovieService _movieService;
         private readonly IMapper _mapper;
         private readonly ISender _sender;
+
         /// <summary>
         /// public constructor used to inject dependencies into the Movie Controller
         /// </summary>
-        /// <param name="logger">The logging service that will be injected into to Movie Controller</param>
-        /// <param name="movieDataService">The service class that will be injected to gather data from the API database context </param>
-        /// <param name="mapper">Automapper instance to convert Domain objects to outbound DTO objects </param> 
-        /// <param name="sender">Mediatr</param> 
+        /// <param name="logger">Type of <see cref="ILogger"/></param>
+        /// <param name="movieDataService"><see cref="IMovieService"/> used to interact with <see cref="APIContext"/> </param>
+        /// <param name="mapper"><see cref="AutoMapper"/> for converting Domain objects to outbound DTO's</param> 
+        /// <param name="sender">Mediatr implementation with <see cref="ISender"/></param> 
+        /// <exception cref="ArgumentNullException"></exception>
         public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
