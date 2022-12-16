@@ -15,7 +15,6 @@ namespace MovieAPI.Models.Entities.Common
         /// <summary>
         ///  Private constructor to prevent invalid object creation
         /// </summary>
-        /// <param name="length">Type of <see cref="int"/></param>
         private RunningTime() { }
 
         /// <summary>

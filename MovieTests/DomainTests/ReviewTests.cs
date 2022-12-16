@@ -27,7 +27,7 @@ namespace MovieTests.DomainTests
         [InlineData(0)]
         [InlineData(6)]
         public void CreateReviewShould_NotAllowsValuesOutside1and5(int score)
-        {
+        {   
             Assert.Throws<ArgumentOutOfRangeException>(() => Review.Create(fixture.Create<int>(), fixture.Create<int>(), score));
         }
 

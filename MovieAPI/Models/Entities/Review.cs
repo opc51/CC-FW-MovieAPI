@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Attributes;
 using System;
 
 namespace MovieAPI.Models.Entities
@@ -6,6 +7,7 @@ namespace MovieAPI.Models.Entities
     /// <summary>
     /// A movie review containing the Reviewer id, the movie id and the score
     /// </summary>
+    [Validator(typeof(ReviewValidator))]
     public class Review
     {
         /// <summary>
@@ -76,11 +78,11 @@ namespace MovieAPI.Models.Entities
 
             set
             {
-                if (!IsScoreValid(value))
-                {
-                    var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
-                    throw new ArgumentOutOfRangeException(errorMessage);
-                }
+                //if (!IsScoreValid(value))
+                //{
+                //    var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
+                //    throw new ArgumentOutOfRangeException(errorMessage);
+                //}
                 score = value;
             }
 
@@ -112,7 +114,7 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// Checks if the score is an <see cref="int"/> between 1 and 5 inclusive
         /// </summary>
-        /// <param name="score">The score assigned by the reviewer. Type Int <see cref=""/></param>
+        /// <param name="score">The score assigned by the reviewer. Type <see cref="int"/></param>
         /// <returns>True if score is valid. False if invalid</returns>
         public static bool IsScoreValid(int score)
         {
