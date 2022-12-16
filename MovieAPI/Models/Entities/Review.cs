@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
+using System;
 
 namespace MovieAPI.Models.Entities
 {
@@ -17,7 +17,6 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// The primary key of the reviewer. Type <see cref="int"/>
         /// </summary>
-        [Required]
         public int ReviewerId
         {
             get
@@ -27,7 +26,7 @@ namespace MovieAPI.Models.Entities
 
             set
             {
-                if (!AreIntegersPostiveAndNonZero(value))
+                if (!value.IsPositiveAndNonZeroInteger())
                 {
                     var errorMessage = "The movie Id must be a non zero and positive integer";
                     throw new ArgumentOutOfRangeException(errorMessage);
@@ -50,7 +49,7 @@ namespace MovieAPI.Models.Entities
 
             set
             {
-                if (!AreIntegersPostiveAndNonZero(value))
+                if (!value.IsPositiveAndNonZeroInteger())
                 {
                     var errorMessage = "The movie Id must be a non zero and positive integer";
                     throw new ArgumentOutOfRangeException(errorMessage);
@@ -124,21 +123,23 @@ namespace MovieAPI.Models.Entities
             return true;
         }
 
-
-        /// <summary>
-        /// Checks that the given integer value is positive and non-zero integers
-        /// </summary>
-        /// <param name="value">The <see cref="int"/> id of the Reviewer</param>
-        /// <returns>True is postive and non-zero. False otherwise.</returns>
-        public static bool AreIntegersPostiveAndNonZero(int value)
-        {
-            if (value < 1)
-            {
-                return false;
-            }
-            return true;
-        }
-
         #endregion
+    }
+
+
+    /// <summary>
+    /// Validates the class <see cref="ReviewValidator"/>
+    /// </summary>
+    public class ReviewValidator : AbstractValidator<Review>
+    {
+        /// <summary>
+        /// Checks that propeties of the review object are within bounds
+        /// </summary>
+        public ReviewValidator()
+        {
+            RuleFor(r => r.Score).Must(s => Review.IsScoreValid(s));
+            RuleFor(rev => rev.MovieId).Must(id => id.IsPositiveAndNonZeroInteger());
+            RuleFor(rev => rev.ReviewerId).Must(id => id.IsPositiveAndNonZeroInteger());
+        }
     }
 }
