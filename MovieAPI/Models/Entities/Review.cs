@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using FluentValidation.Attributes;
+//using FluentValidation.Attributes; depricated
 using System;
 
 namespace MovieAPI.Models.Entities
@@ -7,7 +7,7 @@ namespace MovieAPI.Models.Entities
     /// <summary>
     /// A movie review containing the Reviewer id, the movie id and the score
     /// </summary>
-    [Validator(typeof(ReviewValidator))]
+    //[Validator(typeof(ReviewValidator))] doesn't do what I thought it does
     public class Review
     {
         /// <summary>
@@ -78,11 +78,11 @@ namespace MovieAPI.Models.Entities
 
             set
             {
-                //if (!IsScoreValid(value))
-                //{
-                //    var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
-                //    throw new ArgumentOutOfRangeException(errorMessage);
-                //}
+                if (!IsScoreValid(value))
+                {
+                    var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
+                    throw new ArgumentOutOfRangeException(errorMessage);
+                }
                 score = value;
             }
 
@@ -130,12 +130,12 @@ namespace MovieAPI.Models.Entities
 
 
     /// <summary>
-    /// Validates the class <see cref="ReviewValidator"/>
+    /// Allows calling code see if an instance of type <see cref="ReviewValidator"/> is valid
     /// </summary>
     public class ReviewValidator : AbstractValidator<Review>
     {
         /// <summary>
-        /// Checks that propeties of the review object are within bounds
+        /// Holds the validation rules.
         /// </summary>
         public ReviewValidator()
         {
