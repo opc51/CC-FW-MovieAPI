@@ -78,11 +78,11 @@ namespace MovieAPI.Models.Entities
 
             set
             {
-                //if (!IsScoreValid(value))
-                //{
-                //    var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
-                //    throw new ArgumentOutOfRangeException(errorMessage);
-                //}
+                if (!IsScoreValid(value))
+                {
+                    var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
+                    throw new ArgumentOutOfRangeException(errorMessage);
+                }
                 score = value;
             }
 

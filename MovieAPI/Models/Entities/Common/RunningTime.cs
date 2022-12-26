@@ -78,13 +78,13 @@ namespace MovieAPI.Models.Entities.Common
         /// Allows the automatic conversion of the type <see cref="RunningTime"/> into type <see cref="int"/>
         /// </summary>
         /// <param name="y">Type of <see cref="RunningTime"/></param>
-        public static implicit operator int(RunningTime y) => y.Value;
+        public static explicit operator int(RunningTime y) => y.Value;
 
         /// <summary>
         /// Allows the automatic conversion of type <see cref="int"/> into type <see cref="RunningTime"/>
         /// </summary>
         /// <param name="y">Type of <see cref="int"/></param>
-        public static implicit operator RunningTime(int y) => Create(y);
+        public static explicit operator RunningTime(int y) => Create(y);
 
         #endregion
 
