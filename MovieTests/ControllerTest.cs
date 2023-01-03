@@ -27,7 +27,9 @@ namespace MovieTests
     public class ControllerTest
     {
         /// <summary>
-        /// A controller that uses in memory data. Used in most test
+        /// A controller that uses in memory data. Used in most test.
+        /// 
+        /// Suitable for tets that require data to be exercised
         /// </summary>
         private readonly MoviesController _inMemoryController;
         /// <summary>
@@ -35,7 +37,7 @@ namespace MovieTests
         /// </summary>
         private MovieService _movieService;
         /// <summary>
-        /// A controller that uses in memory data. 
+        /// A controller that doesn't use any data. Mainly used in failure tests 
         /// </summary>
         private readonly MoviesController _mockedController;
         /// <summary>
@@ -89,6 +91,8 @@ namespace MovieTests
             _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object, _validator);
         }
 
+        #region Initialisation
+
         [Fact]
         public void CreationWithNullLogger_ThrowsArgumentNulException()
         {
@@ -118,6 +122,8 @@ namespace MovieTests
         {
             Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, _senderMOQ.Object, null));
         }
+
+        #endregion
 
         [Fact]
         public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
