@@ -6,7 +6,7 @@ namespace MovieAPI.Models.DTOs.Outputs
     /// DTO used to transfer lists of movies and ratings back to the caller
     /// </summary>
     [DebuggerDisplay("Title : {MovieTitle}, Rating : {Rating}")]
-    public record MovieResultsList
+    public record MovieResult
     {
         /// <summary>
         /// The primary key of the movie

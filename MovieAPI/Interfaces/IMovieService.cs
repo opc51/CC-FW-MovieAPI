@@ -23,42 +23,49 @@ namespace MovieAPI.Interfaces
 
 
         /// <summary>
-        /// Get the top 5 highest rated movies
+        /// Gets the top rated movie across all reviewers
         /// </summary>
-        /// <returns></returns>
-        public List<MovieResultsList> GetTopMovies(int NumberOfMovies);
+        /// <param name="NumberOfMovies">The number of movies required. Type of <see cref="int"/></param>
+        /// <returns>A list of <see cref="MovieResult"/></returns>
+        public List<MovieResult> GetTopMovies(int NumberOfMovies);
 
 
         /// <summary>
-        /// Get the top 5 rated movies for a specific reviewer
+        /// Get the top rated movies for a specific reviewer
         /// </summary>
         /// <param name="numberOfMovies">The number of top ranked movies required</param>
         /// <param name="reviewerId">The primary key of the reviewer</param>
-        /// <returns>A list of Movie Results</returns>
-        public List<MovieResultsList> GetMoviesByReviewer(int numberOfMovies, int reviewerId);
+        /// <returns>A list of type <see cref="MovieResult"/></returns>
+        public List<MovieResult> GetMoviesByReviewer(int numberOfMovies, int reviewerId);
 
 
         /// <summary>
         /// Find a specific movie based upon it's primary key
         /// </summary>
-        /// <param name="movieId">The primary key of the movie</param>
-        /// <returns>A single movie record</returns>
+        /// <param name="movieId">The primary key of the movie. Type of <see cref="int"/></param>
+        /// <returns>A single <see cref="Movie"/> record</returns>
         public Entity.Movie GetMovieById(int movieId);
 
 
         /// <summary>
-        /// Find a reviewer based upon it's primary key
+        /// Find a review by the primary key
         /// </summary>
-        /// <param name="reviewerId">Th eprimary key of the reviewer</param>
-        /// <returns>A single reviewer</returns>
+        /// <param name="reviewerId"> <see cref="int"/> value of the Reviewer primary key</param>
+        /// <returns>The reviewer of type <see cref="Entity.Reviewer"/></returns>
         public Entity.Reviewer GetReviewerById(int reviewerId);
 
 
         /// <summary>
-        /// Add or update a movie review
+        /// Adds or updates a movie review.
+        /// 
+        /// It first checks if the reviewer has already reviewed this movie. 
+        /// 
+        /// If the reviewer has the existing score is updated in the existing context. If not it adds a new review
+        /// 
+        /// It then saves the changes in the context.
         /// </summary>
-        /// <param name="review">A movie review</param>
-        /// <returns>A boolean success flag</returns>
+        /// <param name="review">The review to be added or updated. Type of <see cref="AddUpdateReview"/></param>
+        /// <returns></returns>
         public bool AddUpdateReview(AddUpdateReview review);
     }
 }

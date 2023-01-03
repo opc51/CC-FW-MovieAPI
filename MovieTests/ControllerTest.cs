@@ -172,7 +172,7 @@ namespace MovieTests
         [Fact]
         public void TopRated_Should_Return404WhenNoDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<Output.MovieResultsList>());
+            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<Output.MovieResult>());
             var result = _mockedController.TopRatedMovies(5);
             Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }

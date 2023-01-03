@@ -29,17 +29,7 @@ namespace MovieAPI.Services
             _data = _database ?? throw new ArgumentNullException();
         }
 
-        /// <summary>
-        /// Adds or updates a movie review.
-        /// 
-        /// It first checks if the reviewer has already reviewed this movie. 
-        /// 
-        /// If the reviewer has the existing score is updated in the existing context. If not it adds a new review
-        /// 
-        /// It then saves the changes in the context.
-        /// </summary>
-        /// <param name="review"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public bool AddUpdateReview(AddUpdateReview review)
         {
             var findExistingReview = _data.Reviews.Where(r =>
@@ -64,12 +54,7 @@ namespace MovieAPI.Services
         /// <returns>True is returned for successful save, false is returned for failed save</returns>
         public bool SaveChanges() => _data.SaveChanges().CompareTo(-1) == 0 ? false : true;
 
-        /// <summary>
-        /// Finds a list of movies that match specific search criteria
-        /// </summary>
-        /// <param name="sc">The criteria used to find movies. Includes title, year and genre </param>
-        /// <param name="cancellationToken">Cancellation Token for async operations </param>
-        /// <returns>A list of movies</returns>
+        /// <inheritdoc/>
         public async Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken)
         {
             IQueryable<Entity.Movie> data = _data.Movies;
@@ -89,37 +74,26 @@ namespace MovieAPI.Services
             return await data.ToListAsync(cancellationToken);
         }
 
-        /// <summary>
-        /// Find a movie based upon the primary key
-        /// </summary>
-        /// <param name="movieId">The integer pimary key</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Entity.Movie GetMovieById(int movieId)
         {
             return _data.Find<Entity.Movie>(movieId);
 
         }
 
-        /// <summary>
-        /// Find a review by the primary key
-        /// </summary>
-        /// <param name="reviewerId">integer primary key</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Reviewer GetReviewerById(int reviewerId)
         {
             return _data.Find<Reviewer>(reviewerId);
         }
 
-        /// <summary>
-        /// Finds the top 5 rated movies. Rating determined by the scores given by all reviewers
-        /// </summary>
-        /// <returns>List of MovieResults</returns>
-        public List<MovieResultsList> GetTopMovies(int numberOfMovies)
+        /// <inheritdoc/>
+        public List<MovieResult> GetTopMovies(int numberOfMovies)
         {
             return _data.Movies
                             .OrderByDescending(x => x.GetAverageScore)
                             .Take(numberOfMovies)
-                                            .Select(x => new MovieResultsList()
+                                            .Select(x => new MovieResult()
                                             {
                                                 MovieId = x.Id,
                                                 MovieTitle = x.Title,
@@ -131,18 +105,13 @@ namespace MovieAPI.Services
                             .ToList();
         }
 
-        /// <summary>
-        /// Find the top 5 movies for a specific reviewer
-        /// </summary>
-        /// <param name="numberofMovies">The number of movies to return</param>
-        /// <param name="reviewerId">The primary key of the reviewer</param>
-        /// <returns>List of MovieResults</returns>
-        public List<MovieResultsList> GetMoviesByReviewer(int numberofMovies, int reviewerId)
+        /// <inheritdoc/>
+        public List<MovieResult> GetMoviesByReviewer(int numberofMovies, int reviewerId)
         {
             return _data.Reviews.Where(r => r.ReviewerId == reviewerId)
                                     .OrderByDescending(r => r.Score)
                                     .Take(numberofMovies)
-                                    .Select(x => new MovieResultsList()
+                                    .Select(x => new MovieResult()
                                     {
                                         MovieId = x.MovieId,
                                         MovieTitle = x.Movie.Title,
