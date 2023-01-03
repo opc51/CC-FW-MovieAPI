@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-//using FluentValidation.Attributes; depricated
 using System;
 
 namespace MovieAPI.Models.Entities
@@ -7,7 +6,6 @@ namespace MovieAPI.Models.Entities
     /// <summary>
     /// A movie review containing the Reviewer id, the movie id and the score
     /// </summary>
-    //[Validator(typeof(ReviewValidator))] doesn't do what I thought it does
     public class Review
     {
         /// <summary>

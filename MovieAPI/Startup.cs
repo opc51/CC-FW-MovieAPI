@@ -1,3 +1,4 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MovieAPI.Interfaces;
+using MovieAPI.Models.Entities;
 using MovieAPI.Repository;
 using MovieAPI.Services;
 using System;
@@ -68,6 +70,7 @@ namespace MovieAPI
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IMovieService, MovieService>();
+            services.AddValidatorsFromAssemblyContaining<ReviewValidator>();
         }
 
 

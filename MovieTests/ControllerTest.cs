@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -57,6 +58,10 @@ namespace MovieTests
         /// A real Automapper to work on
         /// </summary>
         private readonly IMapper _mapper;
+        /// <summary>
+        /// A mock of the GetMoviesQuery Validator
+        /// </summary>
+        private readonly IValidator<GetMoviesQuery> _validator = new GetMoviesQueryValidator();
 
         private Fixture _fixture = new();
 
@@ -79,33 +84,39 @@ namespace MovieTests
 
             _movieService = new MovieService(fixture._database);
 
-            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper, _senderMOQ.Object);
+            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper, _senderMOQ.Object, _validator);
 
-            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object);
+            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object, _validator);
         }
 
         [Fact]
         public void CreationWithNullLogger_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapperMOQ.Object, _senderMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapperMOQ.Object, _senderMOQ.Object, _validator));
         }
 
         [Fact]
         public void CreationWithNullService_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapperMOQ.Object, _senderMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapperMOQ.Object, _senderMOQ.Object, _validator));
         }
 
         [Fact]
         public void CreationWithNullMapper_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, null, _senderMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, null, _senderMOQ.Object, _validator));
         }
 
         [Fact]
         public void CreationWithNullSender_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, null, _validator));
+        }
+
+        [Fact]
+        public void CreationWithNullValidator_ThrowsArgumentNulException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, _senderMOQ.Object, null));
         }
 
         [Fact]
