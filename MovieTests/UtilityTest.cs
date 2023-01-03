@@ -14,7 +14,9 @@ namespace MovieTests
         [InlineData(3.75, 4.0)]
         [InlineData(1, 1)]
         [InlineData(3.5, 3.5)]
+        [InlineData(1.24, 1)]
         [InlineData(1.25, 1.5)]
+        [InlineData(1.26, 1.5)]
         [InlineData(1.75, 2)]
 
         public void RoundingShould_GiveTheCorrectValue(double input, double expected)
