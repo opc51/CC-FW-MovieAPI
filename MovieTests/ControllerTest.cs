@@ -45,7 +45,7 @@ namespace MovieTests
         /// </summary>
         private readonly Mock<ILogger<MoviesController>> _loggerMOQ = new();
         /// <summary>
-        /// A mock Movie Service
+        /// A mock Movie Service needed by the mocked
         /// </summary>
         private readonly Mock<IMovieService> _movieMOQ = new();
         /// <summary>
@@ -91,7 +91,7 @@ namespace MovieTests
             _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object, _validator);
         }
 
-        #region Initialisation
+        #region InitialisationTests
 
         [Fact]
         public void CreationWithNullLogger_ThrowsArgumentNulException()
@@ -124,6 +124,8 @@ namespace MovieTests
         }
 
         #endregion
+
+        #region GetMethodTests
 
         [Fact]
         public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
@@ -185,6 +187,9 @@ namespace MovieTests
             Assert.Equal(500, objectResult.StatusCode);
         }
 
+        #endregion
+
+        #region TopRatedTests
 
         [Fact]
         public void TopRated_Should_Return404WhenNoDataFound()
@@ -211,6 +216,9 @@ namespace MovieTests
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
+        #endregion
+
+        #region TopFiveByReviewerTests
 
         [Theory]
         [InlineData(5, 0)] // invalid reviewerID
@@ -246,6 +254,9 @@ namespace MovieTests
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
+        #endregion
+
+        #region AddReviewTests
 
         [Theory]
         [MemberData(nameof(invalidReviewSubmissions))]
@@ -294,5 +305,6 @@ namespace MovieTests
             var result = _inMemoryController.AddReview(new AddUpdateReview() { MovieId = 2, ReviewerId = 2, Score = 3 });
             Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
+        #endregion
     }
 }
