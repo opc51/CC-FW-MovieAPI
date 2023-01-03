@@ -38,7 +38,7 @@ namespace MovieAPI.Controllers
         /// <param name="movieDataService"><see cref="IMovieService"/> used to interact with <see cref="APIContext"/> </param>
         /// <param name="mapper"><see cref="AutoMapper"/> for converting Domain objects to outbound DTO's</param> 
         /// <param name="sender">Mediatr implementation with <see cref="ISender"/></param> 
-        /// <param name="getMoviesQueryValidator">Validator for GetMovieQuery <see cref="IValidator<GetMoviesQuery>"/></param> 
+        /// <param name="getMoviesQueryValidator"><see cref="IValidator"/> for  <see cref="GetMoviesQuery"/>/></param> 
         /// <exception cref="ArgumentNullException"></exception>
         public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender,
                                 IValidator<GetMoviesQuery> getMoviesQueryValidator)
