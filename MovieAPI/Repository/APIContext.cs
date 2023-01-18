@@ -139,9 +139,9 @@ namespace MovieAPI.Repository
             if (!Reviewers.AnyAsync().Result)
             {
                 Reviewers.AddRange(
-                    Reviewer.Create("John", "john@john.com")
-                    , Reviewer.Create("Jane", "john@john.com")
-                    , Reviewer.Create("Josey", "john@john.com")
+                    Reviewer.Create("JohnTheBrit", "john@john.com", "gb", "01234875456")
+                    , Reviewer.Create("JaneAmerican", "john@john.com", "US", "3333334444")
+                    , Reviewer.Create("JoseyFrance", "john@john.com", "Fr", "123456789")
                 );
                 SaveChanges();
             }
