@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using FluentValidation.TestHelper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,7 @@ namespace MovieAPI.Controllers
         private readonly IMovieService _movieService;
         private readonly IMapper _mapper;
         private readonly ISender _sender;
+        private readonly IValidator<GetMoviesQuery> _getMoviesQueryValidator;
 
         /// <summary>
         /// public constructor used to inject dependencies into the Movie Controller
@@ -36,13 +38,16 @@ namespace MovieAPI.Controllers
         /// <param name="movieDataService"><see cref="IMovieService"/> used to interact with <see cref="APIContext"/> </param>
         /// <param name="mapper"><see cref="AutoMapper"/> for converting Domain objects to outbound DTO's</param> 
         /// <param name="sender">Mediatr implementation with <see cref="ISender"/></param> 
-        /// <exception cref="ArgumentNullException">Thrown an <see cref="ArgumentNullException"/> when arguments are null</exception>
-        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender)
+        /// <param name="getMoviesQueryValidator"><see cref="IValidator"/> for  <see cref="GetMoviesQuery"/>/></param> 
+        /// <exception cref="ArgumentNullException"></exception>
+        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender,
+                                IValidator<GetMoviesQuery> getMoviesQueryValidator)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _movieService = movieDataService ?? throw new ArgumentNullException(nameof(movieDataService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _sender = sender ?? throw new ArgumentNullException(nameof(sender));
+            _getMoviesQueryValidator = getMoviesQueryValidator ?? throw new ArgumentNullException(nameof(sender));
         }
 
         /// <summary>
@@ -79,12 +84,11 @@ namespace MovieAPI.Controllers
             {
                 var request = _mapper.Map<GetMoviesQuery>(sc);
 
-                var validator = new GetMoviesQueryValidator();
-                var result = validator.TestValidate(request);
-                if (!result.IsValid)
+                var validationResult = _getMoviesQueryValidator.TestValidate(request);
+                if (!validationResult.IsValid)
                 {
-                    _logger.LogError($"Bad request was recieved {string.Join(' ', result.Errors.Select(x => x))}");
-                    return BadRequest(string.Join(' ', result.Errors.Select(x => x)));
+                    _logger.LogError($"Bad request was recieved {string.Join(' ', validationResult.Errors.Select(x => x))}");
+                    return BadRequest(string.Join(' ', validationResult.Errors.Select(x => x)));
                 }
                 var data = await _sender.Send(request, cancellationToken);
                 return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);

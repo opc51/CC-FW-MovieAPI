@@ -11,7 +11,7 @@ namespace MovieTests.DomainTests
         {
             int timing = 183;
             RunningTime runningTime = RunningTime.Create(timing);
-            int sut = runningTime;
+            int sut = (int) runningTime;
             Assert.Equal(typeof(int), sut.GetType());
         }
 

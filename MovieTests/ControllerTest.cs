@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,9 @@ namespace MovieTests
     public class ControllerTest
     {
         /// <summary>
-        /// A controller that uses in memory data. Used in most test
+        /// A controller that uses in memory data. Used in most test.
+        /// 
+        /// Suitable for tets that require data to be exercised
         /// </summary>
         private readonly MoviesController _inMemoryController;
         /// <summary>
@@ -34,7 +37,7 @@ namespace MovieTests
         /// </summary>
         private MovieService _movieService;
         /// <summary>
-        /// A controller that uses in memory data. 
+        /// A controller that doesn't use any data. Mainly used in failure tests 
         /// </summary>
         private readonly MoviesController _mockedController;
         /// <summary>
@@ -42,7 +45,7 @@ namespace MovieTests
         /// </summary>
         private readonly Mock<ILogger<MoviesController>> _loggerMOQ = new();
         /// <summary>
-        /// A mock Movie Service
+        /// A mock Movie Service needed by the mocked
         /// </summary>
         private readonly Mock<IMovieService> _movieMOQ = new();
         /// <summary>
@@ -57,6 +60,10 @@ namespace MovieTests
         /// A real Automapper to work on
         /// </summary>
         private readonly IMapper _mapper;
+        /// <summary>
+        /// A mock of the GetMoviesQuery Validator
+        /// </summary>
+        private readonly IValidator<GetMoviesQuery> _validator = new GetMoviesQueryValidator();
 
         private Fixture _fixture = new();
 
@@ -79,34 +86,46 @@ namespace MovieTests
 
             _movieService = new MovieService(fixture._database);
 
-            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper, _senderMOQ.Object);
+            _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper, _senderMOQ.Object, _validator);
 
-            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object);
+            _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object, _validator);
         }
+
+        #region InitialisationTests
 
         [Fact]
         public void CreationWithNullLogger_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapperMOQ.Object, _senderMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(null, _movieService, _mapperMOQ.Object, _senderMOQ.Object, _validator));
         }
 
         [Fact]
         public void CreationWithNullService_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapperMOQ.Object, _senderMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, null, _mapperMOQ.Object, _senderMOQ.Object, _validator));
         }
 
         [Fact]
         public void CreationWithNullMapper_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, null, _senderMOQ.Object));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, null, _senderMOQ.Object, _validator));
         }
 
         [Fact]
         public void CreationWithNullSender_ThrowsArgumentNulException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, null, _validator));
         }
+
+        [Fact]
+        public void CreationWithNullValidator_ThrowsArgumentNulException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MoviesController(_loggerMOQ.Object, _movieService, _mapperMOQ.Object, _senderMOQ.Object, null));
+        }
+
+        #endregion
+
+        #region GetMethodTests
 
         [Fact]
         public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
@@ -168,11 +187,14 @@ namespace MovieTests
             Assert.Equal(500, objectResult.StatusCode);
         }
 
+        #endregion
+
+        #region TopRatedTests
 
         [Fact]
         public void TopRated_Should_Return404WhenNoDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<Output.MovieResultsList>());
+            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<Output.MovieResult>());
             var result = _mockedController.TopRatedMovies(5);
             Assert.Equal(typeof(NotFoundObjectResult).Name, result.Result.GetType().Name);
         }
@@ -194,6 +216,9 @@ namespace MovieTests
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
+        #endregion
+
+        #region TopFiveByReviewerTests
 
         [Theory]
         [InlineData(5, 0)] // invalid reviewerID
@@ -229,6 +254,9 @@ namespace MovieTests
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
         }
 
+        #endregion
+
+        #region AddReviewTests
 
         [Theory]
         [MemberData(nameof(invalidReviewSubmissions))]
@@ -264,10 +292,11 @@ namespace MovieTests
             _movieMOQ.Setup(x => x.GetMovieById(It.IsAny<int>())).Returns(movieOne);
 
             _movieMOQ.Setup(x => x.GetReviewerById(It.IsAny<int>()))
-                            .Returns(Entity.Reviewer.Create(_fixture.Create<string>(), "adminuser@freewheel.com"));
+                            .Returns(Entity.Reviewer.Create(_fixture.Create<string>(), "adminuser@freewheel.com", "gb", "01689817516"));
             _movieMOQ.Setup(x => x.AddUpdateReview(It.IsAny<AddUpdateReview>())).Returns(false);
             var result = _mockedController.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1, Score = 4 });
             Assert.Equal(typeof(ObjectResult).Name, result.Result.GetType().Name);
+            _movieMOQ.Reset();
         }
 
 
@@ -277,5 +306,6 @@ namespace MovieTests
             var result = _inMemoryController.AddReview(new AddUpdateReview() { MovieId = 2, ReviewerId = 2, Score = 3 });
             Assert.Equal(typeof(OkObjectResult).Name, result.Result.GetType().Name);
         }
+        #endregion
     }
 }

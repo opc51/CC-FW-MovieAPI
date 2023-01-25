@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using MovieAPI.Models.Entities;
+using MovieAPI.Models.Entities.Common;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -14,7 +15,7 @@ namespace MovieTests.DomainTests
         public void MovieSetUp_ValidData_Succeeds()
         {
             string TITLE = _fixture.Create<string>();
-            var movie = Movie.Create(TITLE, 1974, 123, MovieAPI.Models.Enum.GenreType.Action);
+            var movie = Movie.Create(TITLE, 1974, (RunningTime) 123, MovieAPI.Models.Enum.GenreType.Action);
             var reviewList = new List<Review>()
             {
                 Review.Create(1, 1, 2),
@@ -32,13 +33,10 @@ namespace MovieTests.DomainTests
         public void EmptyOrNullReviews_ThrowsException()
         {
             string TITLE = _fixture.Create<string>();
-            var movie = Movie.Create(TITLE, 1974, 123, MovieAPI.Models.Enum.GenreType.Action);
+            var movie = Movie.Create(TITLE, 1974, (RunningTime) 123, MovieAPI.Models.Enum.GenreType.Action);
             var reviewList = new List<Review>();
 
             Assert.Throws<ArgumentException>(() => movie.AddReviews(reviewList));
-
         }
-
-
     }
 }

@@ -12,6 +12,11 @@ namespace MovieAPI.EntityFramework
         /// <param name="builder">Type of <see cref="EntityTypeBuilder"/>, containing <see cref="Review"/></param>
         public void Configure(EntityTypeBuilder<Review> builder)
         {
+            builder.Property(x => x.Score).IsRequired();
+
+            builder.Property(x => x.MovieId).IsRequired();
+
+            builder.Property(x => x.ReviewerId).IsRequired();
         }
     }
 }

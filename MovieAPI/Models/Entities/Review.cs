@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
+using System;
 
 namespace MovieAPI.Models.Entities
 {
@@ -17,7 +17,6 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// The primary key of the reviewer. Type <see cref="int"/>
         /// </summary>
-        [Required]
         public int ReviewerId
         {
             get
@@ -27,7 +26,7 @@ namespace MovieAPI.Models.Entities
 
             set
             {
-                if (!AreIntegersPostiveAndNonZero(value))
+                if (!value.IsPositiveAndNonZeroInteger())
                 {
                     var errorMessage = "The movie Id must be a non zero and positive integer";
                     throw new ArgumentOutOfRangeException(errorMessage);
@@ -50,7 +49,7 @@ namespace MovieAPI.Models.Entities
 
             set
             {
-                if (!AreIntegersPostiveAndNonZero(value))
+                if (!value.IsPositiveAndNonZeroInteger())
                 {
                     var errorMessage = "The movie Id must be a non zero and positive integer";
                     throw new ArgumentOutOfRangeException(errorMessage);
@@ -79,7 +78,7 @@ namespace MovieAPI.Models.Entities
             {
                 if (!IsScoreValid(value))
                 {
-                    var errorMessage = $"The score provided for the review was {score}. This is invalid. Score must be between 1 and 5.";
+                    var errorMessage = $"The score provided for the review was {value}. This is invalid. Score must be between 1 and 5.";
                     throw new ArgumentOutOfRangeException(errorMessage);
                 }
                 score = value;
@@ -113,7 +112,7 @@ namespace MovieAPI.Models.Entities
         /// <summary>
         /// Checks if the score is an <see cref="int"/> between 1 and 5 inclusive
         /// </summary>
-        /// <param name="score">The score assigned by the reviewer. Type Int <see cref=""/></param>
+        /// <param name="score">The score assigned by the reviewer. Type <see cref="int"/></param>
         /// <returns>True if score is valid. False if invalid</returns>
         public static bool IsScoreValid(int score)
         {
@@ -124,21 +123,23 @@ namespace MovieAPI.Models.Entities
             return true;
         }
 
-
-        /// <summary>
-        /// Checks that the given integer value is positive and non-zero integers
-        /// </summary>
-        /// <param name="value">The <see cref="int"/> id of the Reviewer</param>
-        /// <returns>True is postive and non-zero. False otherwise.</returns>
-        public static bool AreIntegersPostiveAndNonZero(int value)
-        {
-            if (value < 1)
-            {
-                return false;
-            }
-            return true;
-        }
-
         #endregion
+    }
+
+
+    /// <summary>
+    /// Allows calling code see if an instance of type <see cref="ReviewValidator"/> is valid
+    /// </summary>
+    public class ReviewValidator : AbstractValidator<Review>
+    {
+        /// <summary>
+        /// Holds the validation rules.
+        /// </summary>
+        public ReviewValidator()
+        {
+            RuleFor(r => r.Score).Must(s => Review.IsScoreValid(s));
+            RuleFor(rev => rev.MovieId).Must(id => id.IsPositiveAndNonZeroInteger());
+            RuleFor(rev => rev.ReviewerId).Must(id => id.IsPositiveAndNonZeroInteger());
+        }
     }
 }
