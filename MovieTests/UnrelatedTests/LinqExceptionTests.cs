@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Entities = MovieAPI.Models.Entities;
+using Domain = MovieAPI.Models.Domain;
 
 namespace MovieTests
 {
@@ -11,7 +11,7 @@ namespace MovieTests
         [Fact]
         public void SelectOn_AsEnumerableList_Produces_emptyList()
         {
-            var sut = new List<Entities.Movie>().AsEnumerable();
+            var sut = new List<Domain.Movie>().AsEnumerable();
             var result = sut.Select(x => x);
             Assert.Empty(result);
         }
@@ -19,7 +19,7 @@ namespace MovieTests
         [Fact]
         public void WhereOn_AsEnumerableList_Produces_emptyList()
         {
-            var sut = new List<Entities.Movie>().AsEnumerable();
+            var sut = new List<Domain.Movie>().AsEnumerable();
             var result = sut.Where(x => x.Id == 100);
             Assert.Empty(result);
         }
@@ -29,7 +29,7 @@ namespace MovieTests
         public void First_onNull_ArgumentNullExceptionException()
         {
             //Arrange
-            List<Entities.Movie> _sut = null;
+            List<Domain.Movie> _sut = null;
 
             //Act Assert
             Assert.Throws<ArgumentNullException>(() => _sut.First());
@@ -39,21 +39,11 @@ namespace MovieTests
         public void First_onEmptyList_ThrowsInvalidOperationException()
         {
             //Arrange
-            List<Entities.Movie> _sut = new();
+            List<Domain.Movie> _sut = new();
 
             //Act Assert
             Assert.Throws<InvalidOperationException>(() => _sut.First());
         }
-
-        //[Fact]
-        //public void First_onNullableClass_ThrowsInvalidOperationException()
-        //{
-        //    //Arrange
-        //    List<Entities.Movie?> _sut = new();
-
-        //    //Act Assert
-        //    Assert.Throws<InvalidOperationException>(() => _sut.First());
-        //}
         #endregion
 
 
@@ -61,7 +51,7 @@ namespace MovieTests
         public void Where_onNull_ArgumentNullExceptionException()
         {
             //Arrange
-            List<Entities.Movie> _sut = null;
+            List<Domain.Movie> _sut = null;
 
             //Act Assert
             Assert.Throws<ArgumentNullException>(() => _sut.Where(x => x.Id == x.RunningTime.Value));
@@ -72,7 +62,7 @@ namespace MovieTests
         public void FirstOrDefault_onNull_ArgumentNullExceptionException()
         {
             //Arrange
-            List<Entities.Movie> _sut = null;
+            List<Domain.Movie> _sut = null;
 
             //Act Assert
             Assert.Throws<ArgumentNullException>(() => _sut.FirstOrDefault());
@@ -82,7 +72,7 @@ namespace MovieTests
         public void FirstorDefault_onEmptyList_ThrowsInvalidOperationException()
         {
             //Arrange
-            List<Entities.Movie> _sut = new();
+            List<Domain.Movie> _sut = new();
 
             //Act Assert
             //Assert.Empty(_sut.FirstOrDefault());
@@ -106,7 +96,7 @@ namespace MovieTests
         public void ToList_onEmptyList_GivesAnEmptyList()
         {
             //Arrange
-            List<Entities.Movie> _sut = new();
+            List<Domain.Movie> _sut = new();
 
             //Act Assert
             Assert.Empty(_sut.ToList());
@@ -117,7 +107,7 @@ namespace MovieTests
         public void ToList_onNull_ThrowsInvalidOperationException()
         {
             //Arrange
-            List<Entities.Movie> _sut = null;
+            List<Domain.Movie> _sut = null;
 
             //Act Assert
             Assert.Throws<ArgumentNullException>(() => _sut.ToList());

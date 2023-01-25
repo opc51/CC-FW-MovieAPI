@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
-using MovieAPI.Models.Entities;
+using MovieAPI.Models.Domain;
 using System;
-using System.Net.Mail;
 using Xunit;
 
 namespace MovieTests.DomainTests

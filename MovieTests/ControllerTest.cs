@@ -10,7 +10,7 @@ using MovieAPI.Controllers;
 using MovieAPI.Interfaces;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
-using MovieAPI.Models.Entities.Common;
+using MovieAPI.Models.Domain.Common;
 using MovieAPI.Models.Enum;
 using MovieAPI.Profiles;
 using MovieAPI.Services;
@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Xunit;
-using Entity = MovieAPI.Models.Entities;
+using Entity = MovieAPI.Models.Domain;
 using Output = MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieTests

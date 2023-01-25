@@ -3,14 +3,14 @@ using MovieAPI.Interfaces;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
 using MovieAPI.Models.DTOs.Outputs;
-using MovieAPI.Models.Entities;
+using MovieAPI.Models.Domain;
 using MovieAPI.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Entity = MovieAPI.Models.Entities;
+using Entity = MovieAPI.Models.Domain;
 
 namespace MovieAPI.Services
 {

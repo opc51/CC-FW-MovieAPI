@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieAPI.Models.Entities;
-using MovieAPI.Models.Entities.Common;
+using MovieAPI.Models.Domain;
+using MovieAPI.Models.Domain.Common;
 using MovieAPI.Models.Enum;
 using System.Collections.Generic;
 using System.Reflection;

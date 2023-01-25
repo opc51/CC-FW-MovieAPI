@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MovieAPI.Models.Entities.Common
+namespace MovieAPI.Models.Domain.Common
 {
     /// <summary>
     /// 

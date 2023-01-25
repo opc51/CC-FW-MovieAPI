@@ -4,7 +4,7 @@ using MovieAPI.Models.DTOs.Outputs;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Entity = MovieAPI.Models.Entities;
+using Domain = MovieAPI.Models.Domain;
 
 namespace MovieAPI.Interfaces
 {
@@ -19,7 +19,7 @@ namespace MovieAPI.Interfaces
         /// <param name="sc">Movie Search criteria</param>
         /// <param name="cancellationToken">Cancellation Token</param>
         /// <returns>A list of movies</returns>
-        public Task<List<Entity.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken);
+        public Task<List<Domain.Movie>> GetMatchingMovies(GetMoviesQuery sc, CancellationToken cancellationToken);
 
 
         /// <summary>
@@ -44,15 +44,15 @@ namespace MovieAPI.Interfaces
         /// </summary>
         /// <param name="movieId">The primary key of the movie. Type of <see cref="int"/></param>
         /// <returns>A single <see cref="Movie"/> record</returns>
-        public Entity.Movie GetMovieById(int movieId);
+        public Domain.Movie GetMovieById(int movieId);
 
 
         /// <summary>
         /// Find a review by the primary key
         /// </summary>
         /// <param name="reviewerId"> <see cref="int"/> value of the Reviewer primary key</param>
-        /// <returns>The reviewer of type <see cref="Entity.Reviewer"/></returns>
-        public Entity.Reviewer GetReviewerById(int reviewerId);
+        /// <returns>The reviewer of type <see cref="Domain.Reviewer"/></returns>
+        public Domain.Reviewer GetReviewerById(int reviewerId);
 
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using System;
 
-namespace MovieAPI.Models.Entities
+namespace MovieAPI.Models.Domain
 {
     /// <summary>
     /// A movie review containing the Reviewer id, the movie id and the score

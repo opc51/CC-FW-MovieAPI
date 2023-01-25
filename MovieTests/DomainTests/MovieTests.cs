@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
-using MovieAPI.Models.Entities;
-using MovieAPI.Models.Entities.Common;
+using MovieAPI.Models.Domain;
+using MovieAPI.Models.Domain.Common;
 using System;
 using System.Collections.Generic;
 using Xunit;

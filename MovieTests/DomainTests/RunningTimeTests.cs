@@ -1,4 +1,4 @@
-﻿using MovieAPI.Models.Entities.Common;
+﻿using MovieAPI.Models.Domain.Common;
 using System;
 using Xunit;
 

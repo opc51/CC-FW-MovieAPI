@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MovieAPI.Models.Entities;
-using MovieAPI.Models.Entities.Common;
+using MovieAPI.Models.Domain;
+using MovieAPI.Models.Domain.Common;
 using MovieAPI.Models.Enum;
 
 namespace MovieAPI.EntityFramework

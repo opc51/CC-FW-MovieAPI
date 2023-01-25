@@ -5,7 +5,7 @@ using System.Net.Mail;
 using libphonenumber;
 using System.Globalization;
 
-namespace MovieAPI.Models.Entities
+namespace MovieAPI.Models.Domain
 {
     /// <summary>
     /// Details of the person who reviewed the Movie

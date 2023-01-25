@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MovieAPI.Mediatr;
 using MovieAPI.Models;
-using Entity = MovieAPI.Models.Entities;
+using Domain = MovieAPI.Models.Domain;
 using Output = MovieAPI.Models.DTOs.Outputs;
 
 namespace MovieAPI.Profiles
@@ -16,7 +16,7 @@ namespace MovieAPI.Profiles
         /// </summary>
         public MovieProfiles()
         {
-            CreateMap<Entity.Movie, Output.Movie>()
+            CreateMap<Domain.Movie, Output.Movie>()
                 .ForMember(
                     dto => dto.YearsPassedSinceOriginalRelease,
                     ent => ent.MapFrom(src => src.YearOfRelease.NumberOfYearsAgoReleased())

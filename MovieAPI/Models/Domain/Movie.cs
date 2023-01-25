@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
-using MovieAPI.Models.Entities.Common;
+using MovieAPI.Models.Domain.Common;
 using MovieAPI.Models.Enum;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 
-namespace MovieAPI.Models.Entities
+namespace MovieAPI.Models.Domain
 {
     /// <summary>
     /// A movie containing Id, Title, year of release and Genre

@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using MovieAPI.Models.Entities;
+using MovieAPI.Models.Domain;
 using System;
 using Xunit;
 

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MovieAPI.Interfaces;
-using MovieAPI.Models.Entities;
+using MovieAPI.Models.Domain;
 using MovieAPI.Repository;
 using MovieAPI.Services;
 using System;
