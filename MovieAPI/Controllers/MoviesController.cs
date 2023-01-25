@@ -36,7 +36,7 @@ namespace MovieAPI.Controllers
         /// <param name="movieDataService"><see cref="IMovieService"/> used to interact with <see cref="APIContext"/> </param>
         /// <param name="mapper"><see cref="AutoMapper"/> for converting Domain objects to outbound DTO's</param> 
         /// <param name="sender">Mediatr implementation with <see cref="ISender"/></param> 
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown an <see cref="ArgumentNullException"/> when arguments are null</exception>
         public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
