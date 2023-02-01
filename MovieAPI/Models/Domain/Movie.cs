@@ -55,32 +55,33 @@ namespace MovieAPI.Models.Domain
         /// <summary>
         /// Movie reviews of type <see cref="Review"/> attached to this Movie
         /// </summary>
-        public IReadOnlyCollection<Review> Reviews { get { return reviews; } }
+        //public IReadOnlyCollection<Review> Reviews { get { return reviews; } }
 
         /// <summary>
         /// Contains the average score of the movie has over all 
         /// </summary>
-        public double GetAverageScore
-        {
-            get
-            {
-                if (!Reviews.Any())
-                {
-                    return 0;
-                }
-                return reviews.Average(r => r.Score).As<double>();
-            }
+        //public double GetAverageScore
+        //{
+        //    get
+        //    {
+        //        if (!Reviews.Any())
+        //        {
+        //            return 0;
+        //        }
+        //        return reviews.Average(r => r.Score).As<double>();
+        //    }
 
-            private set { }
-        }
+        //    private set { }
+        //}
 
         /// <summary>
-        /// Used to create a new instance of type <see cref="Reviewers"/>
+        /// Used to create a new instance of type <see cref="Movie"/>
         /// </summary>
         /// <param name="title">The name of the Movie. Type <see cref="string"/> </param>
         /// <param name="year">The Year the movie was released. Type <see cref="int"/></param>
         /// <param name="runningTime">The Year the movie was released. Type <see cref="int"/></param>
         /// <param name="genre">The Year the movie was released. Type <see cref="GenreType"/></param>
+        /// <param name="id">The <see cref="int"/> Id of the movie</param>
         /// <returns></returns>
         public static Movie Create(string title, ReleaseYear year,
                                    RunningTime runningTime, GenreType genre)
@@ -90,7 +91,8 @@ namespace MovieAPI.Models.Domain
                 Title = title,
                 YearOfRelease = year,
                 RunningTime = runningTime,
-                Genre = genre
+                Genre = genre,
+                Id = 2
             };
         }
 

@@ -15,6 +15,10 @@ namespace MovieAPI.EntityFramework
             builder.Property(x => x.Name).IsRequired();
 
             builder.Property(x => x.Email).IsRequired();
+
+            //builder.Property(x => x.Id)
+            //    .ValueGeneratedOnAdd()
+            //    .HasValueGenerator<ReviewerIdValueGenerator>();
         }
     }
 }

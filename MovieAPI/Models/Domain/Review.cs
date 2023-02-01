@@ -97,6 +97,7 @@ namespace MovieAPI.Models.Domain
         /// <param name="reviewerId">The primary key of the reviewer. Type <see cref="int"/></param>
         /// <param name="movieId">The primary key of the movie. Type <see cref="int"/></param>
         /// <param name="score">The score given to the movie. Minimum value 1, maximum value 5. Type <see cref="int"/></param>
+        /// <param name="id">The <see cref="int"/> Id of the review. Only need for testing scenarios</param>
         public static Review Create(int reviewerId, int movieId, int score)
         {
             return new Review()

@@ -14,6 +14,8 @@ namespace MovieAPI.EntityFramework
         /// <param name="builder"></param>
         public void Configure(EntityTypeBuilder<Movie> builder)
         {
+            builder.HasKey(x => x.Id);
+
             builder.Property(x => x.Genre)
                 .HasConversion(m => m.Value, m => GenreType.FromValue(m));
 
@@ -23,9 +25,10 @@ namespace MovieAPI.EntityFramework
             builder.Property(x => x.YearOfRelease)
                 .HasConversion(m => m.Value, m => (ReleaseYear)m);
 
-            builder.Property(x => x.Id)
-                .IsRequired()
-                .HasValueGenerator<MyValueGenerator>();
+            //builder.Property(x => x.Id)
+            //    .IsRequired()
+            //    .ValueGeneratedOnAdd()
+            //    .HasValueGenerator<MovieIdValueGenerator>();
         }
     }
 }

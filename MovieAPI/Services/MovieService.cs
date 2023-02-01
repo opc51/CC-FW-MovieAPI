@@ -91,7 +91,7 @@ namespace MovieAPI.Services
         public List<MovieResult> GetTopMovies(int numberOfMovies)
         {
             return _data.Movies
-                            .OrderByDescending(x => x.GetAverageScore)
+                            //.OrderByDescending(x => x.GetAverageScore)
                             .Take(numberOfMovies)
                                             .Select(x => new MovieResult()
                                             {
@@ -100,7 +100,7 @@ namespace MovieAPI.Services
                                                 YearOfRelease = x.YearOfRelease.Value,
                                                 RunningTime = x.YearOfRelease,
                                                 Genres = x.Genre.Name,
-                                                Rating = x.GetAverageScore
+                                                //Rating = x.GetAverageScore
                                             })
                             .ToList();
         }
