@@ -15,6 +15,7 @@ using MovieAPI.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieAPI
 {
@@ -42,10 +43,22 @@ namespace MovieAPI
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container
         /// </summary>
-        /// <param name="services">The servic ecollection that new service will be injected into</param>
+        /// <param name="services">The service collection that new service will be injected into</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<APIContext>(opt => opt.UseInMemoryDatabase("MovieDatabase"));
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = Environment.GetFolderPath(folder);
+            var DbPath = System.IO.Path.Join(path, "Movies.db");
+
+            switch (Configuration.GetRequiredSection("DatabaseMode").Value) {
+                case "InMemory" : 
+                    services.AddDbContext<APIContext>(opt => opt.UseInMemoryDatabase("MovieDatabase"));
+                    break;
+                case "Sql":
+                    services.AddDbContext<APIContext>(opt => opt.UseSqlite($"Data Source={DbPath}"));
+                    break;
+                default: throw new Exception();
+            }
 
             services.AddControllers();
 
@@ -109,7 +122,7 @@ namespace MovieAPI
             //app.UseAuthorization();
             //app.UseAuthentication();
 
-            // go to the slected endpoint
+            // go to the selected endpoint
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -75,7 +75,7 @@ namespace MovieAPI.Models.Domain
         }
 
         /// <summary>
-        /// Used to create a new instance of type <see cref="Movie"/>
+        /// Used to create a new instance of type <see cref="Reviewers"/>
         /// </summary>
         /// <param name="title">The name of the Movie. Type <see cref="string"/> </param>
         /// <param name="year">The Year the movie was released. Type <see cref="int"/></param>
@@ -95,7 +95,7 @@ namespace MovieAPI.Models.Domain
         }
 
         /// <summary>
-        /// Used to add reviews of type <see cref="Review"/> to <see cref="Movie"/>.
+        /// Used to add reviews of type <see cref="Review"/> to <see cref="Reviewers"/>.
         /// 
         /// New reviews are appended to old reviews
         /// </summary>
