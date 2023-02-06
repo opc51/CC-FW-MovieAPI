@@ -60,19 +60,19 @@ namespace MovieAPI.Models.Domain
         /// <summary>
         /// Contains the average score of the movie has over all 
         /// </summary>
-        //public double GetAverageScore
-        //{
-        //    get
-        //    {
-        //        if (!Reviews.Any())
-        //        {
-        //            return 0;
-        //        }
-        //        return reviews.Average(r => r.Score).As<double>();
-        //    }
+        public double GetAverageScore
+        {
+            get
+            {
+                if (!reviews.Any())
+                {
+                    return 0;
+                }
+                return reviews.Average(r => r.Score).As<double>();
+            }
 
-        //    private set { }
-        //}
+            private set { }
+        }
 
         /// <summary>
         /// Used to create a new instance of type <see cref="Movie"/>
@@ -92,7 +92,6 @@ namespace MovieAPI.Models.Domain
                 YearOfRelease = year,
                 RunningTime = runningTime,
                 Genre = genre,
-                Id = 2
             };
         }
 

@@ -15,7 +15,6 @@ using MovieAPI.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 
 namespace MovieAPI
 {
@@ -50,8 +49,12 @@ namespace MovieAPI
             var path = Environment.GetFolderPath(folder);
             var DbPath = System.IO.Path.Join(path, "Movies.db");
 
-            switch (Configuration.GetRequiredSection("DatabaseMode").Value) {
-                case "InMemory" : 
+            // services.AddDbContext<APIContext>(opt => opt.UseInMemoryDatabase("MovieDatabase"));
+
+
+            switch (Configuration.GetRequiredSection("DatabaseMode").Value)
+            {
+                case "InMemory":
                     services.AddDbContext<APIContext>(opt => opt.UseInMemoryDatabase("MovieDatabase"));
                     break;
                 case "Sql":
