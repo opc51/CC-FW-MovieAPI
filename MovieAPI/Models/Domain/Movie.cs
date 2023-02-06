@@ -55,7 +55,7 @@ namespace MovieAPI.Models.Domain
         /// <summary>
         /// Movie reviews of type <see cref="Review"/> attached to this Movie
         /// </summary>
-        //public IReadOnlyCollection<Review> Reviews { get { return reviews; } }
+        public IReadOnlyCollection<Review> Reviews { get { return reviews; } }
 
         /// <summary>
         /// Contains the average score of the movie has over all 
@@ -64,7 +64,7 @@ namespace MovieAPI.Models.Domain
         {
             get
             {
-                if (!reviews.Any())
+                if (!Reviews.Any())
                 {
                     return 0;
                 }
