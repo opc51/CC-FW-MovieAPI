@@ -35,7 +35,7 @@ namespace MovieTests
         /// <summary>
         /// A movie service for retiriving data from real world objects
         /// </summary>
-        private MovieService _movieService;
+        private readonly MovieService _movieService;
         /// <summary>
         /// A controller that doesn't use any data. Mainly used in failure tests 
         /// </summary>
@@ -65,10 +65,10 @@ namespace MovieTests
         /// </summary>
         private readonly IValidator<GetMoviesQuery> _validator = new GetMoviesQueryValidator();
 
-        private Fixture _fixture = new();
+        private readonly Fixture _fixture = new();
 
 
-        public static IEnumerable<object[]> invalidReviewSubmissions = new List<object[]>()
+        public static IEnumerable<object[]> InvalidReviewSubmissions = new List<object[]>()
                                                 {
                                                     new object[]{ 0, 0, 1},
                                                     new object[]{ 0, 1, 1},
@@ -259,7 +259,7 @@ namespace MovieTests
         #region AddReviewTests
 
         [Theory]
-        [MemberData(nameof(invalidReviewSubmissions))]
+        [MemberData(nameof(InvalidReviewSubmissions))]
         public void AddReviewShould_ReturnBadRequest_WithInvalidReview(int reviewerId, int movieId, int score)
         {
             var result = _inMemoryController.AddReview(new AddUpdateReview() { ReviewerId = reviewerId, MovieId = movieId, Score = score });

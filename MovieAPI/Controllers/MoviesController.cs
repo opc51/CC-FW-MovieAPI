@@ -87,8 +87,9 @@ namespace MovieAPI.Controllers
                 var validationResult = _getMoviesQueryValidator.TestValidate(request);
                 if (!validationResult.IsValid)
                 {
-                    _logger.LogError($"Bad request was recieved {string.Join(' ', validationResult.Errors.Select(x => x))}");
-                    return BadRequest(string.Join(' ', validationResult.Errors.Select(x => x)));
+                    var errors = string.Join(' ', validationResult.Errors.Select(x => x));
+                    _logger.LogError("Bad request was recieved {errors}", errors);
+                    return BadRequest(errors);
                 }
                 var data = await _sender.Send(request, cancellationToken);
                 return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);
@@ -204,7 +205,7 @@ namespace MovieAPI.Controllers
         {
             Guid incidentNumber = Guid.NewGuid();
 
-            _logger.LogError(incidentNumber.ToString() + ' ' + ex.Message);
+            _logger.LogError("{incidentNumber} {ex.Message}", incidentNumber, ex.Message);
             return new ObjectResult(ex) { StatusCode = 500 };
             // return Problem($"Problem retreving the data. Ask it to check log files for incidentNumber {incidentNumber}"
             //               ,null
