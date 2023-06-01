@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.TestHelper;
-using Xunit;
 
 namespace Movie.Repository.Services.Tests
 {
@@ -15,7 +14,7 @@ namespace Movie.Repository.Services.Tests
             _validator = new GetMoviesQueryValidator();
         }
 
-        [Fact]
+        [Test]
         public void MovieQuery_MustHave_OneField()
         {
             _query = new GetMoviesQuery();
