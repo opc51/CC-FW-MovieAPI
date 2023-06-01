@@ -11,7 +11,7 @@ namespace Movie.Repository.Services.DTOs.Output
         /// <summary>
         /// The title of the movie
         /// </summary>
-        public string Title { get; init; }
+        public string Title { get; init; } = string.Empty;
 
         /// <summary>
         /// The number of years passed since the movie was originally released
@@ -26,6 +26,6 @@ namespace Movie.Repository.Services.DTOs.Output
         /// <summary>
         /// The type of movie
         /// </summary>
-        public string Genre { get; init; }
+        public string Genre { get; init; } = string.Empty;
     }
 }

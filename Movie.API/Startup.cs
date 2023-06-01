@@ -27,7 +27,7 @@ namespace Movie.API
     public class Startup
     {
         /// <summary>
-        /// Public constructor of the start up class
+        /// Constructor used to instantiate a new instance of <see cref="Startup"/>
         /// </summary>
         /// <param name="configuration">The application configuration classes</param>
         public Startup(IConfiguration configuration)
@@ -35,9 +35,7 @@ namespace Movie.API
             Configuration = configuration;
         }
 
-        /// <summary>
-        /// The configuration setting for the api
-        /// </summary>
+        /// <inheritdoc/>
         public IConfiguration Configuration { get; }
 
 
@@ -54,11 +52,9 @@ namespace Movie.API
             services.AddMvc(options =>
                     {
                         options.Filters.Add(new ModelStateFilter());
-                    })
-                    .AddFluentValidation(options =>
-                    {
-                        options.RegisterValidatorsFromAssemblyContaining<Startup>();
                     });
+
+            services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
             services.AddMediatR(cfg =>
                     cfg.RegisterServicesFromAssembly(typeof(GetMoviesQuery).Assembly));

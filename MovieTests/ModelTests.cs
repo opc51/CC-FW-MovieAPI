@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using Movie.API.Models;
 using Movie.Respository.Services;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using Xunit;
 
 namespace MovieTests
 {
@@ -44,7 +44,7 @@ namespace MovieTests
         private Fixture fixture = new();
 
         [Theory]
-        [MemberData(nameof(invalidSearchCriteria))]
+        [TestCaseSource(nameof(invalidSearchCriteria))]
         public void MovieSearchCriteriaShould_beInvalidWithNullData(string title, string genre, int year)
         {
             MovieSearchCriteria sut = new() { Title = title, Genre = genre, Year = year };
@@ -53,7 +53,7 @@ namespace MovieTests
 
 
         [Theory]
-        [MemberData(nameof(validSearchCriteria))]
+        [TestCaseSource(nameof(validSearchCriteria))]
         public void MovieSearchCriteriaShould_beValidWithGoodData(string title, string genre, int year)
         {
             MovieSearchCriteria sut = new() { Title = title, Genre = genre, Year = year };
@@ -61,11 +61,11 @@ namespace MovieTests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
-        [InlineData(5)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
         public void AddUpdateReviewShould_AllowsValuesBetween1and5(int score)
         {
             AddUpdateReview sut = new()
@@ -74,21 +74,21 @@ namespace MovieTests
                 ReviewerId = fixture.Create<int>(),
                 Score = score
             };
-            Assert.Equal(score, sut.Score);
+            Assert.That(score, Is.EqualTo(sut.Score));
         }
 
 
         [Theory]
-        [InlineData(0)]
-        [InlineData(6)]
-        [InlineData(7)]
+        [TestCase(0)]
+        [TestCase(6)]
+        [TestCase(7)]
         public void AddUpdateReviewShould_NotAllowsValuesOutside1and5(int score)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new AddUpdateReview() { Score = score });
         }
 
         [Theory]
-        [MemberData(nameof(invalidReviewSubmissions))]
+        [TestCaseSource(nameof(invalidReviewSubmissions))]
         public void ReviewModelShould_ReturnFalseForInvalidSubmissions(int reviewerId, int movieId, int score)
         {
             AddUpdateReview sut = new() { ReviewerId = reviewerId, MovieId = movieId, Score = score };
@@ -97,7 +97,7 @@ namespace MovieTests
 
 
         [Theory]
-        [MemberData(nameof(validReviewSubmissions))]
+        [TestCaseSource(nameof(validReviewSubmissions))]
         public void ReviewModelShould_ReturnTrueForValidSubmission(int reviewerId, int movieId, int score)
         {
             AddUpdateReview sut = new() { ReviewerId = reviewerId, MovieId = movieId, Score = score };

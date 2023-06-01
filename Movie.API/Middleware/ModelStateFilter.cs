@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace Movie.API.Middleware
 {
     /// <summary>
-    /// Created al allow FluentValidation to work automatically in controller action
+    /// Created to allow FluentValidation to work automatically in controller actions
     /// 
     /// Makes for cleaner controllers.
     /// </summary>
     public class ModelStateFilter : IActionFilter
     {
+        /// <inheritdoc/>
         public void OnActionExecuting(ActionExecutingContext context)
         {
             if (!context.ModelState.IsValid)
@@ -17,6 +18,8 @@ namespace Movie.API.Middleware
                 context.Result = new BadRequestObjectResult(context.ModelState);
             }
         }
+
+        /// <inheritdoc/>
         public void OnActionExecuted(ActionExecutedContext context) { }
     }
 }

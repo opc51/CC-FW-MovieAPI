@@ -3,8 +3,8 @@ using AutoMapper;
 using Movie.API.AutoMapper;
 using Movie.Repository.Entities.Common;
 using Movie.Repository.Entities.Enum;
+using NUnit.Framework;
 using System;
-using Xunit;
 using Entities = Movie.Repository.Entities;
 
 namespace MovieTests
@@ -24,7 +24,7 @@ namespace MovieTests
             _mapper = config.CreateMapper();
         }
 
-        [Fact]
+        [Test]
         public void MovieEnity_convertsSuccesfully_toMovieDto()
         {
             //Arrange
@@ -36,9 +36,10 @@ namespace MovieTests
             Movie.Repository.Services.DTOs.Output.Movie converted = _mapper.Map<Entities.Movie, Movie.Repository.Services.DTOs.Output.Movie>(movie);
 
             //Assert
-            Assert.True(string.Equals(movie.Title, converted.Title));
-            Assert.Equal(movie.RunningTime.Value, converted.RunningTime);
-            Assert.Equal(DateTime.Now.Year - movie.YearOfRelease, converted.YearsPassedSinceOriginalRelease);
+            Assert.That(movie.Title, Is.EqualTo(converted.Title));
+            Assert.That(movie.RunningTime.Value, Is.EqualTo(converted.RunningTime));
+            Assert.That(DateTime.Now.Year - movie.YearOfRelease, 
+                            Is.EqualTo(converted.YearsPassedSinceOriginalRelease));
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace MovieTests.ContextSharing
 {
+    ///<inheritdoc/>
     [CollectionDefinition("In Memory Database Collection")]
     public class InMemoryDatabaseCollection : ICollectionFixture<InMemoryDatabaseFixture>
     {

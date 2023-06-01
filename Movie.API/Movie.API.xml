@@ -6,12 +6,13 @@
     <members>
         <member name="T:Movie.API.AutoMapper.MovieProfiles">
             <summary>
-            AutoMapper Profile
+            AutoMapper profile for conversion of <see cref="T:Movie.Repository.Entities.Movie"/>, 
+            <see cref="T:Movie.Repository.Services.DTOs.Output.Movie"/> and <see cref="T:Movie.API.Models.MovieSearchCriteria"/>
             </summary>
         </member>
         <member name="M:Movie.API.AutoMapper.MovieProfiles.#ctor">
             <summary>
-            Constructor used to map Movie entities to Movie DTO's
+            Constructor used to instantiate an instance of <see cref="T:Movie.API.AutoMapper.MovieProfiles"/>
             </summary>
         </member>
         <member name="T:Movie.API.Controllers.MoviesController">
@@ -19,15 +20,14 @@
             Contains methods used to add movie reviews and show lists of highly rated movies
             </summary>
         </member>
-        <member name="M:Movie.API.Controllers.MoviesController.#ctor(Microsoft.Extensions.Logging.ILogger{Movie.API.Controllers.MoviesController},Movie.Repository.Services.IMovieService,AutoMapper.IMapper,MediatR.ISender,FluentValidation.IValidator{Movie.Repository.Services.GetMoviesQuery})">
+        <member name="M:Movie.API.Controllers.MoviesController.#ctor(Microsoft.Extensions.Logging.ILogger{Movie.API.Controllers.MoviesController},Movie.Repository.Services.IMovieService,AutoMapper.IMapper,MediatR.ISender)">
             <summary>
             public constructor used to inject dependencies into the Movie Controller
             </summary>
             <param name="logger">Type of <see cref="T:Microsoft.Extensions.Logging.ILogger"/></param>
-            <param name="movieDataService"><see cref="T:Movie.Repository.Services.IMovieService"/> used to interact with <see cref="!:APIContext"/> </param>
+            <param name="movieDataService"><see cref="T:Movie.Repository.Services.IMovieService"/> used to interact with <see cref="T:Movie.Repository.APIContext"/> </param>
             <param name="mapper"><see cref="N:Movie.API.AutoMapper"/> for converting Domain objects to outbound DTO's</param> 
             <param name="sender">Mediatr implementation with <see cref="T:MediatR.ISender"/></param> 
-            <param name="getMoviesQueryValidator"><see cref="T:FluentValidation.IValidator"/> for  <see cref="T:Movie.Repository.Services.GetMoviesQuery"/>/></param> 
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:Movie.API.Controllers.MoviesController.Get(Movie.Repository.Services.GetMoviesQuery,System.Threading.CancellationToken)">
@@ -88,14 +88,20 @@
         </member>
         <member name="T:Movie.API.Middleware.ModelStateFilter">
             <summary>
-            Created al allow FluentValidation to work automatically in controller action
+            Created to allow FluentValidation to work automatically in controller actions
             
             Makes for cleaner controllers.
             </summary>
         </member>
+        <member name="M:Movie.API.Middleware.ModelStateFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Movie.API.Middleware.ModelStateFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <inheritdoc/>
+        </member>
         <member name="T:Movie.API.Models.MovieSearchCriteria">
             <summary>
-            The search criteria used to find movies
+            The search criteria used to find movies - // to do - move this
             </summary>
         </member>
         <member name="P:Movie.API.Models.MovieSearchCriteria.Title">
@@ -131,22 +137,13 @@
             <returns></returns>
         </member>
         <member name="T:Movie.API.Program">
-            <summary>
-            The program begins here
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="M:Movie.API.Program.Main(System.String[])">
-            <summary>
-            Inbuilt NET core class. Acts as the entry poin to the API
-            </summary>
-            <param name="args"></param>
+            <inheritdoc/>
         </member>
         <member name="M:Movie.API.Program.CreateHostBuilder(System.String[])">
-            <summary>
-            Build the web to host the API
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
+            <inheritdoc/>
         </member>
         <member name="T:Movie.API.Startup">
             <summary>
@@ -155,14 +152,12 @@
         </member>
         <member name="M:Movie.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
-            Public constructor of the start up class
+            Constructor used to instantiate a new instance of <see cref="T:Movie.API.Startup"/>
             </summary>
             <param name="configuration">The application configuration classes</param>
         </member>
         <member name="P:Movie.API.Startup.Configuration">
-            <summary>
-            The configuration setting for the api
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="M:Movie.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
@@ -180,6 +175,8 @@
         <member name="T:Movie.API.Utilities">
             <summary>
             Static Utility Classes. Useful functionality that could be needed in multiple places
+            
+            To do - move this
             </summary>
         </member>
         <member name="M:Movie.API.Utilities.RoundToTheNearestHalf(System.Double)">

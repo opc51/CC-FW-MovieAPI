@@ -26,25 +26,21 @@ namespace Movie.API.Controllers
         private readonly IMovieService _movieService;
         private readonly IMapper _mapper;
         private readonly ISender _sender;
-        private readonly IValidator<GetMoviesQuery> _getMoviesQueryValidator;
 
         /// <summary>
         /// public constructor used to inject dependencies into the Movie Controller
         /// </summary>
         /// <param name="logger">Type of <see cref="ILogger"/></param>
-        /// <param name="movieDataService"><see cref="IMovieService"/> used to interact with <see cref="APIContext"/> </param>
+        /// <param name="movieDataService"><see cref="IMovieService"/> used to interact with <see cref="Repository.APIContext"/> </param>
         /// <param name="mapper"><see cref="AutoMapper"/> for converting Domain objects to outbound DTO's</param> 
         /// <param name="sender">Mediatr implementation with <see cref="ISender"/></param> 
-        /// <param name="getMoviesQueryValidator"><see cref="IValidator"/> for  <see cref="GetMoviesQuery"/>/></param> 
         /// <exception cref="ArgumentNullException"></exception>
-        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender,
-                                IValidator<GetMoviesQuery> getMoviesQueryValidator)
+        public MoviesController(ILogger<MoviesController> logger, IMovieService movieDataService, IMapper mapper, ISender sender)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _movieService = movieDataService ?? throw new ArgumentNullException(nameof(movieDataService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _sender = sender ?? throw new ArgumentNullException(nameof(sender));
-            _getMoviesQueryValidator = getMoviesQueryValidator ?? throw new ArgumentNullException(nameof(sender));
         }
 
         /// <summary>

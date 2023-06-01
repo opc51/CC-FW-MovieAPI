@@ -12,7 +12,7 @@ namespace Movie.Repository.Services
         /// <summary>
         /// The name of the movie
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
 
         /// <summary>

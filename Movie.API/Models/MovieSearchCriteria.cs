@@ -3,7 +3,7 @@
 namespace Movie.API.Models
 {
     /// <summary>
-    /// The search criteria used to find movies
+    /// The search criteria used to find movies - // to do - move this
     /// </summary>
     public record MovieSearchCriteria
     {
