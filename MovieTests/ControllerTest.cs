@@ -6,20 +6,18 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MovieAPI.Controllers;
-using MovieAPI.Interfaces;
-using MovieAPI.Mediatr;
-using MovieAPI.Models;
-using MovieAPI.Models.Entities.Common;
-using MovieAPI.Models.Enum;
-using MovieAPI.Profiles;
-using MovieAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using Xunit;
-using Entity = MovieAPI.Models.Entities;
-using Output = MovieAPI.Models.DTOs.Outputs;
+using Entity = Movie.Repository.Entities;
+using Output = Movie.Repository.Services.DTOs.Output;
+using Movie.API.Controllers;
+using Movie.Repository.Services;
+using Movie.Respository.Services;
+using Movie.Repository.Entities.Common;
+using Movie.Repository.Entities.Enum;
+using Movie.API.AutoMapper;
 
 namespace MovieTests
 {
@@ -128,31 +126,16 @@ namespace MovieTests
         #region GetMethodTests
 
         [Fact]
-        public void GetShould_ReturnBadRequest_WithInvalidSearchCriteria()
+        public void GetShould_ReturnBadRequest_WithInvalidQuery()
         {
-            var result = _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
+            var result = _inMemoryController.Get(new GetMoviesQuery(), new CancellationToken());
             result.Result.Result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
-        public async void GetShould_LogErrorMessageWithInvalidSearchCriteria()
-        {
-            await _inMemoryController.Get(new MovieSearchCriteria() { }, new CancellationToken());
-
-            _loggerMOQ.Verify(logger => logger.Log(
-                    It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
-                    It.Is<EventId>(eventId => eventId.Id == 0),
-                    It.Is<It.IsAnyType>((@object, @type) => @object.ToString() == "Bad request was recieved 'Title' must not be empty. 'Genre' must not be empty. 'Year' must not be empty." && @type.Name == "FormattedLogValues"),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-                    Times.Once);
-        }
-
-
-        [Fact]
         public void GetShould_ReturnNotFound_WhenNoDataFound()
         {
-            var sc = new MovieSearchCriteria() { Title = _fixture.Create<string>() };
+            var sc = new GetMoviesQuery() { Title = _fixture.Create<string>() };
             var result = _inMemoryController.Get(sc, new CancellationToken());
             result.Result.Result.Should().BeOfType<NotFoundObjectResult>();
         }
@@ -161,7 +144,7 @@ namespace MovieTests
         [Fact]
         public void GetShould_ReturnOkResult_WhenDataFound()
         {
-            var sc = new MovieSearchCriteria() { Title = "movie" };
+            var sc = new GetMoviesQuery() { Title = "movie" };
             var data = new List<Output.Movie>() {
                     new Output.Movie() { Title = "Super Fun Movie 1" }
                     ,new Output.Movie() { Title = "Super Fun Movie 2" }
@@ -171,20 +154,6 @@ namespace MovieTests
             var result = _inMemoryController.Get(sc, new CancellationToken());
 
             result.Result.Result.Should().BeOfType<OkObjectResult>();
-        }
-
-
-        [Fact]
-        public void GETShould_Return500OnException()
-        {
-            var sc = new MovieSearchCriteria() { Title = "movie" };
-            _mapperMOQ.Setup(m => m.Map<GetMoviesQuery>(It.IsAny<string>()))
-                        .Throws(new Exception("First Serious Error Thrown"));
-            _senderMOQ.Setup(x => x.Send(It.IsAny<GetMoviesQuery>(), It.IsAny<CancellationToken>()))
-                .Throws(new Exception("Serious Error Encountered"));
-            var result = _mockedController.Get(sc, new CancellationToken());
-            var objectResult = (ObjectResult)result.Result.Result;
-            Assert.Equal(500, objectResult.StatusCode);
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
-using MovieAPI.Models;
+using Movie.API.Models;
+using Movie.Respository.Services;
 using System;
 using System.Collections.Generic;
 using Xunit;

@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31112.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieAPI", "MovieAPI\MovieAPI.csproj", "{8E8730E8-749B-4977-A03E-328293A7CA30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.API", "MovieAPI\Movie.API.csproj", "{8E8730E8-749B-4977-A03E-328293A7CA30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTests", "MovieTests\MovieTests.csproj", "{A463D105-30EF-4F3C-A5BE-FC061E579EAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.API.Tests", "MovieTests\Movie.API.Tests.csproj", "{A463D105-30EF-4F3C-A5BE-FC061E579EAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repository.Services", "Movie.Repository.Services\Movie.Repository.Services.csproj", "{3E54BE59-428A-44B7-B860-5BA7409F07D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repositry.Services.Tests", "Movie.Repositry.Services.Tests\Movie.Repositry.Services.Tests.csproj", "{E548C3A7-C69F-47F1-BB2D-71F7598EF513}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repository", "Movie.Repository\Movie.Repository.csproj", "{7EEA8552-C982-482D-817B-8847553EF55B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repository.Tests", "PTA.Repository.Tests\Movie.Repository.Tests.csproj", "{D887E153-14D3-44E7-9E15-0C24D45EC74C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{A463D105-30EF-4F3C-A5BE-FC061E579EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A463D105-30EF-4F3C-A5BE-FC061E579EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A463D105-30EF-4F3C-A5BE-FC061E579EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E54BE59-428A-44B7-B860-5BA7409F07D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E54BE59-428A-44B7-B860-5BA7409F07D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E54BE59-428A-44B7-B860-5BA7409F07D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E54BE59-428A-44B7-B860-5BA7409F07D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E548C3A7-C69F-47F1-BB2D-71F7598EF513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E548C3A7-C69F-47F1-BB2D-71F7598EF513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E548C3A7-C69F-47F1-BB2D-71F7598EF513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E548C3A7-C69F-47F1-BB2D-71F7598EF513}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EEA8552-C982-482D-817B-8847553EF55B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EEA8552-C982-482D-817B-8847553EF55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EEA8552-C982-482D-817B-8847553EF55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EEA8552-C982-482D-817B-8847553EF55B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D887E153-14D3-44E7-9E15-0C24D45EC74C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D887E153-14D3-44E7-9E15-0C24D45EC74C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D887E153-14D3-44E7-9E15-0C24D45EC74C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D887E153-14D3-44E7-9E15-0C24D45EC74C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

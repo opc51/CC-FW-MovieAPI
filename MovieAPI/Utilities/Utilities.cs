@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MovieAPI
+namespace Movie.API
 {
     /// <summary>
     /// Static Utility Classes. Useful functionality that could be needed in multiple places

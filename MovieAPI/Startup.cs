@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,15 +9,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MovieAPI.Interfaces;
-using MovieAPI.Models.Entities;
-using MovieAPI.Repository;
-using MovieAPI.Services;
+using Movie.API.Middleware;
+using Movie.Repository;
+using Movie.Repository.Entities;
+using Movie.Repository.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.NetworkInformation;
 using System.Reflection;
 
-namespace MovieAPI
+namespace Movie.API
 {
     /// <summary>
     /// .NET Core inbuilt class to build the web host
@@ -49,7 +51,17 @@ namespace MovieAPI
 
             services.AddControllers();
 
-            services.AddMediatR(typeof(Startup));
+            services.AddMvc(options =>
+                    {
+                        options.Filters.Add(new ModelStateFilter());
+                    })
+                    .AddFluentValidation(options =>
+                    {
+                        options.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    });
+
+            services.AddMediatR(cfg =>
+                    cfg.RegisterServicesFromAssembly(typeof(GetMoviesQuery).Assembly));
 
             services.AddSwaggerGen(c =>
             {

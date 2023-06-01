@@ -1,6 +1,6 @@
-﻿using MovieAPI.Models.Enum;
+﻿using Movie.Repository.Entities.Enum;
 
-namespace MovieAPI.Models
+namespace Movie.API.Models
 {
     /// <summary>
     /// The search criteria used to find movies

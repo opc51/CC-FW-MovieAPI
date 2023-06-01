@@ -1,4 +1,4 @@
-﻿using MovieAPI;
+﻿using Movie.API;
 using Xunit;
 
 namespace MovieTests

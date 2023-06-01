@@ -1,8 +1,7 @@
-using MovieAPI.Mediatr;
-using MovieAPI.Models;
-using MovieAPI.Models.Enum;
-using MovieAPI.Repository;
-using MovieAPI.Services;
+using Movie.Repository;
+using Movie.Repository.Entities.Enum;
+using Movie.Repository.Services;
+using Movie.Respository.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;

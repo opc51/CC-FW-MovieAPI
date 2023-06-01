@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieAPI.Repository;
+using Movie.Repository;
 using System;
 
 namespace MovieTests

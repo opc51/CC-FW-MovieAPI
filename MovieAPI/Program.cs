@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MovieAPI
+namespace Movie.API
 {
     /// <summary>
     /// The program begins here

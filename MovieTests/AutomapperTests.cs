@@ -1,12 +1,11 @@
 ﻿using AutoFixture;
 using AutoMapper;
-using MovieAPI.Models.DTOs.Outputs;
-using MovieAPI.Models.Entities.Common;
-using MovieAPI.Models.Enum;
-using MovieAPI.Profiles;
+using Movie.API.AutoMapper;
+using Movie.Repository.Entities.Common;
+using Movie.Repository.Entities.Enum;
 using System;
 using Xunit;
-using Entities = MovieAPI.Models.Entities;
+using Entities = Movie.Repository.Entities;
 
 namespace MovieTests
 {
@@ -34,7 +33,7 @@ namespace MovieTests
                                               RunningTime.Create(180), GenreType.Comedy);
 
             //Act
-            Movie converted = _mapper.Map<Entities.Movie, Movie>(movie);
+            Movie.Repository.Services.DTOs.Output.Movie converted = _mapper.Map<Entities.Movie, Movie.Repository.Services.DTOs.Output.Movie>(movie);
 
             //Assert
             Assert.True(string.Equals(movie.Title, converted.Title));

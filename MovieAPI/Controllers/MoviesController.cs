@@ -1,22 +1,19 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using FluentValidation.TestHelper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MovieAPI.Interfaces;
-using MovieAPI.Mediatr;
-using MovieAPI.Models;
-using MovieAPI.Repository;
+using Movie.Repository.Services;
+using Movie.Respository.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Output = MovieAPI.Models.DTOs.Outputs;
+using Output = Movie.Repository.Services.DTOs.Output;
 
-namespace MovieAPI.Controllers
+namespace Movie.API.Controllers
 {
     /// <summary>
     /// Contains methods used to add movie reviews and show lists of highly rated movies
@@ -53,7 +50,7 @@ namespace MovieAPI.Controllers
         /// <summary>
         /// Finds a movie based upon specific search criteria
         /// </summary>
-        /// <param name="sc">Can search based upon Title, Year and Genre</param>
+        /// <param name="query">Can search based upon Title, Year and Genre</param>
         /// <param name="cancellationToken">Can search based upon Title, Year and Genre</param>
         /// <returns>Http request</returns>
         /// <remarks>
@@ -78,25 +75,10 @@ namespace MovieAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<Output.Movie>>> Get([FromQuery] MovieSearchCriteria sc, CancellationToken cancellationToken)
+        public async Task<ActionResult<List<Output.Movie>>> Get([FromQuery] GetMoviesQuery query, CancellationToken cancellationToken)
         {
-            try
-            {
-                var request = _mapper.Map<GetMoviesQuery>(sc);
-
-                var validationResult = _getMoviesQueryValidator.TestValidate(request);
-                if (!validationResult.IsValid)
-                {
-                    _logger.LogError($"Bad request was recieved {string.Join(' ', validationResult.Errors.Select(x => x))}");
-                    return BadRequest(string.Join(' ', validationResult.Errors.Select(x => x)));
-                }
-                var data = await _sender.Send(request, cancellationToken);
-                return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);
-            }
-            catch (Exception ex)
-            {
-                return ExceptionHandlingCode(ex);
-            }
+            var data = await _sender.Send(query, cancellationToken);
+            return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);
         }
 
         /// <summary>
@@ -205,10 +187,10 @@ namespace MovieAPI.Controllers
             Guid incidentNumber = Guid.NewGuid();
 
             _logger.LogError(incidentNumber.ToString() + ' ' + ex.Message);
-            return new ObjectResult(ex) { StatusCode = 500 };
-            // return Problem($"Problem retreving the data. Ask it to check log files for incidentNumber {incidentNumber}"
-            //               ,null
-            //             ,StatusCodes.Status500InternalServerError);
+            // return new ObjectResult(ex) { StatusCode = 500 };
+            return Problem($"Problem retreving the data. Ask it to check log files for incidentNumber {incidentNumber}"
+                          , null
+                        , StatusCodes.Status500InternalServerError);
             //return StatusCode(StatusCodes.Status500InternalServerError,
             //                $"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
         }
