@@ -1,3 +1,1 @@
-This will provide a markdown overview of the project
-
-we will now make changes
+Simple Demo app that was originally created as part of the interview process at FreeWheel.

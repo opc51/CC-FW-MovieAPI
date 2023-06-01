@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Movie.Repository.Entities.Common
+﻿namespace Movie.Repository.Entities.Common
 {
     /// <summary>
     /// The year a movie was released.
