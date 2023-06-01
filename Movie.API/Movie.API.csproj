@@ -5,8 +5,19 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>MovieAPI.xml</DocumentationFile>
+    <DocumentationFile>Movie.API.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Repository\**" />
+    <Content Remove="Interfaces\**" />
+    <Content Remove="Repository\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Repository\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Ardalis.SmartEnum" Version="7.0.0" />
@@ -22,11 +33,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
 
   <ItemGroup>

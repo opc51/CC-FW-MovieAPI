@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Movie.API</name>
+    </assembly>
+    <members>
+        <member name="T:Movie.API.AutoMapper.MovieProfiles">
+            <summary>
+            AutoMapper Profile
+            </summary>
+        </member>
+        <member name="M:Movie.API.AutoMapper.MovieProfiles.#ctor">
+            <summary>
+            Constructor used to map Movie entities to Movie DTO's
+            </summary>
+        </member>
+        <member name="T:Movie.API.Controllers.MoviesController">
+            <summary>
+            Contains methods used to add movie reviews and show lists of highly rated movies
+            </summary>
+        </member>
+        <member name="M:Movie.API.Controllers.MoviesController.#ctor(Microsoft.Extensions.Logging.ILogger{Movie.API.Controllers.MoviesController},Movie.Repository.Services.IMovieService,AutoMapper.IMapper,MediatR.ISender,FluentValidation.IValidator{Movie.Repository.Services.GetMoviesQuery})">
+            <summary>
+            public constructor used to inject dependencies into the Movie Controller
+            </summary>
+            <param name="logger">Type of <see cref="T:Microsoft.Extensions.Logging.ILogger"/></param>
+            <param name="movieDataService"><see cref="T:Movie.Repository.Services.IMovieService"/> used to interact with <see cref="!:APIContext"/> </param>
+            <param name="mapper"><see cref="N:Movie.API.AutoMapper"/> for converting Domain objects to outbound DTO's</param> 
+            <param name="sender">Mediatr implementation with <see cref="T:MediatR.ISender"/></param> 
+            <param name="getMoviesQueryValidator"><see cref="T:FluentValidation.IValidator"/> for  <see cref="T:Movie.Repository.Services.GetMoviesQuery"/>/></param> 
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Movie.API.Controllers.MoviesController.Get(Movie.Repository.Services.GetMoviesQuery,System.Threading.CancellationToken)">
+            <summary>
+            Finds a movie based upon specific search criteria
+            </summary>
+            <param name="query">Can search based upon Title, Year and Genre</param>
+            <param name="cancellationToken">Can search based upon Title, Year and Genre</param>
+            <returns>Http request</returns>
+            <remarks>
+            This search is an "and" search. If "Title" and "Year" are provided. It will narrow the selction to those that fulfill both critera. \
+            For Instance, this search: \
+            { \
+                Title: "super" \
+            } \ 
+            \
+            \
+            Will return 7 movies in the test data, whereas \
+            \
+            { \
+                Title: "super", \
+                Genre = "Romance", \
+                Year = 2004 \
+            } \
+            Will return 1 movie in the test data
+            </remarks>
+        </member>
+        <member name="M:Movie.API.Controllers.MoviesController.TopRatedMovies(System.Int32)">
+            <summary>
+            Get the top Rated movies, as judged by all reviewers
+            </summary>
+            <param name="numberOfMovies">How many of the top rated movie you want to see listed</param>
+            <returns>An Http response</returns>
+        </member>
+        <member name="M:Movie.API.Controllers.MoviesController.TopRankedMoviesByReviewer(System.Int32,System.Int32)">
+            <summary>
+            For any given reviewer, find the movies they gave the highest score to
+            </summary>
+            <param name="numberOfMovies">The number of top ranked films required</param>
+            <param name="reviewerId">The Primary Key of the Reviewer in the database</param>
+            <returns>An HTTP response</returns>
+        </member>
+        <member name="M:Movie.API.Controllers.MoviesController.AddReview(Movie.Respository.Services.AddUpdateReview)">
+            <summary>
+            Add a new review or update an exsting review. 
+            </summary>
+            <param name="review">A Review Object that contains a movie review id, a reviewer id and a score </param>
+            <returns>Http response</returns>
+        </member>
+        <member name="M:Movie.API.Controllers.MoviesController.ExceptionHandlingCode(System.Exception)">
+            <summary>
+            This method is designed to be placed inside a catch block. 
+            
+            It outputs the exception message into the error logs. A GUID is included to enable the exception to be found easily
+            </summary>
+            <param name="ex">The base exception thrown</param>
+            <returns>Returns an HTTP 500 server exception error</returns>
+        </member>
+        <member name="T:Movie.API.Middleware.ModelStateFilter">
+            <summary>
+            Created al allow FluentValidation to work automatically in controller action
+            
+            Makes for cleaner controllers.
+            </summary>
+        </member>
+        <member name="T:Movie.API.Models.MovieSearchCriteria">
+            <summary>
+            The search criteria used to find movies
+            </summary>
+        </member>
+        <member name="P:Movie.API.Models.MovieSearchCriteria.Title">
+            <summary>
+            The name of the movie
+            </summary>
+        </member>
+        <member name="P:Movie.API.Models.MovieSearchCriteria.Year">
+            <summary>
+            The year the movie was released in the USA
+            </summary>
+        </member>
+        <member name="P:Movie.API.Models.MovieSearchCriteria.Genre">
+            <summary>
+            The type of Movie .e.g. "SuperHero", "Comedy", "Romance"
+            </summary>
+        </member>
+        <member name="P:Movie.API.Models.MovieSearchCriteria.GenreAsInteger">
+            <summary>
+            Used by Entity framework to 
+            </summary>
+        </member>
+        <member name="M:Movie.API.Models.MovieSearchCriteria.IsValid">
+            <summary>
+            Checks that the search criteria contains some valid search criteria
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Movie.API.Models.MovieSearchCriteria.ToString">
+            <summary>
+            overide of the ToString method that contains the Title, the year and the Genre
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Movie.API.Program">
+            <summary>
+            The program begins here
+            </summary>
+        </member>
+        <member name="M:Movie.API.Program.Main(System.String[])">
+            <summary>
+            Inbuilt NET core class. Acts as the entry poin to the API
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Movie.API.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Build the web to host the API
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Movie.API.Startup">
+            <summary>
+            .NET Core inbuilt class to build the web host
+            </summary>
+        </member>
+        <member name="M:Movie.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Public constructor of the start up class
+            </summary>
+            <param name="configuration">The application configuration classes</param>
+        </member>
+        <member name="P:Movie.API.Startup.Configuration">
+            <summary>
+            The configuration setting for the api
+            </summary>
+        </member>
+        <member name="M:Movie.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container
+            </summary>
+            <param name="services">The servic ecollection that new service will be injected into</param>
+        </member>
+        <member name="M:Movie.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app">The application request pipeline </param>
+            <param name="env">Information about the web hosting environment</param>
+        </member>
+        <member name="T:Movie.API.Utilities">
+            <summary>
+            Static Utility Classes. Useful functionality that could be needed in multiple places
+            </summary>
+        </member>
+        <member name="M:Movie.API.Utilities.RoundToTheNearestHalf(System.Double)">
+            <summary>
+            This function will round a float to the nearest 0.5. In the case of a value being equidistant
+            from both values it shall be rounded up
+            </summary>
+            <returns><see cref="T:System.Double"/></returns>
+        </member>
+    </members>
+</doc>
