@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.API", "MovieAPI\Movie.API.csproj", "{8E8730E8-749B-4977-A03E-328293A7CA30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieAPI", "MovieAPI\MovieAPI.csproj", "{8E8730E8-749B-4977-A03E-328293A7CA30}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.API.Tests", "MovieTests\Movie.API.Tests.csproj", "{A463D105-30EF-4F3C-A5BE-FC061E579EAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repository.Services", "Movie.Repository.Services\Movie.Repository.Services.csproj", "{3E54BE59-428A-44B7-B860-5BA7409F07D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Repository.Services", "Movie.Repository.Services\Movie.Repository.Services.csproj", "{3E54BE59-428A-44B7-B860-5BA7409F07D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repositry.Services.Tests", "Movie.Repositry.Services.Tests\Movie.Repositry.Services.Tests.csproj", "{E548C3A7-C69F-47F1-BB2D-71F7598EF513}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Repositry.Services.Tests", "Movie.Repositry.Services.Tests\Movie.Repositry.Services.Tests.csproj", "{E548C3A7-C69F-47F1-BB2D-71F7598EF513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repository", "Movie.Repository\Movie.Repository.csproj", "{7EEA8552-C982-482D-817B-8847553EF55B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Repository", "Movie.Repository\Movie.Repository.csproj", "{7EEA8552-C982-482D-817B-8847553EF55B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Repository.Tests", "PTA.Repository.Tests\Movie.Repository.Tests.csproj", "{D887E153-14D3-44E7-9E15-0C24D45EC74C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Repository.Tests", "PTA.Repository.Tests\Movie.Repository.Tests.csproj", "{D887E153-14D3-44E7-9E15-0C24D45EC74C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

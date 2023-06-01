@@ -29,7 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Movie.Repository.Services\Movie.Repository.Services.csproj" />
     <ProjectReference Include="..\Movie.Repository\Movie.Repository.csproj" />
-    <ProjectReference Include="..\MovieAPI\Movie.API.csproj" />
+    <ProjectReference Include="..\MovieAPI\MovieAPI.csproj" />
   </ItemGroup>
 
 </Project>
