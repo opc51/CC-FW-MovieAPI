@@ -13,6 +13,9 @@ namespace MovieTests
             DbContextOptions options = new DbContextOptionsBuilder<APIContext>()
                             .UseInMemoryDatabase("MovieDatabase").Options;
             _database = new APIContext(options);
+
+            _database.Database.EnsureDeleted();
+            _database.Database.EnsureCreated();
         }
 
         private bool disposedValue;

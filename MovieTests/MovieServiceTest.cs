@@ -12,25 +12,19 @@ using FluentAssertions;
 
 namespace MovieTests
 {
-
     public class MovieServiceTesting : InMemoryDatabaseFixture
     {
-        private MovieService _movieService;
+        private readonly MovieService _movieService;
 
-        //public MovieServiceTesting()
-        //{
-        //    _movieService = new MovieService(_database);
-        //}
-
-        [SetUp] 
-        public void SetUp()
+        public MovieServiceTesting()
         {
             _movieService = new MovieService(_database);
         }
 
-        [TearDown] public void TearDown()
+        [OneTimeTearDown] 
+        public void TearDown()
         {
-            _movieService = null;
+            _database.Dispose();
         }
 
         [Test]
@@ -39,17 +33,18 @@ namespace MovieTests
             Assert.Throws<ArgumentNullException>(() => new APIContext(null));
         }
 
-        // [TestCase(1)]
+        
+        [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
-        [TestCase(4)]
+        [TestCase(4)]       // In memory database issues since I switche to NUnit!
         [TestCase(5)]
         [TestCase(6)]
         public void GetMovieByIdShould_GetMoviesThatExist(int movieId)
         {
             var movie = _movieService.GetMovieById(movieId);
             Assert.That(movieId.ToString(), Is.EqualTo(movie.Id.ToString()));
-            Assert.That(3, Is.EqualTo(movie.Reviews.Count()));
+            Assert.That(movie.Reviews.Count(), Is.EqualTo(3));
         }
 
         [TestCase(11)]
