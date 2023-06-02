@@ -172,19 +172,5 @@
             <param name="app">The application request pipeline </param>
             <param name="env">Information about the web hosting environment</param>
         </member>
-        <member name="T:Movie.API.Utilities">
-            <summary>
-            Static Utility Classes. Useful functionality that could be needed in multiple places
-            
-            To do - move this
-            </summary>
-        </member>
-        <member name="M:Movie.API.Utilities.RoundToTheNearestHalf(System.Double)">
-            <summary>
-            This function will round a float to the nearest 0.5. In the case of a value being equidistant
-            from both values it shall be rounded up
-            </summary>
-            <returns><see cref="T:System.Double"/></returns>
-        </member>
     </members>
 </doc>

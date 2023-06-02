@@ -1,7 +1,6 @@
-﻿using Movie.API;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MovieTests
+namespace Movie.Repository.Tests.Entities.Utility
 {
     public class UtilityTest
     {
@@ -19,7 +18,7 @@ namespace MovieTests
 
         public void RoundingShould_GiveTheCorrectValue(double input, double expected)
         {
-            Assert.That(Utilities.RoundToTheNearestHalf(input), Is.EqualTo(expected));
+            Assert.That(Repository.Entities.Utilites.Utility.RoundToTheNearestHalf(input), Is.EqualTo(expected));
         }
     }
 }
