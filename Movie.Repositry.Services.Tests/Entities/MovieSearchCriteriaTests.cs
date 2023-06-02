@@ -7,9 +7,11 @@ namespace Movie.Repositry.Services.Tests.Entities
 {
     public class MovieSearchCriteriaTests
     {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         public static IEnumerable<object[]> invalidSearchCriteria = new List<object[]>()
                                                 {
                                                     new object[] { null,  null, 0 },
+
                                                     new object[] { "", null,  0 },
                                                     new object[] { null, "",  0 },
                                                     new object[] { "", "",  0 },
@@ -25,6 +27,7 @@ namespace Movie.Repositry.Services.Tests.Entities
                                                     new object[] { "", "Genre 1",  0 },
                                                     new object[] { "Movie 1", "Genre 1",  1 },
                                                 };
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
         private Fixture fixture = new();
 
