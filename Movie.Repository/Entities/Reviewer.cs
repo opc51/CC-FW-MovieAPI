@@ -91,6 +91,7 @@ namespace Movie.Repository.Entities
 
             return new Reviewer()
             {
+                Id = new Random().Next(),
                 Name = name,
                 Email = email,
                 Region = countryCode,

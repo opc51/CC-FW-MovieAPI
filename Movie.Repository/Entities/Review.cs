@@ -102,6 +102,7 @@ namespace Movie.Repository.Entities
         {
             return new Review()
             {
+                Id = new Random().Next(),
                 ReviewerId = reviewerId,
                 MovieId = movieId,
                 Score = score

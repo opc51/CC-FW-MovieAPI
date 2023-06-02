@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Movie.Repository.Entities.Common;
 using Movie.Repository.Entities.Enum;
+using Movie.Repository.SeedData;
 using Entity = Movie.Repository.Entities;
 
 namespace Movie.Repository.EntityFramework
@@ -22,6 +23,8 @@ namespace Movie.Repository.EntityFramework
 
             builder.Property(x => x.YearOfRelease)
                 .HasConversion(m => m.Value, m => (ReleaseYear)m);
+
+            builder.HasData(MovieData.Fetch());
         }
     }
 }

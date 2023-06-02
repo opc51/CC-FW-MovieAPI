@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Movie.Repository.Entities;
+using Movie.Repository.SeedData;
 
 namespace Movie.Repository.EntityFramework
 {
@@ -17,6 +18,8 @@ namespace Movie.Repository.EntityFramework
             builder.Property(x => x.MovieId).IsRequired();
 
             builder.Property(x => x.ReviewerId).IsRequired();
+
+            builder.HasData(ReviewData.Fetch());
         }
     }
 }

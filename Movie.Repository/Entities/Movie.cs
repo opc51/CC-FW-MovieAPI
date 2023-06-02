@@ -84,6 +84,7 @@ namespace Movie.Repository.Entities
         {
             return new Movie()
             {
+                Id = new Random().Next(),
                 Title = title,
                 YearOfRelease = year,
                 RunningTime = runningTime,

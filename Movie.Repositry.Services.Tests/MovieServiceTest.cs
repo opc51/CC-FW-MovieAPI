@@ -35,6 +35,7 @@ namespace Movie.Repository.Services.Tests
         public void GetMovieByIdShould_GetMoviesThatExist(int movieId)
         {
             var movie = _movieService.GetMovieById(movieId);
+            movie.Should().NotBeNull();
             movieId.ToString().Should().Be(movie.Id.ToString());
             movie.Reviews.Count().Should().Be(3);
         }
