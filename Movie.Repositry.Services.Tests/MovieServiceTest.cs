@@ -7,69 +7,77 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using NUnit.Framework;
 using FluentAssertions;
+using Xunit;
+using Movie.Repository.Services.Tests.ContextSharing;
 
-namespace MovieTests
+namespace Movie.Repository.Services.Tests
 {
-    public class MovieServiceTesting : InMemoryDatabaseFixture
+    [Collection("In Memory Database Collection")]
+    public class MovieServiceTesting
     {
+        private InMemoryDatabaseFixture _fixture;
+
         private readonly MovieService _movieService;
 
-        public MovieServiceTesting()
+        public MovieServiceTesting(InMemoryDatabaseFixture fixture)
         {
-            _movieService = new MovieService(_database);
+            _fixture = fixture;
+            _movieService = new MovieService(fixture._database);
         }
 
-        [OneTimeTearDown] 
-        public void TearDown()
-        {
-            _database.Dispose();
-        }
+        //[OneTimeTearDown] 
+        //public void TearDown()
+        //{
+        //    // _database.Dispose();
+        //}
 
-        [Test]
+        [Fact]
         public void ServiceThrowsException_NullContextPassed()
         {
             Assert.Throws<ArgumentNullException>(() => new APIContext(null));
         }
 
-        
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]       // In memory database issues since I switche to NUnit!
-        [TestCase(5)]
-        [TestCase(6)]
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(5)]
+        [InlineData(6)]
         public void GetMovieByIdShould_GetMoviesThatExist(int movieId)
         {
             var movie = _movieService.GetMovieById(movieId);
-            Assert.That(movieId.ToString(), Is.EqualTo(movie.Id.ToString()));
-            Assert.That(movie.Reviews.Count(), Is.EqualTo(3));
+            movieId.ToString().Should().Be(movie.Id.ToString());
+            movie.Reviews.Count().Should().Be(3);
         }
 
-        [TestCase(11)]
-        [TestCase(12)]
-        [TestCase(31)]
-        [TestCase(42)]
-        [TestCase(52)]
+        [Theory]
+        [InlineData(11)]
+        [InlineData(12)]
+        [InlineData(31)]
+        [InlineData(42)]
+        [InlineData(52)]
         public void GetMovieByIdShould_NotGetMoviesThatDoNotExist(int movieId)
         {
             var movie = _movieService.GetMovieById(movieId);
             Assert.Null(movie);
         }
 
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
         public void GetReviewerByIdShould_GetReviewersThatExist(int reviewerId)
         {
             var reviewer = _movieService.GetReviewerById(reviewerId);
-            Assert.That(reviewerId.ToString(), Is.EqualTo(reviewer.Id.ToString()));
+            reviewerId.ToString().Should().Be(reviewer.Id.ToString());
         }
 
-        [TestCase(11)]
-        [TestCase(12)]
-        [TestCase(6)]
+        [Theory]
+        [InlineData(11)]
+        [InlineData(12)]
+        [InlineData(6)]
 
         public void GetReviewerByIdShould_NotGetReviewersThatDoNotExist(int reviewerId)
         {
@@ -77,34 +85,36 @@ namespace MovieTests
             Assert.Null(reviewer);
         }
 
-        [Test]
+        [Theory]
+        [InlineData]
         public void GetMatchingMoviesShould_FilterOnTitle()
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Title = "Super" }, new CancellationToken()).Result;
-            Assert.That(searchResult.Count, Is.EqualTo(7));
+            searchResult.Count.Should().Be(7);
             var numberFound = searchResult.Where(x => x.Title.Contains("Super")).Count();
-            Assert.That(numberFound, Is.EqualTo(7));
+            numberFound.Should().Be(7);
         }
 
-
-        [TestCase("super")]
-        [TestCase("Super")]
-        [TestCase("sUPER")]
+        [Theory]
+        [InlineData("super")]
+        [InlineData("Super")]
+        [InlineData("sUPER")]
         public void GetMatchingMoviesShould_IsCaseInsentivie(string title)
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Title = title }, new CancellationToken()).Result;
-            Assert.That(searchResult.Count, Is.EqualTo(7));
+            searchResult.Count.Should().Be(7);
         }
 
-        [TestCase(2004, 3)]
-        [TestCase(2002, 1)]
-        [TestCase(2011, 2)]
+        [Theory]
+        [InlineData(2004, 3)]
+        [InlineData(2002, 1)]
+        [InlineData(2011, 2)]
         public void GetMatchingMoviesShould_FilterOnYear(int year, int recordCount)
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Year = year }, new CancellationToken()).Result;
-            Assert.That(recordCount, Is.EqualTo(searchResult.Count));
+            recordCount.Should().Be(searchResult.Count);
             var numberFound = searchResult.Where(x => x.YearOfRelease == year).Count();
-            Assert.That(recordCount, Is.EqualTo(numberFound));
+            recordCount.Should().Be(numberFound);
         }
 
         class MatchingTestData : IEnumerable<object[]>
@@ -119,11 +129,12 @@ namespace MovieTests
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        [TestCaseSource(typeof(MatchingTestData))]
+        [Theory]
+        [ClassData(typeof(MatchingTestData))]
         public void GetMatchingMoviesShould_FilterOnGenre(GenreType genre, int resultCount)
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre.Value }, new CancellationToken()).Result;
-            Assert.That(resultCount, Is.EqualTo(searchResult.Count));
+            resultCount.Should().Be(searchResult.Count);
         }
 
         class SuperHeroData : IEnumerable<object[]>
@@ -138,14 +149,14 @@ namespace MovieTests
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        [TestCaseSource(typeof(SuperHeroData))]
+        [ClassData(typeof(SuperHeroData))]
         public void GettingSuperHeroMovies_WithDifferentNames_Suceeds(GenreType genre, int resultCount)
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Genre = genre.Value }, new CancellationToken()).Result;
-            Assert.That(resultCount, Is.EqualTo(searchResult.Count));
+            resultCount.Should().Be(searchResult.Count);
         }
 
-        [Test]
+        [Fact]
         public void GetMatchingMoviesShould_FilterOnAllCriteria()
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery()
@@ -154,13 +165,13 @@ namespace MovieTests
                 Title = "Super",
                 Year = 2004
             }, new CancellationToken()).Result;
-            Assert.That(searchResult.Count, Is.EqualTo(1));
+            searchResult.Count.Should().Be(1);
         }
 
-        [Test]
+        [Fact]
         public void AddUpdateShould_UpdateExistingRecord()
         {
-            var review = _database.Reviews.Where(r => r.Id == 8).FirstOrDefault();
+            var review = _fixture._database.Reviews.Where(r => r.Id == 8).FirstOrDefault();
             var previous = review.Score;
             review.Score = 4;
             var result = _movieService.AddUpdateReview(new AddUpdateReview()
@@ -170,10 +181,10 @@ namespace MovieTests
                 Score = review.Score
             });
             result.Should().BeTrue();
-            Assert.That(previous, Is.Not.EqualTo(review.Score));
+            previous.Should().Be(review.Score);
         }
 
-        [Test]
+        [Fact]
         public void AddUpdateShould_CreateNewRecord()
         {
             var result = _movieService.AddUpdateReview(new AddUpdateReview()
@@ -185,11 +196,11 @@ namespace MovieTests
             result.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void GetTopFiveMoviesShould_GiveCorrectResult()
         {
             var results = _movieService.GetTopMovies(5);
-            Assert.That(results.Count, Is.EqualTo(5));
+            results.Count.Should().Be(5);
 
             List<double> scores = new();
             foreach (var result in results)
@@ -197,14 +208,14 @@ namespace MovieTests
                 scores.Add(result.Rating);
             }
             List<double> expected = new() { 4.333333333333333, 3.6666666666666665, 3.6666666666666665, 2.6666666666666665, 2.6666666666666665 };
-            CollectionAssert.AreEqual(expected, scores);
+            expected.Should().BeEquivalentTo(scores);
         }
 
-        [Test]
+        [Fact]
         public void GetTopFiveMoviesByReviewerShould_GiveCorrectResults()
         {
             var results = _movieService.GetMoviesByReviewer(5, 3);
-            Assert.That(results.Count, Is.EqualTo(5));
+            results.Count.Should().Be(5);
 
             List<double> scores = new();
             foreach (var result in results)
@@ -213,7 +224,7 @@ namespace MovieTests
             }
 
             List<double> expected = new() { 5, 5, 2, 1, 1 };//{ 5, 4, 3, 3, 2 };
-            Assert.That(expected, Is.EqualTo(scores));
+            expected.Should().BeEquivalentTo(scores);
         }
     }
 }
