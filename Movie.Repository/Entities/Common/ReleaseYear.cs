@@ -103,8 +103,7 @@
         /// <returns>True if equal false otherwise</returns>
         public bool Equals(ReleaseYear other)
         {
-            return other != null &&
-                Value.Equals(other.Value);
+            return Value.Equals(other.Value);
         }
 
         /// <summary>
