@@ -1,6 +1,6 @@
+using FluentAssertions.Execution;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +15,6 @@ using Movie.Repository.Entities;
 using Movie.Repository.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Net.NetworkInformation;
 using System.Reflection;
 
 namespace Movie.API
@@ -49,15 +48,16 @@ namespace Movie.API
 
             services.AddControllers();
 
+            services.AddMediatR(cfg =>
+                                cfg.RegisterServicesFromAssembly(typeof(GetMoviesQuery).Assembly));
+
             services.AddMvc(options =>
                     {
                         options.Filters.Add(new ModelStateFilter());
+                    }).AddFluentValidation(options =>
+                    {
+                        options.RegisterValidatorsFromAssemblyContaining<GetMoviesQueryValidator>();
                     });
-
-            services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-
-            services.AddMediatR(cfg =>
-                    cfg.RegisterServicesFromAssembly(typeof(GetMoviesQuery).Assembly));
 
             services.AddSwaggerGen(c =>
             {
@@ -76,9 +76,10 @@ namespace Movie.API
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(xmlCommentsFile);
             });
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<IMovieService, MovieService>();
-            services.AddValidatorsFromAssemblyContaining<ReviewValidator>();
         }
 
 

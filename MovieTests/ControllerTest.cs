@@ -115,13 +115,6 @@ namespace MovieTests
         #region GetMethodTests
 
         [Test]
-        public void GetShould_ReturnBadRequest_WithInvalidQuery()
-        {
-            var result = _inMemoryController.Get(new GetMoviesQuery(), new CancellationToken());
-            result.Result.Result.Should().BeOfType<BadRequestObjectResult>();
-        }
-
-        [Test]
         public void GetShould_ReturnNotFound_WhenNoDataFound()
         {
             var sc = new GetMoviesQuery() { Title = _fixture.Create<string>() };

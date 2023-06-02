@@ -19,7 +19,7 @@ namespace Movie.API.Controllers
     /// Contains methods used to add movie reviews and show lists of highly rated movies
     /// </summary>
     [ApiController]
-    [Route("api/Movies")]
+    [Route("[controller]")]
     public class MoviesController : ControllerBase
     {
         private readonly ILogger<MoviesController> _logger;
