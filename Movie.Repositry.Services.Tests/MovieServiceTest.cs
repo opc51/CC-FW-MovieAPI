@@ -159,17 +159,21 @@ namespace Movie.Repository.Services.Tests
         [Fact]
         public void AddUpdateShould_UpdateExistingRecord()
         {
-            var review = _fixture._database.Reviews.Where(r => r.Id == 8).FirstOrDefault();
-            var previous = review.Score;
-            review.Score = 4;
+            var original = _fixture._database.Reviews.Where(r => r.Id == 8).First();
+            original.Should().NotBeNull();
+
+            original.Score = 4;
+
             var result = _movieService.AddUpdateReview(new AddUpdateReview()
             {
-                MovieId = review.MovieId,
-                ReviewerId = review.ReviewerId,
-                Score = review.Score
+                MovieId = original.MovieId,
+                ReviewerId = original.ReviewerId,
+                Score = original.Score
             });
             result.Should().BeTrue();
-            previous.Should().Be(review.Score);
+            var now = _fixture._database.Reviews.Where(r => r.Id == 8).First();
+            now.Should().NotBeNull();
+            now.Score.Should().Be(original.Score);
         }
 
         [Fact]

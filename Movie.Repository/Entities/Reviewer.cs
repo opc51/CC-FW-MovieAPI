@@ -82,7 +82,7 @@ namespace Movie.Repository.Entities
         /// <param name="countryCode">The Reviewers 2 letter ISO Country Code <see cref="string"/></param>
         /// <param name="phoneNumber">The Reviewers phone number <see cref="string"/></param>
         /// <returns>A new instance of <see cref="Reviewer"/></returns>
-        public static Reviewer Create(string name, string email, string countryCode, string phoneNumber)
+        public static Reviewer Create(string name, string email, string countryCode, string phoneNumber, int? id)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email))
             {
@@ -91,7 +91,7 @@ namespace Movie.Repository.Entities
 
             return new Reviewer()
             {
-                Id = new Random().Next(),
+                Id = id ?? new Random().Next(),
                 Name = name,
                 Email = email,
                 Region = countryCode,

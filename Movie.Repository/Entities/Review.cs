@@ -98,11 +98,12 @@ namespace Movie.Repository.Entities
         /// <param name="reviewerId">The primary key of the reviewer. Type <see cref="int"/></param>
         /// <param name="movieId">The primary key of the movie. Type <see cref="int"/></param>
         /// <param name="score">The score given to the movie. Minimum value 1, maximum value 5. Type <see cref="int"/></param>
-        public static Review Create(int reviewerId, int movieId, int score)
+        public static Review Create(int reviewerId, int movieId, int score, int? id)
         {
+
             return new Review()
             {
-                Id = new Random().Next(),
+                Id = id ?? new Random().Next(),
                 ReviewerId = reviewerId,
                 MovieId = movieId,
                 Score = score

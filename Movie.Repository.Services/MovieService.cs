@@ -34,7 +34,7 @@ namespace Movie.Repository.Services
             }
             else
             {
-                _data.Reviews.Add(Review.Create(review.MovieId, review.ReviewerId, review.Score));
+                _data.Reviews.Add(Review.Create(review.MovieId, review.ReviewerId, review.Score, null));
             }
 
             return SaveChanges();
