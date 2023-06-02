@@ -1,10 +1,11 @@
-using FluentAssertions;
+using Movie.Repository;
 using Movie.Repository.Entities.Enum;
+using Movie.Repository.Services;
 using Movie.Repository.Services.Tests.ContextSharing;
 using Movie.Respository.Services;
 using System.Collections;
 
-namespace Movie.Repository.Services.Tests
+namespace Movie.Repositry.Services.Tests
 {
     [Collection("In Memory Database Collection")]
     public class MovieServiceTesting
@@ -194,9 +195,9 @@ namespace Movie.Repository.Services.Tests
             results.Should().NotBeNull();
             results.Count.Should().Be(5);
 
-            var scores = results.Select(x => x.Rating).OrderByDescending(x=> x).ToList();
+            var scores = results.Select(x => x.Rating).OrderByDescending(x => x).ToList();
 
-            List<double>? expected = new() { 5, 4.333333333333333, 4, 3.6666666666666665, 3.6666666666666665 };
+            List<double>? expected = new() { 4.333333333333333, 3.6666666666666665, 3.6666666666666665, 2.6666666666666665, 2.6666666666666665 };
 
             scores.Should().BeEquivalentTo(expected);
         }

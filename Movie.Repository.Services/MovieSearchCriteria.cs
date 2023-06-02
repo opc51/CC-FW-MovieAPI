@@ -1,6 +1,6 @@
 ﻿using Movie.Repository.Entities.Enum;
 
-namespace Movie.API.Models
+namespace Movie.Repository.Services
 {
     /// <summary>
     /// The search criteria used to find movies - // to do - move this
@@ -10,7 +10,7 @@ namespace Movie.API.Models
         /// <summary>
         /// The name of the movie
         /// </summary>
-        public string Title { get; init; }
+        public string Title { get; init; } = string.Empty;
 
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Movie.API.Models
         /// <summary>
         /// The type of Movie .e.g. "SuperHero", "Comedy", "Romance"
         /// </summary>
-        public string Genre { get; init; }
+        public string Genre { get; init; } = string.Empty;
 
 
         /// <summary>

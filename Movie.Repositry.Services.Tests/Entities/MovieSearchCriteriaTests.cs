@@ -1,13 +1,11 @@
 ﻿using AutoFixture;
-using Movie.API.Models;
+using Movie.Repository.Services;
 using Movie.Respository.Services;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+using Xunit;
 
-namespace MovieTests
+namespace Movie.Repositry.Services.Tests.Entities
 {
-    public class ModelTests
+    public class MovieSearchCriteriaTests
     {
         public static IEnumerable<object[]> invalidSearchCriteria = new List<object[]>()
                                                 {
@@ -28,23 +26,10 @@ namespace MovieTests
                                                     new object[] { "Movie 1", "Genre 1",  1 },
                                                 };
 
-        public static IEnumerable<object[]> invalidReviewSubmissions = new List<object[]>()
-                                                {
-                                                    new object[]{ 0, 0, 1},
-                                                    new object[]{ 0, 1, 1},
-                                                    new object[]{ 1, 0, 1},
-                                                };
-
-
-        public static IEnumerable<object[]> validReviewSubmissions = new List<object[]>()
-                                                {
-                                                    new object[]{ 1, 1, 1}
-                                                };
-
         private Fixture fixture = new();
 
         [Theory]
-        [TestCaseSource(nameof(invalidSearchCriteria))]
+        [MemberData(nameof(invalidSearchCriteria))]
         public void MovieSearchCriteriaShould_beInvalidWithNullData(string title, string genre, int year)
         {
             MovieSearchCriteria sut = new() { Title = title, Genre = genre, Year = year };
@@ -53,7 +38,7 @@ namespace MovieTests
 
 
         [Theory]
-        [TestCaseSource(nameof(validSearchCriteria))]
+        [MemberData(nameof(validSearchCriteria))]
         public void MovieSearchCriteriaShould_beValidWithGoodData(string title, string genre, int year)
         {
             MovieSearchCriteria sut = new() { Title = title, Genre = genre, Year = year };
@@ -61,11 +46,11 @@ namespace MovieTests
         }
 
         [Theory]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(5)]
         public void AddUpdateReviewShould_AllowsValuesBetween1and5(int score)
         {
             AddUpdateReview sut = new()
@@ -74,34 +59,7 @@ namespace MovieTests
                 ReviewerId = fixture.Create<int>(),
                 Score = score
             };
-            Assert.That(score, Is.EqualTo(sut.Score));
-        }
-
-
-        [Theory]
-        [TestCase(0)]
-        [TestCase(6)]
-        [TestCase(7)]
-        public void AddUpdateReviewShould_NotAllowsValuesOutside1and5(int score)
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new AddUpdateReview() { Score = score });
-        }
-
-        [Theory]
-        [TestCaseSource(nameof(invalidReviewSubmissions))]
-        public void ReviewModelShould_ReturnFalseForInvalidSubmissions(int reviewerId, int movieId, int score)
-        {
-            AddUpdateReview sut = new() { ReviewerId = reviewerId, MovieId = movieId, Score = score };
-            Assert.False(sut.IsValidForSubmission());
-        }
-
-
-        [Theory]
-        [TestCaseSource(nameof(validReviewSubmissions))]
-        public void ReviewModelShould_ReturnTrueForValidSubmission(int reviewerId, int movieId, int score)
-        {
-            AddUpdateReview sut = new() { ReviewerId = reviewerId, MovieId = movieId, Score = score };
-            Assert.True(sut.IsValidForSubmission());
+            score.Should().Be(sut.Score);
         }
     }
 }

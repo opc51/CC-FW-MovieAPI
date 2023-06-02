@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Movie.API.Models;
 using Movie.Repository.Services;
 using Entity = Movie.Repository.Entities;
 using Output = Movie.Repository.Services.DTOs.Output;

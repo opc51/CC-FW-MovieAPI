@@ -39,8 +39,4 @@
     <ProjectReference Include="..\Movie.Repository\Movie.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
-
 </Project>

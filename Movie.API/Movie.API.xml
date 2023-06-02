@@ -7,7 +7,7 @@
         <member name="T:Movie.API.AutoMapper.MovieProfiles">
             <summary>
             AutoMapper profile for conversion of <see cref="T:Movie.Repository.Entities.Movie"/>, 
-            <see cref="T:Movie.Repository.Services.DTOs.Output.Movie"/> and <see cref="T:Movie.API.Models.MovieSearchCriteria"/>
+            <see cref="T:Movie.Repository.Services.DTOs.Output.Movie"/> and <see cref="T:Movie.Repository.Services.MovieSearchCriteria"/>
             </summary>
         </member>
         <member name="M:Movie.API.AutoMapper.MovieProfiles.#ctor">
@@ -98,43 +98,6 @@
         </member>
         <member name="M:Movie.API.Middleware.ModelStateFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
             <inheritdoc/>
-        </member>
-        <member name="T:Movie.API.Models.MovieSearchCriteria">
-            <summary>
-            The search criteria used to find movies - // to do - move this
-            </summary>
-        </member>
-        <member name="P:Movie.API.Models.MovieSearchCriteria.Title">
-            <summary>
-            The name of the movie
-            </summary>
-        </member>
-        <member name="P:Movie.API.Models.MovieSearchCriteria.Year">
-            <summary>
-            The year the movie was released in the USA
-            </summary>
-        </member>
-        <member name="P:Movie.API.Models.MovieSearchCriteria.Genre">
-            <summary>
-            The type of Movie .e.g. "SuperHero", "Comedy", "Romance"
-            </summary>
-        </member>
-        <member name="P:Movie.API.Models.MovieSearchCriteria.GenreAsInteger">
-            <summary>
-            Used by Entity framework to 
-            </summary>
-        </member>
-        <member name="M:Movie.API.Models.MovieSearchCriteria.IsValid">
-            <summary>
-            Checks that the search criteria contains some valid search criteria
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Movie.API.Models.MovieSearchCriteria.ToString">
-            <summary>
-            overide of the ToString method that contains the Title, the year and the Genre
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Movie.API.Program">
             <inheritdoc/>
