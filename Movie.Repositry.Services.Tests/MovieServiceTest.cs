@@ -1,15 +1,8 @@
-using Movie.Repository;
-using Movie.Repository.Entities.Enum;
-using Movie.Repository.Services;
-using Movie.Respository.Services;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using FluentAssertions;
-using Xunit;
+using Movie.Repository.Entities.Enum;
 using Movie.Repository.Services.Tests.ContextSharing;
+using Movie.Respository.Services;
+using System.Collections;
 
 namespace Movie.Repository.Services.Tests
 {
@@ -25,12 +18,6 @@ namespace Movie.Repository.Services.Tests
             _fixture = fixture;
             _movieService = new MovieService(fixture._database);
         }
-
-        //[OneTimeTearDown] 
-        //public void TearDown()
-        //{
-        //    // _database.Dispose();
-        //}
 
         [Fact]
         public void ServiceThrowsException_NullContextPassed()

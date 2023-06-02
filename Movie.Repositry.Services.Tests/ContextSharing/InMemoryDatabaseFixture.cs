@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Movie.Repository;
-using System;
 
 namespace Movie.Repository.Services.Tests.ContextSharing
 {
