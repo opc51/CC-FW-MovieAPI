@@ -21,7 +21,7 @@ namespace Movie.Repository.Services.DTOs.Output
         /// <summary>
         /// The name of the movie
         /// </summary>
-        public string MovieTitle { get; init; }
+        public string MovieTitle { get; init; } = string.Empty;
 
         /// <summary>
         /// The year the movie was released in the USA
@@ -37,6 +37,6 @@ namespace Movie.Repository.Services.DTOs.Output
         /// <summary>
         /// The type of the movie. e.g. horror, romance, superhero
         /// </summary>
-        public string Genres { get; init; }
+        public string Genres { get; init; } = string.Empty;
     }
 }

@@ -28,7 +28,7 @@ namespace Movie.Repository.Entities
         /// The name of the movie
         /// </summary>
         [Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// The year the movie was release in the USA
@@ -40,7 +40,7 @@ namespace Movie.Repository.Entities
         /// The number of minutes that the movie was runs for
         /// </summary>
         [Required]
-        public RunningTime RunningTime { get; set; }
+        public RunningTime RunningTime { get; set; } = null!;
 
         /// <summary>
         /// The "type" of movie .e.g. "Horror", "Superhero", etc 

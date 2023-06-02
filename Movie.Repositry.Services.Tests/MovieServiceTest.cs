@@ -35,8 +35,10 @@ namespace Movie.Repository.Services.Tests
         public void GetMovieByIdShould_GetMoviesThatExist(int movieId)
         {
             var movie = _movieService.GetMovieById(movieId);
+            
             movie.Should().NotBeNull();
-            movieId.ToString().Should().Be(movie.Id.ToString());
+            movieId.Should().Be(movie.Id);
+
             movie.Reviews.Count().Should().Be(3);
         }
 
@@ -73,8 +75,7 @@ namespace Movie.Repository.Services.Tests
             Assert.Null(reviewer);
         }
 
-        [Theory]
-        [InlineData]
+        [Fact]
         public void GetMatchingMoviesShould_FilterOnTitle()
         {
             var searchResult = _movieService.GetMatchingMovies(new GetMoviesQuery() { Title = "Super" }, new CancellationToken()).Result;
@@ -137,6 +138,7 @@ namespace Movie.Repository.Services.Tests
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
+        [Theory]
         [ClassData(typeof(SuperHeroData))]
         public void GettingSuperHeroMovies_WithDifferentNames_Suceeds(GenreType genre, int resultCount)
         {

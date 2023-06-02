@@ -4,7 +4,7 @@ namespace Movie.Repository.Services.Tests
 {
     public class ValidatorTests
     {
-        private GetMoviesQuery _query;
+        private GetMoviesQuery _query = null!;
         private GetMoviesQueryValidator _validator;
 
 

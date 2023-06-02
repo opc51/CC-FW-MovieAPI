@@ -11,7 +11,8 @@ namespace Movie.Repository.Services
     /// </summary>
     public class MovieService : IMovieService
     {
-        private readonly APIContext _data;
+        private readonly APIContext _data = null!;
+
         /// <summary>
         /// Constructor that accepts the database context as a parameter
         /// </summary>

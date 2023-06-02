@@ -28,11 +28,10 @@ namespace Movie.Repository.Entities
         /// The name of the reviewer. Type of <see cref="string"/>
         /// </summary>
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = String.Empty;
 
         [Required]
-        private string region;
-
+        private string region = string.Empty;
 
         /// <summary>
         /// The region code for the current user
@@ -52,7 +51,7 @@ namespace Movie.Repository.Entities
         }
 
 
-        private string email;
+        private string email = string.Empty;
         /// <summary>
         /// The email of the Reviewer. Type of <see cref="string"/>
         /// </summary>
@@ -71,7 +70,7 @@ namespace Movie.Repository.Entities
         /// <summary>
         /// The PhoneNumber of the reviewer
         /// </summary>
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
 
 
         /// <summary>
