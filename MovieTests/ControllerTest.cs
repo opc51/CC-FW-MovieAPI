@@ -60,7 +60,6 @@ namespace MovieTests
 
         private readonly Fixture _fixture = new();
 
-
         public readonly static IEnumerable<object[]> invalidReviewSubmissions = new List<object[]>()
                                                 {
                                                     new object[]{ 0, 0, 1},

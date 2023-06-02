@@ -12,16 +12,23 @@ namespace MovieTests
     public class AutomapperTests
     {
         private readonly IMapper _mapper;
+        private readonly MapperConfiguration _config;
         private readonly Fixture _fixture = new();
 
         public AutomapperTests()
         {
-            var config = new MapperConfiguration(cfg =>
+            _config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MovieProfiles>();
             });
 
-            _mapper = config.CreateMapper();
+            _mapper = _config.CreateMapper();
+        }
+
+        [Test]
+        public void Config_Is_Valid()
+        {
+            _config.AssertConfigurationIsValid();
         }
 
         [Test]

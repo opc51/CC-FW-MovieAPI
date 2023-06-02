@@ -6,7 +6,7 @@ namespace Movie.API.Middleware
     /// <summary>
     /// Created to allow FluentValidation to work automatically in controller actions
     /// 
-    /// Makes for cleaner controllers.
+    /// Makes for cleaner controllers.Has to be injected into <see cref="Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/>
     /// </summary>
     public class ModelStateFilter : IActionFilter
     {

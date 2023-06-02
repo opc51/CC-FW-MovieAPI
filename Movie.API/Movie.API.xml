@@ -90,7 +90,7 @@
             <summary>
             Created to allow FluentValidation to work automatically in controller actions
             
-            Makes for cleaner controllers.
+            Makes for cleaner controllers.Has to be injected into <see cref="M:Movie.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/>
             </summary>
         </member>
         <member name="M:Movie.API.Middleware.ModelStateFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
