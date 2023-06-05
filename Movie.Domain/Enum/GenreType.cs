@@ -1,6 +1,6 @@
 ﻿using Ardalis.SmartEnum;
 
-namespace Movie.Repository.Entities.Enum
+namespace Movie.Domain.Enum
 {
     /// <summary>
     /// Enum for the movie genre type. 

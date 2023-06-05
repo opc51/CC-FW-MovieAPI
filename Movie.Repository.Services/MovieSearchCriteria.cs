@@ -1,4 +1,4 @@
-﻿using Movie.Repository.Entities.Enum;
+﻿using Movie.Domain.Enum;
 
 namespace Movie.Repository.Services
 {

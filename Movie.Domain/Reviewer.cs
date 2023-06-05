@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Net.Mail;
 
-namespace Movie.Repository.Entities
+namespace Movie.Domain
 {
     /// <summary>
     /// Details of the person who reviewed the Movie

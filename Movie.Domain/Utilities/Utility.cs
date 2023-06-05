@@ -1,4 +1,4 @@
-﻿namespace Movie.Repository.Entities.Utilites
+﻿namespace Movie.Domain.Utilites
 {
     /// <summary>
     /// Static Utility Classes. Useful functionality that could be needed in multiple places

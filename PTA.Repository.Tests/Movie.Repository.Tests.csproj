@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Movie.Domain\Movie.Domain.csproj" />
     <ProjectReference Include="..\Movie.Repository.Services\Movie.Repository.Services.csproj" />
     <ProjectReference Include="..\Movie.Repository\Movie.Repository.csproj" />
   </ItemGroup>

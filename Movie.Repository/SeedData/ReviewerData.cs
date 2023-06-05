@@ -1,4 +1,4 @@
-﻿using Movie.Repository.Entities;
+﻿using Movie.Domain;
 
 namespace Movie.Repository.SeedData
 {

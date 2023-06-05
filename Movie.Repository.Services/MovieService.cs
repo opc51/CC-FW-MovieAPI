@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Movie.Repository.Entities;
+using Movie.Domain;
 using Movie.Repository.Services.DTOs.Output;
 using Movie.Respository.Services;
-using Entity = Movie.Repository.Entities;
+using Entity = Movie.Domain;
 
 namespace Movie.Repository.Services
 {

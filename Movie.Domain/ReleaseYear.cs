@@ -1,4 +1,4 @@
-﻿namespace Movie.Repository.Entities.Common
+﻿namespace Movie.Domain
 {
     /// <summary>
     /// The year a movie was released.

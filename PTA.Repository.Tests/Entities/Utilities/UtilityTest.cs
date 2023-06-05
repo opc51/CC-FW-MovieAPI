@@ -18,7 +18,7 @@ namespace Movie.Repository.Tests.Entities.Utility
 
         public void RoundingShould_GiveTheCorrectValue(double input, double expected)
         {
-            Assert.That(Repository.Entities.Utilites.Utility.RoundToTheNearestHalf(input), Is.EqualTo(expected));
+            Assert.That(Domain.Utilites.Utility.RoundToTheNearestHalf(input), Is.EqualTo(expected));
         }
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Movie.API.Middleware;
 using Movie.Repository;
-using Movie.Repository.Entities;
+using Movie.Domain;
 using Movie.Repository.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;

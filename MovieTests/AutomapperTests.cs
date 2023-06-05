@@ -1,11 +1,11 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using Movie.API.AutoMapper;
-using Movie.Repository.Entities.Common;
-using Movie.Repository.Entities.Enum;
+using Movie.Domain;
+using Movie.Domain.Enum;
 using NUnit.Framework;
+using Domain = Movie.Domain;
 using System;
-using Entities = Movie.Repository.Entities;
 
 namespace MovieTests
 {
@@ -36,11 +36,11 @@ namespace MovieTests
         {
             //Arrange
             string movieName = _fixture.Create<string>();
-            var movie = Entities.Movie.Create(movieName, ReleaseYear.Create(2000),
+            var movie = Domain.Movie.Create(movieName, ReleaseYear.Create(2000),
                                               RunningTime.Create(180), GenreType.Comedy);
 
             //Act
-            Movie.Repository.Services.DTOs.Output.Movie converted = _mapper.Map<Entities.Movie, Movie.Repository.Services.DTOs.Output.Movie>(movie);
+            Movie.Repository.Services.DTOs.Output.Movie converted = _mapper.Map<Domain.Movie, Movie.Repository.Services.DTOs.Output.Movie>(movie);
 
             //Assert
             Assert.That(movie.Title, Is.EqualTo(converted.Title));

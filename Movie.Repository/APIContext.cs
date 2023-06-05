@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Movie.Repository.Entities;
-using Movie.Repository.Entities.Common;
-using Movie.Repository.Entities.Enum;
+using Movie.Domain;
+using Movie.Domain.Enum;
 using System.Reflection;
 
 namespace Movie.Repository
@@ -24,7 +23,7 @@ namespace Movie.Repository
         /// <summary>
         /// A Database set of Movie details
         /// </summary>
-        public DbSet<Entities.Movie> Movies => Set<Entities.Movie>();
+        public DbSet<Domain.Movie> Movies => Set<Domain.Movie>();
 
         /// <summary>
         /// A database set of movie reviews

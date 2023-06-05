@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Movie.Repository.Entities;
+using Movie.Domain;
 using Movie.Repository.SeedData;
 
 namespace Movie.Repository.EntityFramework

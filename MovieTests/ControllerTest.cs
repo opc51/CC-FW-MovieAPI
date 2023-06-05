@@ -9,13 +9,13 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Entity = Movie.Repository.Entities;
+using Entity = Movie.Domain;
 using Output = Movie.Repository.Services.DTOs.Output;
 using Movie.API.Controllers;
 using Movie.Repository.Services;
 using Movie.Respository.Services;
-using Movie.Repository.Entities.Common;
-using Movie.Repository.Entities.Enum;
+using Movie.Domain;
+using Movie.Domain.Enum;
 using Movie.API.AutoMapper;
 using NUnit.Framework;
 

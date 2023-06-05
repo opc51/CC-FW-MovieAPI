@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using Movie.Respository;
+using Movie.Domain.Utilites;
 using System;
 
-namespace Movie.Repository.Entities
+namespace Movie.Domain
 {
     /// <summary>
     /// A movie review containing the Reviewer id, the movie id and the score

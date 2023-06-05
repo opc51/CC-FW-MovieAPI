@@ -1,9 +1,8 @@
-﻿using Movie.Repository.Entities.Common;
-using Movie.Repository.Entities.Enum;
+﻿using Movie.Domain.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
-namespace Movie.Repository.Entities
+namespace Movie.Domain
 {
     /// <summary>
     /// A movie containing Id, Title, year of release and Genre

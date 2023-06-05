@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Movie.Repository.Services;
-using Entity = Movie.Repository.Entities;
+using Entity = Movie.Domain;
 using Output = Movie.Repository.Services.DTOs.Output;
 
 namespace Movie.API.AutoMapper

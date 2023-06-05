@@ -6,7 +6,7 @@
     <members>
         <member name="T:Movie.API.AutoMapper.MovieProfiles">
             <summary>
-            AutoMapper profile for conversion of <see cref="T:Movie.Repository.Entities.Movie"/>, 
+            AutoMapper profile for conversion of <see cref="T:Movie.Domain.Movie"/>, 
             <see cref="T:Movie.Repository.Services.DTOs.Output.Movie"/> and <see cref="T:Movie.Repository.Services.MovieSearchCriteria"/>
             </summary>
         </member>

@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Movie.API\Movie.API.csproj" />
+    <ProjectReference Include="..\Movie.Domain\Movie.Domain.csproj" />
     <ProjectReference Include="..\Movie.Repository.Services\Movie.Repository.Services.csproj" />
     <ProjectReference Include="..\Movie.Repository\Movie.Repository.csproj" />
     <ProjectReference Include="..\MovieAPI\MovieAPI.csproj" />

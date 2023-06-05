@@ -1,5 +1,5 @@
 using Movie.Repository;
-using Movie.Repository.Entities.Enum;
+using Movie.Domain.Enum;
 using Movie.Repository.Services;
 using Movie.Repository.Services.Tests.ContextSharing;
 using Movie.Respository.Services;
