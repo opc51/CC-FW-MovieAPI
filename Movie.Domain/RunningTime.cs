@@ -1,7 +1,8 @@
 ﻿namespace Movie.Domain
 {
     /// <summary>
-    /// 
+    /// Re look at this- lots of wheel reinvention going on, why not simply use 
+    /// existing types such a seconds, hour, minutes etc.
     /// </summary>
     public class RunningTime : IEquatable<RunningTime>
     {
