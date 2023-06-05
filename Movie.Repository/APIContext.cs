@@ -10,10 +10,7 @@ namespace Movie.Repository
     /// </summary>
     public class APIContext : DbContext
     {
-        /// <summary>
-        /// Needed to handle smart enums
-        /// </summary>
-        /// <param name="modelBuilder"></param>
+        /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

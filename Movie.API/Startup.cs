@@ -90,6 +90,12 @@ namespace Movie.API
         /// <param name="env">Information about the web hosting environment</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<APIContext>();
+                context.Database.EnsureCreated();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
