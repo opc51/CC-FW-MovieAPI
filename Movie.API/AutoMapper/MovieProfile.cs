@@ -7,7 +7,7 @@ namespace Movie.API.AutoMapper
 {
     /// <summary>
     /// AutoMapper profile for conversion of <see cref="Entity.Movie"/>, 
-    /// <see cref="Output.Movie"/> and <see cref="MovieSearchCriteria"/>
+    /// <see cref="Output.Movie"/>
     /// </summary>
     public class MovieProfiles : Profile
     {
@@ -21,11 +21,6 @@ namespace Movie.API.AutoMapper
                     dto => dto.YearsPassedSinceOriginalRelease,
                     ent => ent.MapFrom(src => src.YearOfRelease.NumberOfYearsAgoReleased())
                 );
-
-            CreateMap<MovieSearchCriteria, GetMoviesQuery>()
-                .ForMember(q => q.Genre,
-                            sc => sc.MapFrom(sc => sc.GenreAsInteger)
-                 );
         }
     }
 }
