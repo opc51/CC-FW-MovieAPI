@@ -5,6 +5,8 @@ using Movie.Repository.Services.Tests.ContextSharing;
 using Movie.Respository.Services;
 using System.Collections;
 using Movie.Repository.Services.TopRatedMovies;
+using Movie.Domain;
+using Movie.Repository.Services.TopRankedMoviesByReviewer;
 
 namespace Movie.Repositry.Services.Tests
 {
@@ -210,10 +212,15 @@ namespace Movie.Repositry.Services.Tests
         [Fact]
         public void GetTopFiveMoviesByReviewerShould_GiveCorrectResults()
         {
-            var results = _movieService.GetMoviesByReviewer(5, 3);
-            results.Count.Should().Be(5);
+            var query = new TopRankedMoviesByReviewerQuery()
+            {
+                NumberOfMovies = 5,
+                ReviewerId = 3
+            };
+            var results = _movieService.GetMoviesByReviewer(query, new CancellationToken());
+            results.Result.Count().Should().Be(5);
 
-            var scores = results.Select(x => x.Rating).OrderByDescending(x => x).ToList();
+            var scores = results.Result.Select(x => x.Rating).OrderByDescending(x => x).ToList();
 
             List<double> expected = new() { 5, 5, 2, 1, 1 };
             expected.Should().BeEquivalentTo(scores);

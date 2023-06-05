@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using MediatR;
-using Output = Movie.Repository.Services.DTOs.Output;
+using Movie.Repository.Services.DTOs.Output;
 
 namespace Movie.Repository.Services.TopRatedMovies
 {
-    public class GetTopRatedMoviesQuery : IRequest<List<Output.MovieResult>>
+    public class GetTopRatedMoviesQuery : IRequest<List<MovieResult>>
     {
         /// <summary>
         /// The number of top rated movies to retrieve

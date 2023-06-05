@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Movie.Repository.Services;
+using Movie.Repository.Services.TopRankedMoviesByReviewer;
 using Movie.Repository.Services.TopRatedMovies;
 using Movie.Respository.Services;
 using System;
@@ -85,7 +86,7 @@ namespace Movie.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>An Http response</returns>
         [HttpGet]
-        [Route("TopRankedMovies")]
+        [Route("TopRanked")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -100,33 +101,17 @@ namespace Movie.API.Controllers
         /// <summary>
         /// For any given reviewer, find the movies they gave the highest score to
         /// </summary>
-        /// <param name="numberOfMovies">The number of top ranked films required</param>
-        /// <param name="reviewerId">The Primary Key of the Reviewer in the database</param>
         /// <returns>An HTTP response</returns>
         [HttpGet]
-        [Route("TopRankedMovies/{numberOfMovies}/Reviewer/{reviewerId}")]
+        [Route("TopRanked/Reviewer/")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<List<Output.Movie>> TopRankedMoviesByReviewer(int numberOfMovies, int reviewerId)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<Output.Movie>>> TopRankedMoviesByReviewer([FromQuery] TopRankedMoviesByReviewerQuery query, CancellationToken cancellationToken) 
         {
-            if (reviewerId == 0)
-                return StatusCode(StatusCodes.Status400BadRequest, "A valid Id must be provided. 0 is not a valid Id");
-
-            if (numberOfMovies == 0)
-                return StatusCode(StatusCodes.Status400BadRequest, "A non zero number of movies");
-
-            try
-            {
-                var results = _movieService.GetMoviesByReviewer(numberOfMovies, reviewerId);
-
-                if (!results.Any())
-                    return NotFound($"Unable to find top 5 reviewers for reviewer ID {reviewerId}");
-
-                return Ok(results);
-            }
-            catch (Exception ex)
-            {
-                return ExceptionHandlingCode(ex);
-            }
+            var data = await _sender.Send(query, cancellationToken);
+            return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);
         }
 
 

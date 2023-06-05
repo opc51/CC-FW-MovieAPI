@@ -10,6 +10,7 @@ using Movie.API.Controllers;
 using Movie.Domain;
 using Movie.Domain.Enum;
 using Movie.Repository.Services;
+using Movie.Repository.Services.TopRankedMoviesByReviewer;
 using Movie.Repository.Services.TopRatedMovies;
 using Movie.Respository.Services;
 using NUnit.Framework;
@@ -187,14 +188,24 @@ namespace MovieTests
         [TestCase(0, 0)] // both invalid
         public void TopFiveMoviesByReviewerShould_Return400_WithZeroReviewerId(int numberOfMovies, int reviewerId)
         {
-            var result = _inMemoryController.TopRankedMoviesByReviewer(numberOfMovies, reviewerId);
+            var query = new TopRankedMoviesByReviewerQuery() { 
+                NumberOfMovies = numberOfMovies,
+                ReviewerId = reviewerId
+            };
+
+            var result = _inMemoryController.TopRankedMoviesByReviewer(query, new CancellationToken());
             Assert.That(typeof(ObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
         }
 
         [Test]
         public void TopFiveMoviesByReviewerShould_Return404WhenNoDataFound()
         {
-            var result = _inMemoryController.TopRankedMoviesByReviewer(5, 666);
+            var query = new TopRankedMoviesByReviewerQuery()
+            {
+                NumberOfMovies = 666,
+                ReviewerId = 100,
+            };
+            var result = _inMemoryController.TopRankedMoviesByReviewer(query, new CancellationToken());
             Assert.That(typeof(NotFoundObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
         }
 
@@ -202,17 +213,13 @@ namespace MovieTests
         [Test]
         public void TopFiveMoviesByReviewerShould_Return200WhenDataFound()
         {
-            var result = _inMemoryController.TopRankedMoviesByReviewer(3, 1);
+            var query = new TopRankedMoviesByReviewerQuery()
+            {
+                NumberOfMovies = 3,
+                ReviewerId = 1
+            };
+            var result = _inMemoryController.TopRankedMoviesByReviewer(query, new CancellationToken());
             Assert.That(typeof(OkObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
-        }
-
-
-        [Test]
-        public void TopFiveMoviesByReviewerShould_Return500OnException()
-        {
-            _movieMOQ.Setup(x => x.GetMoviesByReviewer(It.IsAny<int>(), It.IsAny<int>())).Throws(new Exception("Serious Error Encountered"));
-            var result = _mockedController.TopRankedMoviesByReviewer(5, 1);
-            Assert.That(typeof(ObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
         }
 
         #endregion

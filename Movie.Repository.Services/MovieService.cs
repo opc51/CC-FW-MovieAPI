@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Domain;
 using Movie.Repository.Services.DTOs.Output;
+using Movie.Repository.Services.TopRankedMoviesByReviewer;
 using Movie.Repository.Services.TopRatedMovies;
 using Movie.Respository.Services;
 using Entity = Movie.Domain;
@@ -101,11 +102,11 @@ namespace Movie.Repository.Services
         }
 
         /// <inheritdoc/>
-        public List<MovieResult> GetMoviesByReviewer(int numberofMovies, int reviewerId)
+        public async Task<List<MovieResult>> GetMoviesByReviewer(TopRankedMoviesByReviewerQuery query, CancellationToken cancellationToken)
         {
-            return _data.Reviews.Where(r => r.ReviewerId == reviewerId)
+            return await _data.Reviews.Where(r => r.ReviewerId == query.ReviewerId)
                                     .OrderByDescending(r => r.Score)
-                                    .Take(numberofMovies)
+                                    .Take(query.NumberOfMovies)
                                     .Select(x => new MovieResult()
                                     {
                                         MovieId = x.MovieId,
@@ -116,7 +117,7 @@ namespace Movie.Repository.Services
                                         Rating = x.Score
                                     }
                                     )
-                                    .ToList();
+                                    .ToListAsync(cancellationToken);
         }
     }
 }

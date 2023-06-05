@@ -63,12 +63,10 @@
             <param name="cancellationToken"></param>
             <returns>An Http response</returns>
         </member>
-        <member name="M:Movie.API.Controllers.MoviesController.TopRankedMoviesByReviewer(System.Int32,System.Int32)">
+        <member name="M:Movie.API.Controllers.MoviesController.TopRankedMoviesByReviewer(Movie.Repository.Services.TopRankedMoviesByReviewer.TopRankedMoviesByReviewerQuery,System.Threading.CancellationToken)">
             <summary>
             For any given reviewer, find the movies they gave the highest score to
             </summary>
-            <param name="numberOfMovies">The number of top ranked films required</param>
-            <param name="reviewerId">The Primary Key of the Reviewer in the database</param>
             <returns>An HTTP response</returns>
         </member>
         <member name="M:Movie.API.Controllers.MoviesController.AddReview(Movie.Respository.Services.AddUpdateReview)">

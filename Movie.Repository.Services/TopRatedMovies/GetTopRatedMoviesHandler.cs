@@ -1,7 +1,4 @@
-﻿using System;
-using AutoMapper;
-using MediatR;
-using Movie.Repository.Services.DTOs.Output;
+﻿using MediatR;
 using Output = Movie.Repository.Services.DTOs.Output;
 
 namespace Movie.Repository.Services.TopRatedMovies
