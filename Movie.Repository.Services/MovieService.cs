@@ -71,19 +71,6 @@ namespace Movie.Repository.Services
         }
 
         /// <inheritdoc/>
-        public Entity.Movie GetMovieById(int movieId)
-        {
-            return _data.Find<Entity.Movie>(movieId);
-
-        }
-
-        /// <inheritdoc/>
-        public Reviewer GetReviewerById(int reviewerId)
-        {
-            return _data.Find<Reviewer>(reviewerId);
-        }
-
-        /// <inheritdoc/>
         public async Task<List<MovieResult>> GetTopMovies(GetTopRatedMoviesQuery query, CancellationToken cancellationToken)
         {
             return await _data.Movies
@@ -118,6 +105,19 @@ namespace Movie.Repository.Services
                                     }
                                     )
                                     .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public Entity.Movie GetMovieById(int movieId)
+        {
+            return _data.Find<Entity.Movie>(movieId);
+
+        }
+
+        /// <inheritdoc/>
+        public Reviewer GetReviewerById(int reviewerId)
+        {
+            return _data.Find<Reviewer>(reviewerId);
         }
     }
 }

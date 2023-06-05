@@ -149,26 +149,5 @@ namespace Movie.API.Controllers
 
             return Ok("The review has been created / updated successfully");
         }
-
-
-        /// <summary>
-        /// This method is designed to be placed inside a catch block. 
-        /// 
-        /// It outputs the exception message into the error logs. A GUID is included to enable the exception to be found easily
-        /// </summary>
-        /// <param name="ex">The base exception thrown</param>
-        /// <returns>Returns an HTTP 500 server exception error</returns>
-        private ActionResult ExceptionHandlingCode(Exception ex)
-        {
-            Guid incidentNumber = Guid.NewGuid();
-
-            _logger.LogError(incidentNumber.ToString() + ' ' + ex.Message);
-            // return new ObjectResult(ex) { StatusCode = 500 };
-            return Problem($"Problem retreving the data. Ask it to check log files for incidentNumber {incidentNumber}"
-                          , null
-                        , StatusCodes.Status500InternalServerError);
-            //return StatusCode(StatusCodes.Status500InternalServerError,
-            //                $"Problem retreving the data. Please check log files for incidentNumber {incidentNumber}");
-        }
     }
 }
