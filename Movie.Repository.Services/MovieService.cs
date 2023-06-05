@@ -22,26 +22,6 @@ namespace Movie.Repository.Services
         public MovieService(APIContext _database)
         {
             _data = _database ?? throw new ArgumentNullException();
-            
-        }
-
-        /// <inheritdoc/>
-        public bool AddUpdateReview(AddUpdateReview review)
-        {
-            var findExistingReview = _data.Reviews.Where(r =>
-                                                   r.MovieId == review.MovieId
-                                                   && r.ReviewerId == review.ReviewerId);
-
-            if (findExistingReview.Any())
-            {
-                findExistingReview.First().Score = review.Score;
-            }
-            else
-            {
-                _data.Reviews.Add(Review.Create(review.MovieId, review.ReviewerId, review.Score, null));
-            }
-
-            return SaveChanges();
         }
 
         /// <summary>
@@ -105,19 +85,6 @@ namespace Movie.Repository.Services
                                     }
                                     )
                                     .ToListAsync(cancellationToken);
-        }
-
-        /// <inheritdoc/>
-        public Entity.Movie GetMovieById(int movieId)
-        {
-            return _data.Find<Entity.Movie>(movieId);
-
-        }
-
-        /// <inheritdoc/>
-        public Reviewer GetReviewerById(int reviewerId)
-        {
-            return _data.Find<Reviewer>(reviewerId);
         }
     }
 }

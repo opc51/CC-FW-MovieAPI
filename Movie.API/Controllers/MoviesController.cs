@@ -113,41 +113,5 @@ namespace Movie.API.Controllers
             var data = await _sender.Send(query, cancellationToken);
             return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);
         }
-
-
-        /// <summary>
-        /// Add a new review or update an exsting review. 
-        /// </summary>
-        /// <param name="review">A Review Object that contains a movie review id, a reviewer id and a score </param>
-        /// <returns>Http response</returns>
-        [HttpPost]
-        [Route("Review")]
-        public ActionResult<List<Output.Movie>> AddReview(AddUpdateReview review)
-        {
-            if (!review.IsValidForSubmission())
-            {
-                return BadRequest($"Data provided  was : {review}");
-            }
-
-            var existingMovie = _movieService.GetMovieById(review.MovieId);
-            if (null == existingMovie)
-            {
-                return NotFound($"Unable to find a movie with Id {review.MovieId}");
-            }
-
-            var existingReviewer = _movieService.GetReviewerById(review.ReviewerId);
-            if (null == existingReviewer)
-            {
-                return NotFound($"Unable to find a reviewer with Id {review.ReviewerId}");
-            }
-
-            bool wasRecorded = _movieService.AddUpdateReview(review);
-            if (!wasRecorded)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Unable to add or update the review");
-            }
-
-            return Ok("The review has been created / updated successfully");
-        }
     }
 }

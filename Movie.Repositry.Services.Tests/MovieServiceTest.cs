@@ -31,53 +31,6 @@ namespace Movie.Repositry.Services.Tests
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
-        [InlineData(5)]
-        [InlineData(6)]
-        public void GetMovieByIdShould_GetMoviesThatExist(int movieId)
-        {
-            var movie = _movieService.GetMovieById(movieId);
-            movie.Should().NotBeNull();
-            movieId.Should().Be(movie.Id);
-        }
-
-        [Theory]
-        [InlineData(11)]
-        [InlineData(12)]
-        [InlineData(31)]
-        [InlineData(42)]
-        [InlineData(52)]
-        public void GetMovieByIdShould_NotGetMoviesThatDoNotExist(int movieId)
-        {
-            var movie = _movieService.GetMovieById(movieId);
-            Assert.Null(movie);
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void GetReviewerByIdShould_GetReviewersThatExist(int reviewerId)
-        {
-            var reviewer = _movieService.GetReviewerById(reviewerId);
-            reviewerId.ToString().Should().Be(reviewer.Id.ToString());
-        }
-
-        [Theory]
-        [InlineData(11)]
-        [InlineData(12)]
-        [InlineData(6)]
-
-        public void GetReviewerByIdShould_NotGetReviewersThatDoNotExist(int reviewerId)
-        {
-            var reviewer = _movieService.GetReviewerById(reviewerId);
-            Assert.Null(reviewer);
-        }
-
         [Fact]
         public void GetMatchingMoviesShould_FilterOnTitle()
         {
@@ -159,38 +112,6 @@ namespace Movie.Repositry.Services.Tests
                 Year = 2004
             }, new CancellationToken()).Result;
             searchResult.Count.Should().Be(1);
-        }
-
-        [Fact]
-        public void AddUpdateShould_UpdateExistingRecord()
-        {
-            var original = _fixture._database.Reviews.Where(r => r.Id == 8).First();
-            original.Should().NotBeNull();
-
-            original.Score = 4;
-
-            var result = _movieService.AddUpdateReview(new AddUpdateReview()
-            {
-                MovieId = original.MovieId,
-                ReviewerId = original.ReviewerId,
-                Score = original.Score
-            });
-            result.Should().BeTrue();
-            var now = _fixture._database.Reviews.Where(r => r.Id == 8).First();
-            now.Should().NotBeNull();
-            now.Score.Should().Be(original.Score);
-        }
-
-        [Fact]
-        public void AddUpdateShould_CreateNewRecord()
-        {
-            var result = _movieService.AddUpdateReview(new AddUpdateReview()
-            {
-                MovieId = 7,
-                ReviewerId = 1,
-                Score = 5
-            });
-            result.Should().BeTrue();
         }
 
         [Fact] // this test has isues when run alone- other tests are changing the seeddata

@@ -69,22 +69,6 @@
             </summary>
             <returns>An HTTP response</returns>
         </member>
-        <member name="M:Movie.API.Controllers.MoviesController.AddReview(Movie.Respository.Services.AddUpdateReview)">
-            <summary>
-            Add a new review or update an exsting review. 
-            </summary>
-            <param name="review">A Review Object that contains a movie review id, a reviewer id and a score </param>
-            <returns>Http response</returns>
-        </member>
-        <member name="M:Movie.API.Controllers.MoviesController.ExceptionHandlingCode(System.Exception)">
-            <summary>
-            This method is designed to be placed inside a catch block. 
-            
-            It outputs the exception message into the error logs. A GUID is included to enable the exception to be found easily
-            </summary>
-            <param name="ex">The base exception thrown</param>
-            <returns>Returns an HTTP 500 server exception error</returns>
-        </member>
         <member name="T:Movie.API.Middleware.ModelStateFilter">
             <summary>
             Created to allow FluentValidation to work automatically in controller actions

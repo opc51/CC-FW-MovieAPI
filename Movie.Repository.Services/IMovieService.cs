@@ -33,32 +33,5 @@ namespace Movie.Repository.Services
         /// <param name="query">Typeof <see cref="TopRankedMoviesByReviewerQuery"/></param>
         /// <returns>A list of type <see cref="MovieResult"/></returns>
         public Task<List<MovieResult>> GetMoviesByReviewer(TopRankedMoviesByReviewerQuery query, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Find a specific movie based upon it's primary key
-        /// </summary>
-        /// <param name="movieId">The primary key of the movie. Type of <see cref="int"/></param>
-        /// <returns>A single <see cref="Movie"/> record</returns>
-        public Entity.Movie GetMovieById(int movieId);
-
-        /// <summary>
-        /// Find a review by the primary key
-        /// </summary>
-        /// <param name="reviewerId"> <see cref="int"/> value of the Reviewer primary key</param>
-        /// <returns>The reviewer of type <see cref="Entity.Reviewer"/></returns>
-        public Entity.Reviewer GetReviewerById(int reviewerId);
-
-        /// <summary>
-        /// Adds or updates a movie review.
-        /// 
-        /// It first checks if the reviewer has already reviewed this movie. 
-        /// 
-        /// If the reviewer has the existing score is updated in the existing context. If not it adds a new review
-        /// 
-        /// It then saves the changes in the context.
-        /// </summary>
-        /// <param name="review">The review to be added or updated. Type of <see cref="AddUpdateReview"/></param>
-        /// <returns></returns>
-        public bool AddUpdateReview(AddUpdateReview review);
     }
 }
