@@ -1,4 +1,5 @@
 ﻿using Movie.Repository.Services.DTOs.Output;
+using Movie.Repository.Services.TopRatedMovies;
 using Movie.Respository.Services;
 using Entity = Movie.Domain;
 
@@ -23,7 +24,7 @@ namespace Movie.Repository.Services
         /// </summary>
         /// <param name="NumberOfMovies">The number of movies required. Type of <see cref="int"/></param>
         /// <returns>A list of <see cref="MovieResult"/></returns>
-        public List<MovieResult> GetTopMovies(int NumberOfMovies);
+        public Task<List<MovieResult>> GetTopMovies(GetTopRatedMoviesQuery query, CancellationToken cancellationToken);
 
 
         /// <summary>

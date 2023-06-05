@@ -9,6 +9,8 @@ namespace Movie.Repositry.Services.Tests
         {
             var fixture = new InMemoryDatabaseFixture();
             fixture._database.Movies.Count().Should().BeGreaterThan(0);
+            fixture._database.Reviews.Count().Should().BeGreaterThan(0);
+            fixture._database.Reviewers.Count().Should().BeGreaterThan(0);
         }
     }
 }

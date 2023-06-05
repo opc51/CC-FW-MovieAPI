@@ -1,13 +1,14 @@
 ﻿using FluentValidation.TestHelper;
+using Movie.Repository.Services;
 
-namespace Movie.Repository.Services.Tests
+namespace Movie.Repositry.Services.Tests.Validator
 {
-    public class ValidatorTests
+    public class GetMovieQueryValidatorTests
     {
         private GetMoviesQuery _query = null!;
         private GetMoviesQueryValidator _validator;
 
-        public ValidatorTests()
+        public GetMovieQueryValidatorTests()
         {
             _validator = new GetMoviesQueryValidator();
         }

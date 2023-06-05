@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Domain;
 using Movie.Repository.Services.DTOs.Output;
+using Movie.Repository.Services.TopRatedMovies;
 using Movie.Respository.Services;
 using Entity = Movie.Domain;
 
@@ -20,6 +21,7 @@ namespace Movie.Repository.Services
         public MovieService(APIContext _database)
         {
             _data = _database ?? throw new ArgumentNullException();
+            
         }
 
         /// <inheritdoc/>
@@ -81,11 +83,11 @@ namespace Movie.Repository.Services
         }
 
         /// <inheritdoc/>
-        public List<MovieResult> GetTopMovies(int numberOfMovies)
+        public async Task<List<MovieResult>> GetTopMovies(GetTopRatedMoviesQuery query, CancellationToken cancellationToken)
         {
-            return _data.Movies
+            return await _data.Movies
                             .OrderByDescending(x => x.GetAverageScore)
-                            .Take(numberOfMovies)
+                            .Take(query.NumberOfMovies)
                                             .Select(x => new MovieResult()
                                             {
                                                 MovieId = x.Id,
@@ -95,7 +97,7 @@ namespace Movie.Repository.Services
                                                 Genres = x.Genre.Name,
                                                 Rating = x.GetAverageScore
                                             })
-                            .ToList();
+                            .ToListAsync(cancellationToken);
         }
 
         /// <inheritdoc/>

@@ -4,6 +4,7 @@ using Movie.Repository.Services;
 using Movie.Repository.Services.Tests.ContextSharing;
 using Movie.Respository.Services;
 using System.Collections;
+using Movie.Repository.Services.TopRatedMovies;
 
 namespace Movie.Repositry.Services.Tests
 {
@@ -193,9 +194,11 @@ namespace Movie.Repositry.Services.Tests
         [Fact] // this test has isues when run alone- other tests are changing the seeddata
         public void GetTopFiveMoviesShould_GiveCorrectResult()
         {
-            var results = _movieService.GetTopMovies(5);
+            var query = new GetTopRatedMoviesQuery() { NumberOfMovies = 5 };
+
+            var results = _movieService.GetTopMovies(query, new CancellationToken()).Result;
             results.Should().NotBeNull();
-            results.Count.Should().Be(5);
+            results.Count().Should().Be(5);
 
             var scores = results.Select(x => x.Rating).OrderByDescending(x => x).ToList();
 

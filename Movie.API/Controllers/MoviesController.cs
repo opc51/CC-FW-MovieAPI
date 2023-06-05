@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Movie.Repository.Services;
+using Movie.Repository.Services.TopRatedMovies;
 using Movie.Respository.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Output = Movie.Repository.Services.DTOs.Output;
 
 namespace Movie.API.Controllers
@@ -79,25 +81,19 @@ namespace Movie.API.Controllers
         /// <summary>
         /// Get the top Rated movies, as judged by all reviewers
         /// </summary>
-        /// <param name="numberOfMovies">How many of the top rated movie you want to see listed</param>
+        /// <param name="query">Type of <see cref="GetTopRatedMoviesQuery"/></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>An Http response</returns>
         [HttpGet]
-        [Route("TopRankedMovies/{numberOfMovies}")]
-        public ActionResult<List<Output.Movie>> TopRatedMovies(int numberOfMovies)
+        [Route("TopRankedMovies")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<Output.MovieResult>>> TopRatedMovies([FromQuery] GetTopRatedMoviesQuery query, CancellationToken cancellationToken)
         {
-            try
-            {
-                var results = _movieService.GetTopMovies(numberOfMovies);
-
-                if (!results.Any())
-                    return NotFound("Unable to find the top 5 movies");
-
-                return Ok(results);
-            }
-            catch (Exception ex)
-            {
-                return ExceptionHandlingCode(ex);
-            }
+            var data = await _sender.Send(query, cancellationToken);
+            return data == null || !data.Any() ? NotFound("Unable to find the data requested.") : Ok(data);
         }
 
 

@@ -1,23 +1,23 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Movie.API.AutoMapper;
+using Movie.API.Controllers;
+using Movie.Domain;
+using Movie.Domain.Enum;
+using Movie.Repository.Services;
+using Movie.Repository.Services.TopRatedMovies;
+using Movie.Respository.Services;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using Entity = Movie.Domain;
 using Output = Movie.Repository.Services.DTOs.Output;
-using Movie.API.Controllers;
-using Movie.Repository.Services;
-using Movie.Respository.Services;
-using Movie.Domain;
-using Movie.Domain.Enum;
-using Movie.API.AutoMapper;
-using NUnit.Framework;
 
 namespace MovieTests
 {
@@ -26,7 +26,7 @@ namespace MovieTests
         /// <summary>
         /// A controller that uses in memory data. Used in most test.
         /// 
-        /// Suitable for tets that require data to be exercised
+        /// Suitable for tests that require data to be exercised
         /// </summary>
         private readonly MoviesController _inMemoryController;
         /// <summary>
@@ -81,6 +81,14 @@ namespace MovieTests
             _inMemoryController = new MoviesController(_loggerMOQ.Object, _movieService, _mapper, _senderMOQ.Object);
 
             _mockedController = new MoviesController(_loggerMOQ.Object, _movieMOQ.Object, _mapperMOQ.Object, _senderMOQ.Object);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _senderMOQ.Reset();
+            _movieMOQ.Reset();
+            _mapperMOQ.Reset();
         }
 
         #region InitialisationTests
@@ -144,26 +152,30 @@ namespace MovieTests
         [Test]
         public void TopRated_Should_Return404WhenNoDataFound()
         {
-            _movieMOQ.Setup(x => x.GetTopMovies(5)).Returns(new List<Output.MovieResult>());
-            var result = _mockedController.TopRatedMovies(5);
-            Assert.That(typeof(NotFoundObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
+            var query = new GetTopRatedMoviesQuery() { NumberOfMovies = 5 };
+
+            _movieMOQ.Setup(x => x.GetTopMovies(query, It.IsAny<CancellationToken>()).Result).Returns(new List<Output.MovieResult>());
+
+            var result = _mockedController.TopRatedMovies(query, new CancellationToken());
+
+            result.Result.Result.Should().BeOfType<NotFoundObjectResult>();
         }
 
 
         [Test]
         public void TopRated_Should_Return200WhenDataFound()
         {
-            var result = _inMemoryController.TopRatedMovies(5);
-            Assert.That(typeof(OkObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
-        }
+            var query = new GetTopRatedMoviesQuery() { NumberOfMovies = 5 };
+            var data = new List<Output.MovieResult>() { 
+                new Output.MovieResult { MovieId= 1}
+            };
 
+            _senderMOQ.Setup(x => x.Send(It.IsAny<GetTopRatedMoviesQuery>(), It.IsAny<CancellationToken>()).Result)
+                .Returns(data);
 
-        [Test]
-        public void TopRated_Should_Return500OnException()
-        {
-            _movieMOQ.Setup(x => x.GetTopMovies(5)).Throws(new Exception("Serious Error Encountered"));
-            var result = _mockedController.TopRatedMovies(5);
-            Assert.That(typeof(ObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
+            var result = _inMemoryController.TopRatedMovies(query, new CancellationToken());
+
+            result.Result.Result.Should().BeOfType<OkObjectResult>();
         }
 
         #endregion
@@ -244,7 +256,6 @@ namespace MovieTests
             _movieMOQ.Setup(x => x.AddUpdateReview(It.IsAny<AddUpdateReview>())).Returns(false);
             var result = _mockedController.AddReview(new AddUpdateReview() { ReviewerId = 1, MovieId = 1, Score = 4 });
             Assert.That(typeof(ObjectResult).Name, Is.EqualTo(result.Result.GetType().Name));
-            _movieMOQ.Reset();
         }
 
 

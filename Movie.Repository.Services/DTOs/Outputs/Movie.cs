@@ -3,7 +3,7 @@
 namespace Movie.Repository.Services.DTOs.Output
 {
     /// <summary>
-    /// Data Transfer Object used pass back Movie details
+    /// Data Transfer Object used pass back details of a single <see cref="Movie"/>
     /// </summary>
     [DebuggerDisplay("Title : {Title}, Genre : {Genre} ")]
     public record Movie

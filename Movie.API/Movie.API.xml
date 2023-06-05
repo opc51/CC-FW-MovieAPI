@@ -55,11 +55,12 @@
             Will return 1 movie in the test data
             </remarks>
         </member>
-        <member name="M:Movie.API.Controllers.MoviesController.TopRatedMovies(System.Int32)">
+        <member name="M:Movie.API.Controllers.MoviesController.TopRatedMovies(Movie.Repository.Services.TopRatedMovies.GetTopRatedMoviesQuery,System.Threading.CancellationToken)">
             <summary>
             Get the top Rated movies, as judged by all reviewers
             </summary>
-            <param name="numberOfMovies">How many of the top rated movie you want to see listed</param>
+            <param name="query">Type of <see cref="T:Movie.Repository.Services.TopRatedMovies.GetTopRatedMoviesQuery"/></param>
+            <param name="cancellationToken"></param>
             <returns>An Http response</returns>
         </member>
         <member name="M:Movie.API.Controllers.MoviesController.TopRankedMoviesByReviewer(System.Int32,System.Int32)">
