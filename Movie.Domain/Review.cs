@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Movie.Domain.Utilites;
-using System;
 
 namespace Movie.Domain
 {
